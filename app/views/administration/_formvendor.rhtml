@@ -1,0 +1,67 @@
+
+
+<% @r=Dqmvendor.find_by_sql("select VND_VendorName,VND_Address,VND_ContactPersonName,VND_ContactEmailID,VND_Telephone,VND_Fax from dqmvendors where id= '#{session[:venid]}'")%>
+
+<%for item in @r%>
+<table width="600">
+    <tr>
+        <td align="right">
+                <label for="dqmvendor_VND_VendorName">Vendor Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="dqmvendor_VND_VendorName" name="dqmvendor[VND_VendorName]" size="20" value="<%=item.VND_VendorName%>">
+        </td>
+    </tr>
+    <tr style="height: 10px;"></tr>    
+    <tr>
+         <td align="right">
+                <label for="dqmvendor_VND_Address">Vendor Address&nbsp;&nbsp;:</label>
+         </td>
+         <td align="left">
+                <input type=text id="dqmvendor_VND_Address" name="dqmvendor[VND_Address]" size="20" value="<%=item.VND_Address%>">
+         </td>
+    </tr>
+    <tr style="height: 10px;"></tr>
+    <tr>
+         <td align="right">
+                <label for="dqmvendor_VND_ContactPersonName">Contact Person Name&nbsp;&nbsp;:</label>
+         </td>
+         <td align="left">
+                <input type=text id="dqmvendor_VND_ContactPersonName" name="dqmvendor[VND_ContactPersonName]" size="20" value="<%=item.VND_ContactPersonName%>">
+         </td>
+     </tr>
+      <tr style="height: 10px;"></tr>   
+     <tr>
+         <td  align="right">
+                <label for="dqmvendor_VND_ContactEmailID">Vendor E-Mail Address&nbsp;&nbsp;:</label>
+         </td>
+         <td align="left">
+                <input type=text id="dqmvendor_VND_ContactEmailID" name="dqmvendor[VND_ContactEmailID]" size="20" value="<%=item.VND_ContactEmailID%>"><br/>
+         </td>
+    </tr> 
+    <tr style="height: 10px;"></tr>
+    <tr>
+        <td align="right">
+                <label for="dqmvendor_VND_Telephone">Vendor Telephone No&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="dqmvendor_VND_Telephone" name="dqmvendor[VND_Telephone]" size="20" maxlength="10" value="<%=item.VND_Telephone%>">
+        </td>
+    </tr>
+    <tr style="height: 10px;"></tr>
+    <tr>
+        <td align="right">
+                <label for="dqmvendor_VND_Fax">Vendor Fax No&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="dqmvendor_VND_Fax" name="dqmvendor[VND_Fax]" size="20" maxlength="9" value="<%=item.VND_Fax%>">        
+        </td>
+    </tr>
+
+       
+    
+</table>
+
+
+
+<%end%>

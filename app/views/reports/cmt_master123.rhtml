@@ -1,0 +1,95 @@
+<html>
+<head>
+<style type="text/css">
+#AutoNumber1{
+width:100%; 
+cellpadding:0; 
+cellspacing:0; 
+/*border-collapse: collapse ;*/
+border-color:#111111;
+}
+
+#AutoNumber2{
+width:100% ;
+cellpadding:0 ;
+cellspacing:0 ;
+border:1px solid  ;
+border-color:#111111;
+}
+
+td.col{
+border:2px solid #111111  ;
+}
+
+
+
+
+</style>
+</head>
+<body link="white" alink="white" vlink="#A9A9F5">
+
+<p><font color="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFFFF" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><b><font color="#FFFFFF" size="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Floor-View For <%="#{params[:search]}"%> Branch</font></b></p>
+
+<
+<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="32">
+
+  <tr>
+    <th id="tr4" width="99" height="25">
+    <p align="center"><b><font color="#FFFFFF">TokenNo.</font></b></th>
+    <th id="tr4"  width="135" height="32" >
+    <p align="center"><b><font color="#FFFFFF">CtypeId</font></b></th>
+    <th id="tr4"  width="117" height="32" >
+    <p align="center"><b><font color="#FFFFFF">TransDate</font></b></th>
+    <th id="tr4"  width="117" height="32" >
+    <p align="center"><b><font color="#FFFFFF">GeneratedTime</font></b></th>
+    <th id="tr4"  width="127" height="32" >
+    <p align="center"><b><font color="#FFFFFF">ServiceId</font></b></th>
+    <th id="tr4"  width="127" height="32" >
+    <p align="center"><b><font color="#FFFFFF">Counter</font></b></th>
+    <th id="tr4"  width="127" height="32" >
+    <p align="center"><b><font color="#FFFFFF">Login</font> </b> </th>
+    <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">CallTime</font></b></th>
+     <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">Service Time</font></b></th>
+    <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">TimeTaken</font></b></th>
+   <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">WaitTime</font></b></th>
+    <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">StpName</font></b></th>
+    <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">TokenStatus</font></b></th>
+    <th id="tr4"  width="128" height="32" >
+    <p align="center"><b><font color="#FFFFFF">Score</font></b></th>
+
+  </tr> 
+  </table>
+  
+   <div class=clsDataGrid id=divList  style="width: 1010px; height: 300px; ">
+<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="32">
+
+ <% @data.each do |x| %>
+    <tr align="center">
+
+    <td id= "table1" width="110"><%= x.tokenno %>&nbsp;</td>
+    <td id= "table1" width="135"><%= x.ctypeid %>&nbsp;</td>
+    <td id= "table1" width="117"><%= x.transdate.strftime("%d-%m-%Y") %>&nbsp;</td>
+    <td id= "table1" width="117"><%= d.login %>&nbsp;</td>
+    <td id= "table1" width="127"><%= d.serviceid %>&nbsp;</td>
+    <td id= "table1" width="127"><%= d.tokenstatus %>&nbsp;</td>
+    <td id= "table1" width="127"><%= d.waittime.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="128"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+
+   </tr>
+    <%end%>
+    
+</table>
+</div>

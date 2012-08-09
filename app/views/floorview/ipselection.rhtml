@@ -1,0 +1,131 @@
+<!-- Codes Autorefresh -->
+<html>
+<head>
+<script type="text/JavaScript">
+
+
+function timedRefresh(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
+</script>
+</head>
+<body link="white" alink="white" vlink="#A9A9F5" onload="JavaScript:timedRefresh(5000);">
+<%=stylesheet_link_tag "pagination"%>
+<%@date=Time.now%>
+<%@sysdate=@date.strftime("%m/%d/%Y")%>
+<%@curr_date=Transact.find_by_sql("select transdate from transacts where transdate='#{@sysdate}'")%>
+<center><font color="#FF0000" size="5" color="#FFFFFF">Floor-View On <%=@sysdate%></font></br>
+<%if @curr_date!=nil%>
+<p>&nbsp;</p><center>
+<%count=0%>
+<div id="main">
+
+<table id="table1" border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="920" id="AutoNumber1">
+   <!--  <table border="solid 2px" width="990px"  id="1table">-->
+  <!--<table border="solid 2px" bordercolor="Maroon" id="tableheader">-->
+
+  <tr>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center">
+    <font color="#FFFFFF" size="3">Sole_ID</b></font></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center">
+    <font color="#FFFFFF" size="3"><b>DQM Branch Name</b></font></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center"><b>
+    <font color="#FFFFFF" size="3">DQMS IP </font></b></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center"><b>
+    <font color="#FFFFFF" size=" 3">DQM Status</font></b></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center"><b>
+    <font color="#FFFFFF" size="3">Total Token Served</font></b></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center"><b>
+    <font color="#FFFFFF" size="3">Total Pending Token</font></b></td>
+    <td id="tr4" width="15%" bgcolor="#800000" align="center"><b>
+    <font color="#FFFFFF" size="3">Pending Token Customerwise</font></b></td>
+    <td id="tr4" width="12%" bgcolor="#800000" align="center">
+    <font color="#FFFFFF" size="3">Data Received Time</b></font></td>
+
+     <!--  <td id="tr4" width="17%" bgcolor="#800000" align="center"><b>
+ <font color="#FFFFFF" size="3">Printer Status</font></b></td>-->
+  </tr> 
+   </table>
+
+<!--<div class="contentBox" width="1030" style="width: 1043; height: 109">
+<table border="solid 2px" width="1052" align="center">-->
+<div class="contentBox">
+            <table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+
+   <% @transacts.each do |d |%>
+       <% @soleid= d.soleid%>
+  <tr>
+     <td width="12%" align="center"><%= @soleid%>&nbsp;</td> 
+     <%@branch=Location.find_by_sql("select distinct(LOC_BranchName) from locations where LOC_SoleID='#{@soleid}'")%>
+     <%@branch.each do |r|%>
+    <td width="12%" align="center"><%=r.LOC_BranchName%>&nbsp;</td>
+    <%end%>
+    <%@ip=Location.find_by_sql("select distinct(LOC_DQM_IPAddress) from locations where LOC_SoleID='#{@soleid}'")%>
+    <%@ip.each do |p|%>
+    <td width="12%" align="center"><%=p.LOC_DQM_IPAddress%>&nbsp;</td>
+    <%end%>
+    
+     <td width="12%" align="center"><%@active=Location.find_by_sql("select LOC_IsActive from locations where  LOC_SoleID='#{@soleid}'")%>
+     <%@active.each do |a|%>
+     <%if a.LOC_IsActive=='1'%>
+                 Active<br></br>
+
+    <%else%>
+                 In-Active
+   
+    <%end%>
+    <%end%>
+     </td>
+    <% @tokenserved= Transact.find_by_sql("select count(distinct(tokenno)) as token from transacts where soleid='#{@soleid}' and tokenstatus=1 and transdate='#{@sysdate}' ")%>
+      <% @tokenserved.each do |t | %>
+        <td width="12%" align="center"><%= t.token  %>&nbsp;</td>
+      <% end %>  
+    <% @tokenserved= Transact.find_by_sql("select count(distinct(tokenno)) as token from transacts where soleid='#{@soleid}' and tokenstatus=0 and transdate='#{@sysdate}'")%>
+      <% @tokenserved.each do |t | %>  
+      <td width="12%" align="center"><%= t.token  %>&nbsp;</td>
+      <% end %>
+       <td width="15%" align="center"><% @tokenserved= Transact.find_by_sql("select count(distinct(tokenno)) as total,ctypeid from transacts where soleid='#{@soleid}' and tokenstatus=0 and transdate='#{@sysdate}' group by ctypeid ")%>    
+     <% @tokenserved.each do |t | %>
+     <%if t.ctypeid=='1'%>
+            <%= t.total %>-Gold Customer<br></br>
+     <%elsif t.ctypeid=='2'%>
+     
+             <%= t.total %>-Customer<br></br>
+          <%elsif t.ctypeid=='3'%>    
+          
+        <%= t.total %>-Non-Customer,
+      <%else%>All Served  
+       <%end%>
+  
+     <% end %>  
+         </td>
+         <%@time=Transact.find_by_sql("select top 1  receivedtime from transacts where soleid='#{@soleid}' order by ID desc  ")%> 
+         <%@time.each do |tm|%>
+        <td width="12%" align="center"><%=tm.receivedtime.strftime("%H:%M:%S")%>&nbsp;<%end%></td>
+   <%end%>
+   
+<%else%>
+Data Is Not Available For Todays Date........
+<%end%> 
+</tr>
+</table>
+</div>
+
+</div>
+</center>
+<!--
+<p>&nbsp;</p>
+<center><%=link_to 'Refresh',:controller =>'floorview',:action =>'ipselection'%></center>-->
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<div class="apple_pagination ">
+ <Center><%= will_paginate @transacts %></center> 
+  </div>
+
+</body>
+</html>

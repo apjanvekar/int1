@@ -1,0 +1,64 @@
+<%= error_messages_for 'cluster' -%>
+<form id="form1" name="form1" method="post" align="center">
+
+<div class="fieldset1">
+<fieldset id="fs">
+<legend>Selection criteria[Cluster]</legend>
+
+<table width="600" border="0" align="center" style="margin-top: 20px;">
+    <tr>
+
+        <td align="right">
+            Cluster ID&nbsp;&nbsp;:
+        </td>
+        <td align="left"> 
+            <input type=text id="cluster_id" name="cluster[id]" size="16">
+        </td>
+        <td width="50px;"></td>
+        <td align="right">
+            Cluster Name&nbsp;&nbsp;:
+        </td>
+        <td align="left"> 
+            <input type=text id="cluster_CLST_ClusterName" name="cluster[CLST_ClusterName]" size="16">
+        </td>
+      </tr>
+    <tr style="height:20px;">
+    </tr>
+    <tr>
+        <td align="right">
+        <label>Zone&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+          <%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+            {:prompt   => "ALL"},
+            {:onchange => "#{remote_function(:url  => {:action => "update_regions"},:with => "'id='+value")}"}) %> &nbsp;</td>
+    <td width="50px;"></td>
+        <td align="right"> 
+            <label>Region&nbsp;&nbsp;:</label>
+        </td>
+
+        <td align="left"> 
+            <% @regions=""%>
+       <div id="regions" align="left"> <%= render :partial => 'regions', :object => @regions %></div></td>
+
+       
+      </tr>
+    </table>
+    </br></br>
+  <center>
+       <%= submit_to_remote 'Show',' Show ',:url => {:controller=>'administration',:action => "showcluster" }%>
+  </center>    
+<br />
+             <% if flash[:notice] -%>
+                    <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+             <%end%>
+   </fieldset>
+     
+</div>
+     <div id='cluster_div' class="fieldset2">   
+       <center>       Please fill any of the above fields and click on show button...</center>
+               <%= render(:partial=>"displaycls") %>
+     </div>	
+     
+       <p align="center">
+        <%= button_to_function '  Add  ' , remote_function(:url=> {:controller=>'administration',:action => "addc" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>

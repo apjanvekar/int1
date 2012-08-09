@@ -1,0 +1,20 @@
+<%= error_messages_for 'card' %>
+
+<!--[form:card]-->
+<body bgcolor="#000000">
+
+<p><font color="#FFFFFF" face="Arial"><b><label for="card_bin">Bin</label></b></font><font color="#000080" face="Arial"><br/>
+<%= text_field 'carddetail', 'bin'  %></font></p>
+
+<p><font color="#FFFFFF" face="Arial"><b><label for="card_product">Product</label></b></font><font color="#000080" face="Arial"><br/>
+<%= text_field 'carddetail', 'product'  %></font></p>
+
+<p><font color="#FFFFFF" face="Arial"><b><label for="card_expiredate">Expiry date</label></b></font><font color="#000080" face="Arial"><br/>
+<%= date_select 'carddetail', 'expiredate',:default =>1.days.from_now%></font></p>
+
+<p><font color="#FFFFFF" face="Arial"><b><label for="card_priority">Priority</label></b></font><font color="#000080" face="Arial"><br/>
+<%= text_field 'carddetail', 'priority'  %>
+
+
+</font></p>
+<!--[eoform:card]-->

@@ -1,0 +1,60 @@
+<%= start_form_tag :action => "addstpreason" %>
+
+<div id="add" style="margin-top: 100px;">
+<%if @stpreason.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@stpreason.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add STP Reason</div>
+</center>
+
+
+
+
+
+<div class="addcontent" align="center">
+<table width="600" border="0" align="center" style="margin-bottom: 50px;">
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                    <label>STP Reasons&nbsp;&nbsp;:</label>
+            </td>
+            
+            <td align="left">
+                    <%= text_field 'stpreason','STP_STPReason' %> &nbsp;</td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                     <label>Service&nbsp;&nbsp;:</label> 
+            </td>
+            <td align="left">
+                        <select id="stpreason_STP_ServiceID" name= "stpreason[STP_ServiceID]">
+                        <option value="">Please Select</option>
+                        <% @p= Service.find_by_sql("select id, SVC_ServiceName,SVC_ServiceID from services ")%>
+                        <% for item in @p %>
+                        <option value="<%= item.SVC_ServiceID %>"><%= item.SVC_ServiceName %></option>
+                        <% end %>
+                        </select>
+            </td>
+      </tr>
+    </table>
+    
+  
+    <center>
+        <%= submit_tag '  Add  '%>
+   
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tostp" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+  </center>
+  
+
+</div>
+</div>
+</form>
+<% end_form_tag %>

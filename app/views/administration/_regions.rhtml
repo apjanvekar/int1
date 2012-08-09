@@ -1,0 +1,19 @@
+
+
+<% if session[:loc]!=nil%>
+
+  <%= collection_select(:cluster, :CLST_RegionID,  regions,  :id, :REG_RegionName,
+                      {:prompt   => "Please Select"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_clusters"},
+                                                       :with => "'id='+value")}"}) %>
+
+ <% end %>
+ <% if session[:cls]!=nil %>
+ <% if session[:editcls]!=nil%>
+ 	<% session[:editcls]=nil%>
+    <%= collection_select(:cluster, :CLST_RegionID,  regions,  :id, :REG_RegionName,{:prompt   => "Please Select"}) %>
+ <% else %>
+   <%= collection_select(:cluster, :CLST_RegionID,  regions,  :id, :REG_RegionName,
+                      {:prompt   => "Please Select"}) %>
+ <% end %>
+ <% end %>

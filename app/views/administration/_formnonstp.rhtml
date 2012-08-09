@@ -1,0 +1,35 @@
+
+<!--[form:user]-->
+<table width="500" border="0" align="center">
+    <tr>
+        <td align="right">
+                <label for="nonstpreason_NSTP_NonSTPReason">Enter N0n STP Reason&nbsp;&nbsp;:</label>
+         </td>
+        <td align="left">
+                <% @r=NonSTPReason.find_by_sql("select NSTP_NonSTPReason,NSTP_GroupID from non_stp_reasons where id='#{params[:id]}'")%>
+                <%for item in @r%>
+                <%session[:nsid]=params[:id]%>
+         
+                <input type=text id="nonstpreason_NSTP_NonSTPReason" name="nonstpreason[NSTP_NonSTPReason]" size="16" value="<%=item.NSTP_NonSTPReason%>">
+        </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+                <label for="nonstpreason_NSTP_GroupID">Enter Group Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <% @w=Group.find_by_sql("select id,GRP_GroupName from groups where id= '#{item.NSTP_GroupID}'") %>
+                <select id="nonstpreason_NSTP_GroupID" name= "nonstpreason[NSTP_GroupID]">
+                <%for i in @w%>
+                <option value= "<%= i.id %>"><b><%= i.GRP_GroupName-%></b></option>
+                <%end%>
+                <%@t= Group.find_by_sql("select id,GRP_GroupName from groups where id !='#{item.NSTP_GroupID}'") %>
+                <%for i in @t%>
+                <option value= "<%= i.id %>"><b><%= i.GRP_GroupName -%></b></option>
+                <%end%>>
+                </select>
+         </td>
+    </tr>
+</table> 
+                <%end%>

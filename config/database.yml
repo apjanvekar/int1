@@ -1,0 +1,38 @@
+<%puts require 'rexml/document'%>
+<%puts include REXML%>
+<%file = File.new("D:/CMT_XML.xml")%>
+<%doc = Document.new(file)%>
+<%@database_server_ip= doc.root.elements[1].elements["SQLSERVER_IP"].text%>
+<%@database_port_number=doc.root.elements[1].elements["SQLSERVER_PORT"].text%>
+<%@database_name= doc.root.elements[1].elements["SQLSERVER_DATABASE_NAME"].text%>
+<%@database_username= doc.root.elements[1].elements["SQLSERVER_DATABASE_USER_NAME"].text%>
+<%@database_password= doc.root.elements[1].elements["SQLSERVER_DATABASE_PASSWORD"].text%>
+
+development:
+  adapter: sqlserver
+  database: <%="#{@database_name}"%>
+  host: <%="#{@database_server_ip}"%>
+  username: <%"#{@database_username}"%>
+  password: <%"#{@database_password}"%>
+  port: <%="#{@database_port_number}"%>
+ 
+
+
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql
+  database: CMT
+  username: root
+  password:
+  host: localhost
+
+production:
+  adapter: sqlserver
+  database: <%="#{@database_name}"%>
+  host: <%="#{@database_server_ip}"%>
+  username: <%"#{@database_username}"%>
+  password: <%"#{@database_password}"%>
+  port: <%="#{@database_port_number}"%>
+

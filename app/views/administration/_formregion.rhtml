@@ -1,0 +1,35 @@
+
+<% @r=Region.find_by_sql("select REG_RegionName,REG_ZoneID from regions where id= '#{session[:regid]}'")%>
+
+<%for item in @r%> 
+<p align=center>
+<table width="300" align="center" style="margin-bottom: 50px;">
+
+    <tr>
+        <td align="right">
+            <label for="region_REG_RegionName">Region Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+            <input type=text id="region_REG_RegionName" name="region[REG_RegionName]" size="16" value="<%=item.REG_RegionName%>">
+        </td>
+     </tr>
+     <tr style="height: 20px;"></tr>
+     <tr>
+        <td align="right">
+            <label for="zone_ZONE_ZoneName">Zone Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+            <% @w= Zone.find_by_sql("select id,ZONE_ZoneName from zones where id=#{item.REG_ZoneID}")%>
+            <select id="region_REG_ZoneID" name= "region[REG_ZoneID]">
+            <%for i in @w%>
+            <option value= "<%= i.id %>"><b><%= i.ZONE_ZoneName -%></b></option>
+            <%end%>
+            <%@t= Zone.find_by_sql("select id,ZONE_ZoneName from zones where id !=#{item.REG_ZoneID}") %>
+            <%for i in @t%>
+            <option value= "<%= i.id %>"><b><%= i.ZONE_ZoneName -%></b></option>
+            <%end%>
+            </select>
+        </td>
+     </tr>
+</table>
+            <%end%>

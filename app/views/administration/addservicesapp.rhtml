@@ -1,0 +1,411 @@
+<html>
+
+<head>
+<title>Service Name</title>
+<script  language="JavaScript">
+
+function Validate()
+{
+	
+	
+	
+	var tohour=document.getElementById("services_SVC_ToHour");
+	var v_tohour =tohour.options[tohour.selectedIndex].value;
+	var fromhour=document.getElementById("services_SVC_FromHour");
+	var v_fromhour = fromhour.options[fromhour.selectedIndex].value;
+	
+	var tomin=document.getElementById("services_SVC_ToMinute");
+	var v_tomin =tomin.options[tomin.selectedIndex].value;
+	var fromin=document.getElementById("services_SVC_FromMinute");
+	var v_fromin = fromin.options[fromin.selectedIndex].value;
+	
+	if(v_fromhour > v_tohour)
+	
+	{
+	alert('Please Select To time greater than From time!')
+	fromhour.focus();
+	return(false);
+	}
+
+
+   if(v_fromhour == v_tohour)
+	{
+	if(v_fromin >= v_tomin)	
+	{
+	alert('Please Select To time greater than From time!')
+	fromhour.focus();
+	return(false);
+	}
+	
+	}
+	
+
+}
+	
+
+</script>
+
+
+</head>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+<body align="center" >
+
+</br>			<form id="form1" name="form1" method="post" action="index" align="center" onSubmit="return Validate()">	
+<table align=center><tr width=100% align=center><td width=100% align=center>
+
+<%= error_messages_for 'services' -%></td></tr></table>
+
+<table cellpadding="0" cellspacing="0" height="1" width="949">
+  <tr >
+
+    <td width="949" height="334">
+     <table align="center"  width="100%" height="100">
+<td  width="100%" height="95" align=center>
+
+    <fieldset id="fs" align="center">
+      <legend><font color="#FFFFFF"><b>Add Service</b></font></legend>
+      
+    
+      
+    <table cellpadding="0" cellspacing="0"  width="100%" height="128">
+      <tr>
+        <td width="24%" align="left" height="33">
+        <p align="right">Service Name:</td>
+        <td width="2%" align="left" height="33"></td>
+       
+          
+        <td width="24%" align="left" height="33">
+       <%= text_field 'services' , 'SVC_ServiceName' , :size =>"20"%>
+         </td>
+        <td width="24%" align="left" height="33">
+        <p align="right">Service Type:</td>
+         <td width="2%"  height="33"></td>
+
+        <td width="24%" align="left" height="33">
+            <p>
+            <select id="services_SVC_ServiceTypeID"   name="services[SVC_ServiceTypeID]">
+    
+
+    <% @g= ServiceType.find_by_sql("select id,STYP_ServiceTypeName from service_types")%>
+    <% for item in @g %>
+<option value="<%=item.id%>"><%= item.STYP_ServiceTypeName -%></option>
+    <% end %>
+</select></td>
+      </tr>
+      <tr>
+     
+
+
+        <td width="24%" align="left" height="32">
+        <p align="right">Acronym:</td>
+         <td width="2%" align="left" height="33"></td>
+
+        <td width="24%" align="left" height="32">
+           <%= text_field 'services' , 'SVC_ServiceAcronym' , :size =>"20"%></td>
+        <td width="24%" align="left" height="32">
+        <p align="right"><label for="services_SVC_ThresholdTimeMins"> ThresholdTime:</label><br/>
+</td> <td width="2%" align="left" height="33"></td>
+
+        <td width="24%" align="left" height="32">
+        <%= time_select "services", "SVC_ThresholdTimeMins",:include_seconds=>true %>
+
+          </td>
+      </tr>
+      <tr>
+        <td width="24%" align="left" height="32">
+        <p align="right">Group:</td> <td width="2%"  height="33"></td>
+
+        <td width="24%" align="left" height="32">
+             <p>
+             <select id="services_SVC_GroupID" name="services[SVC_GroupID]">
+    <option value="">Please Select</option>
+
+    <% @n= Group.find_by_sql("select id,GRP_GroupName from groups")%>
+    <% for i in @n %>
+<option value="<%=i.id%>"><%=i.GRP_GroupName -%></option>
+    <% end %>
+</select></td>
+        <td width="24%" align="left" height="32">
+        <p align="right"> Priority:</td> <td width="2%" align="left" height="33"></td>
+
+        <td width="24%" align="left" height="32">
+            <%= text_field 'services' , 'SVC_Priority' , :size =>"20"%>  </td>    </tr>
+      <tr>
+        <td width="24%" align="left" height="31">
+        <p align="right">Active:</td> <td width="2%"  height="33"></td>
+
+        <td width="24%" align="left" height="31">
+          </select>
+				<p>
+				<select id="services_SVC_IsActive" name="services[SVC_IsActive]">
+				
+
+                  <option value="1">Active</option>
+				<option value="0">In-Active </option>
+
+                  
+  
+				</select> </td><br />
+        <td width="24%" align="left" height="31">
+        <p align="right">Button No:</td> <td width="2%" align="left" height="33"></td>
+
+        <td width="24%" align="left" height="31">
+            <%= text_field 'services' , 'SVC_ButtonNo' , :size =>"20"%></td>
+      </tr>
+     <!-- <tr>
+        <td width="24%" align="left" height="31">
+        <p align="right">Wating For Approval</td> <td width="2%"  height="33"></td>
+
+        <td width="24%" align="left" height="31">
+          </select>
+				<p>
+				<select id="services_waitingforapproval" name="services[waitingforapproval]">
+				
+
+                  <option value="1">YES</option>
+                  
+				  <option value="0">NO </option>
+
+                  
+  
+				</select> </td><br />
+                
+      </tr>-->
+
+    </table>
+      </br>
+    
+      </fieldset></td></table>
+      
+      <table align="center"  width="100%" height="100">
+<td  width="100%" height="95">
+    <fieldset id="fs" width:96%; height:80 align=center>
+ <legend><font color="#FFFFFF"><b>Service Timing</b></font></legend>
+      
+      <p></p>
+
+      <table  cellpadding="0" cellspacing="0"  height="1">
+        <tr>
+          <td width="20%" height="18"></td>
+          <td width="10%" height="18">Hour</b> </td>
+          <td width="17%" height="18">
+                    <b>Minute</b></td>
+          <td width="19%" height="18"></td>
+          <td width="10%" height="18">
+                    Hour </b></td>
+          <td width="28%" height="18">
+                   Minute</b></td>
+        </tr>
+        <tr>
+          <td width="20%" height="1">
+          <p align="right">From:</td>
+          <td width="10%" height="1">
+           <select id="services_SVC_FromHour"  name="services[SVC_FromHour]"> 
+           <option value="00">00</option>           
+           <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            </select>
+                                 
+     
+               </td>
+          <td width="17%" height="1">
+     
+               <select id="services_SVC_FromMinute"  name="services[SVC_FromMinute]">   
+               <option value="00">00</option>        
+                <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+            <option value="51">51</option>
+            <option value="52">52</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="56">56</option>
+            <option value="57">57</option>
+            <option value="58">58</option>
+            <option value="59">59</option>
+          
+            
+
+            </select></td>
+          <td width="19%" height="1">
+          <p align="right">To:</td>
+          <td width="10%" height="1">
+        <select id="services_SVC_ToHour"  name="services[SVC_ToHour]"> 
+        <option value="00">00</option>          
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+                       </select> </td>
+          <td width="18%" height="1">
+        <select id="services_SVC_ToMinute"  name="services[SVC_ToMinute]"><b>
+        <option value="00">00</option>
+        <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+            <option value="32">32</option>
+            <option value="33">33</option>
+            <option value="34">34</option>
+            <option value="35">35</option>
+            <option value="36">36</option>
+            <option value="37">37</option>
+            <option value="38">38</option>
+            <option value="39">39</option>
+            <option value="40">40</option>
+            <option value="41">41</option>
+            <option value="42">42</option>
+            <option value="43">43</option>
+            <option value="44">44</option>
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48">48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+            <option value="51">51</option>
+            <option value="52">52</option>
+            <option value="53">53</option>
+            <option value="54">54</option>
+            <option value="55">55</option>
+            <option value="56">56</option>
+            <option value="57">57</option>
+            <option value="58">58</option>
+            <option value="59">59</option>
+            
+            
+
+
+             </b>            </select></td>
+        </tr>
+      </table>
+       
+
+
+      <p>&nbsp;</p>
+    </fieldset></br></td></table>
+   <p align="center"><input type="submit" name="submit" id="submit" value="   Add   " style="float: center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <font size="4"><%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "index" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+ 
+    </font></td>
+
+  </tr>
+</table>
+</body>
+
+</html>

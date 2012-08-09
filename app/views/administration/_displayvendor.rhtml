@@ -1,0 +1,133 @@
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Vendors</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader" width="935">
+
+       <tr>
+            <th width="60">Vendor ID</th>
+            <th width="115">Vendor Name</th>
+        	<th width="119">Address</th>
+        	<th width="94">Contact Name</th>
+        	<th width="201">Email ID</th>
+        	<th width="112">Telephone No</th>
+        	<th width="118">Fax No</th>
+            <th width="103">    </th>
+        
+       </tr>
+    </table>
+
+<div class="contentBox">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if (session[:vname]!=nil and session[:vid]!=nil) %>
+
+<% @t=Dqmvendor.find_by_sql("select id, VND_VendorName,VND_Address,VND_ContactPersonName
+,VND_ContactEmailID,VND_Telephone,VND_Fax from dqmvendors where
+ id='#{session[:vid]}' and VND_VendorName='#{session[:vname]}'") %>
+<%if @t!=[]%>                                	
+<% @t.each do |c| %> 
+
+        <tr>
+                <td width="60"><%=c.id%>&nbsp;</td>
+                <td width="113"><%= c.VND_VendorName%>&nbsp;</td>
+                <td width="117"><%= c.VND_Address%> &nbsp;</td>
+                <td width="102"><%= c.VND_ContactPersonName%>&nbsp;</td>
+                <td width="196"><%= c.VND_ContactEmailID%> &nbsp;</td>
+                <td width="115"><%= c.VND_Telephone%> &nbsp;</td>
+                <td width="118"><%= c.VND_Fax%> &nbsp;</td>
+                <td width="102"> <%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletevendor", :id => c.id },:confirm =>"Are you sure want to delete this item?"%><%=link_to image_tag("pen.jpg", :border=>0),{:action => 'editvendor', :id => c.id}%>&nbsp;</td>
+
+        </tr>
+<%(session[:vid]!=nil)%>
+<% end %>
+<%else%>
+        <tr>
+ 	        <td align="center" width="94"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:vid]!=nil)%>
+<% @t=Dqmvendor.find_by_sql("select id, VND_VendorName,VND_Address,VND_ContactPersonName,VND_ContactEmailID,VND_Telephone,VND_Fax from dqmvendors where id='#{session[:vid]}' ") %>
+<%if @t!=[]%> 
+<% @t.each do |c| %> 
+
+        <tr>    
+                <td width="60"><%=c.id%>&nbsp;</td>
+                <td width="113"><%= c.VND_VendorName%> &nbsp;</td>
+                <td width="117"><%= c.VND_Address%>&nbsp;</td>
+                <td width="102"><%= c.VND_ContactPersonName%>&nbsp;</td>
+                <td width="196"><%= c.VND_ContactEmailID%>&nbsp;</td>
+                <td width="115"><%= c.VND_Telephone%> &nbsp;</td>
+                <td width="118"><%= c.VND_Fax%>&nbsp;</td>
+                <td width="102"> <%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletevendor", :id => c.id },:confirm =>"Are you sure want to delete this item?"%><%=link_to image_tag("pen.jpg", :border=>0),{:action => 'editvendor', :id => c.id}%>&nbsp;</td>
+
+        </tr>
+<%(session[:vid]!=nil)%>
+<%(session[:vname]!=nil)%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center" width="94"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:vname]!=nil)%>
+<% @t=Dqmvendor.find_by_sql("select id, VND_VendorName,VND_Address,VND_ContactPersonName
+,VND_ContactEmailID,VND_Telephone,VND_Fax from dqmvendors where VND_VendorName='#{session[:vname]}' ") %>
+<%if @t!=[]%> 
+<% @t.each do |c| %> 
+
+        <tr>
+                <td width="60"><%=c.id%>&nbsp;</td>
+                <td width="113"><%= c.VND_VendorName%>&nbsp;</td>
+                <td width="117"><%= c.VND_Address%> &nbsp;</td>
+                <td width="102"><%= c.VND_ContactPersonName%>&nbsp;</td>
+                <td width="196"><%= c.VND_ContactEmailID%>&nbsp;</td>
+                <td width="115"><%= c.VND_Telephone%>&nbsp;</td>
+                <td width="118"><%= c.VND_Fax%>&nbsp;</td>
+                <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletevendor", :id => c.id },:confirm =>"Are you sure want to delete this item?"  %><%=link_to image_tag("pen.jpg", :border=>0),{:action => 'editvendor', :id => c.id}%>&nbsp;</td>
+        </tr>
+<%(session[:vid]!=nil)%>
+<%(session[:vname]!=nil)%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center" width="94"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% else %>
+<% session[:vname]=nil%>
+<% session[:vid]=nil%>
+<% end%>
+<% session[:vname]=nil%>
+<% session[:vid]=nil%>
+<%if session[:msg]!=nil%>
+<% @t=Dqmvendor.find_by_sql("select id, VND_VendorName,VND_Address,VND_ContactPersonName
+,VND_ContactEmailID,VND_Telephone,VND_Fax from dqmvendors") %>
+<%if @t!=[]%> 
+<% @t.each do |c| %> 
+
+        <tr>
+                <td width="60"><%=c.id%>&nbsp;</td>
+                <td width="113"><%= c.VND_VendorName%> &nbsp;</td>
+                <td width="117"><%= c.VND_Address%>&nbsp;</td>
+                <td width="102"><%= c.VND_ContactPersonName%>&nbsp;</td>
+                <td width="196"><%= c.VND_ContactEmailID%>&nbsp;</td>
+                <td width="115"><%= c.VND_Telephone%>&nbsp;</td>
+                <td width="118"><%= c.VND_Fax%>&nbsp;</td>
+                <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletevendor", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%=link_to image_tag("pen.jpg", :border=>0),{:action => 'editvendor', :id => c.id}%>&nbsp;</td>
+        </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center" width="94"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% session[:msg]=nil%>
+<%end%>
+
+</table></div>
+</fieldset>
+</div>    
+</div>

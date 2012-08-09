@@ -1,0 +1,73 @@
+
+<form id="form1" name="form1" method="post" action="showstp" >	
+<%= error_messages_for 'stpreason' -%>
+
+<div class="fieldset1">
+    <fieldset id="fs">
+    <legend>Selection Criteria[STPReason]</legend>
+    <table align="center" border="0" width="500" style="margin-top: 20px;">
+        <tr>
+                <td align="right">
+                        <label>STP Reasons ID&nbsp;&nbsp;:</label>
+                </td>
+                <td>
+                         <input id="stpreason_id" name="stpreason[id]" size="24" style="float: left"> 
+                </td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+                <td align="right">
+                        <label>STP Reason Name&nbsp;&nbsp;:</label>
+                </td>
+                <td>
+                        <input id="stpreason_STP_STPReason" name="stpreason[STP_STPReason]" size="24" style="float: left">
+                </td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+                <td align="right">
+                        <label> Service&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                        <select id="stpreason_STP_ServiceID" name= "stpreason[STP_ServiceID]">
+                        <option value="-1">ALL</option>
+                        <% @g= Service.find_by_sql("select id,SVC_ServiceID,SVC_ServiceName from services ")%>
+                        <% for item in @g %>
+                        <option value="<%=item.SVC_ServiceID%>"><%= item.SVC_ServiceName %></option>
+                        <% end %>
+                        </select>
+                </td>
+        
+      </tr>
+    </table>
+  
+  </br>
+  <center>
+        <%= submit_to_remote 'Show',' Show ',:url => {:controller=>'administration',:action => "showstp" }%>
+  </center>
+  <br />
+  <% if flash[:notice] -%>
+                    <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+  <%end%>
+  </fieldset>
+ </div>
+  </form>
+    <div id='stpreason_div' class="fieldset2"> 
+    <center>Please fill any of the above fields and click on show button...</center>
+    <%= render(:partial=>"stp") %>
+</div>	
+
+
+<!-----------------------------Admin------------------------------------>
+<div id="addcancel" align="center">
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_Admin'%>	
+
+ <%= button_to_function '  Add  ' , remote_function(:url=> {:controller=>'administration',:action => "addstp" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> </p>
+</div>
+<!----------------------------------Operator----------------------------------------------------------->   
+ <%else%>
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> </p>
+
+<%end%>

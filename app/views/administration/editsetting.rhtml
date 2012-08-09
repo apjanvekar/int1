@@ -1,0 +1,119 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+<script  language="JavaScript" type="text/javascript">
+
+
+	function IsNumeric(sText)
+
+	{
+
+   		var ValidChars = "0123456789";
+  		var IsNumber=true;
+   		var Char;
+
+ 		for (i = 0; i < sText.length && IsNumber == true; i++) 
+     		{ 
+      			Char = sText.charAt(i); 
+     			if (ValidChars.indexOf(Char) == -1) 
+         				{
+         					IsNumber = false;
+         				}
+      		}
+   		return IsNumber;
+   
+   	}
+   	
+   	function validate()
+   	{
+   		var r=document.getElementById("setting_purgingperiod");
+   		//alert(r.value);
+   		//t=
+   		if (r.value!="")
+   		{
+   		var e=IsNumeric(r.value);
+   				if (e!=true)
+   					{
+   						alert("Please Enter Integer(0-9) Value Only");
+   						r.value=0;
+   						r.focus();
+   					}
+   		}
+   		else
+   		{
+   		alert("Please enter value ")
+   		}
+   		
+   		
+   	}
+</script>
+</head>
+
+<body>
+<table align=center width="100%"><tr width=70% align=center>
+  <td width=100% >
+<br>
+<%= error_messages_for 'setting'-%></td></tr></table>
+<table  width="80%" height="350" align=center><tr>
+  <td width="98%" align="center" height="300">
+<table align="center" width="380" height="187">
+
+<tr>
+<td width="455" height="181">
+<h2 align="center"><span style="font-weight: 400">Editing Purging Days</span></h2>
+<p >
+
+
+<table width="400" height="180" align=center ><tr align=center>
+  <td width="300" height="150">
+
+  <% @setting=Setting.find(:all) %>
+  <% for item in @setting
+  id1=item.id
+  period=item.purgingperiod
+  end
+  %>
+<%= start_form_tag :action=> "esetting",:id=>id1 %>
+
+
+<table id="table1" width="300" height="150" align=center  >
+
+<tr>
+	<td height="34" width="123" >
+  		<p align="right">
+  		<b><label for="setting_purgingperiod">Purging Days: </label>
+  </td>
+  <td width="213" height="34">
+ 	 <%= text_field "setting", "purgingperiod", :size => 3, :value => period, :onblur => "validate();" %></font></b>
+  </td>
+</tr>
+
+<tr>
+	<td width="123" height="52">
+		&nbsp;
+	</td>
+		<td width="150" height="52">
+		<input type="submit" value="Save &#187;" class="primary" style="font-family: Zurich BT; font-size: 10pt; float:left" /><%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "canceladd" }), :style=>"font-family: Zurich BT; font-size: 8pt align=left" %>
+	</td>
+ </tr>
+  </td></tr></table>
+  
+
+  
+
+
+	
+<% end_form_tag %> </font></font>
+</td></tr>
+</table>
+<p>&nbsp;</p>
+</td></tr></table></td></tr></table>
+
+</body>
+
+</html>

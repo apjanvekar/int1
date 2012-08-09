@@ -1,0 +1,742 @@
+
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Branch Details</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader" width="944">
+
+       <tr>
+  
+
+        <th  width="102">ID</th>
+      	<th width="102">Branch Sole_ID </th>
+		<th width="102">Branch Name </th>
+		<th width="102">Group </th>
+		<th width="102">No.of Employees </th>
+		<th width="102">DQM IP Address </th>
+		<th width="102">Active</th>
+		<th width="102">City</th>
+		<th width="102"></th>
+
+    </tr>
+</table>
+
+<div class="contentBox" >
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+<% if session[:isa]!=nil%>
+<% if session[:isa]=="0" %>
+<%@a="In-Active"%>
+<%elsif session[:isa]=="1"%>
+<%@a="Active"%>
+
+<%end%>
+<%end%>
+
+
+<% if session[:gid]!=nil%>
+
+
+<% @m= Group.find_by_sql("select id from groups where GRP_GroupName='#{session[:gid]}'")%>
+
+<% for item in @m%>
+<% gname=item.id%>
+<%end%>
+<% end %>
+
+
+<% if session[:cid]!=nil%>
+<% @n=Cluster.find_by_sql("select CLST_ClusterName from clusters where id='#{session[:cid]}'")%>
+
+<% for item in @n%>
+<% cname=item.CLST_ClusterName%>
+<%end%>
+<% end %>
+
+<% if (session[:locationid]!=nil) and (session[:bname]!=nil) and (session[:gid]!=nil) and (session[:cid]!=nil) %>
+<%if (session[:isa]=="1" or session[:isa]=="0") %>
+<% @t=Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_GroupID, LOC_ClusterID,
+LOC_NoOfEmployees, LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_ClusterID=#{session[:cid]} and LOC_IsActive='#{session[:isa]}'")%>
+<% else %>
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_GroupID, LOC_ClusterID,
+LOC_NoOfEmployees, LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_ClusterID=#{session[:cid]}")%>
+
+<% end %>
+<%if @t!=[]%>  
+<% for item in @t%>
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.LOC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=City.find_by_sql("select cityname from cities where id= '#{item.LOC_CityID}'") %>
+<% for i in @r %>
+<% @c= i.cityname %>
+<% end %>
+
+    <tr  align="center" >
+            <td width="102"><%= item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+            <td width="102"><%= @g %> &nbsp;</td>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%>&nbsp;</td>
+
+<%if item.LOC_IsActive=='1' %>
+<%@is_active="Active"%>
+<%else%>
+<%@is_active="In Active"%>
+<% end %>
+            <td width="102"><%=@is_active%> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+    </tr>
+  <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:locationid]!=nil) and (session[:bname]!=nil) and (session[:gid]!=nil)  %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_GroupID, LOC_ClusterID,
+LOC_NoOfEmployees, LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_SoleID='#{session[:locationid]}' and LOC_BranchName='#{session[:bname]}' and LOC_GroupID='#{session[:gid]}' ")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+ <% @r=Group.find_by_sql("select GRP_GroupName from groups where id= #{item.LOC_GroupID}") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+
+            <td width="102"><%=@g%>&nbsp;</td>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td> 
+
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %>&nbsp;</td>
+ <% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id}%>&nbsp;</td>
+
+ 
+
+
+    </tr>
+    
+  <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% elsif (session[:cid]!=nil and session[:gid]!=nil and session[:isa]!=nil) %>
+
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations where LOC_ClusterID='#{session[:cid]}' and LOC_IsActive ='#{session[:isa]}' and  LOC_GroupID='#{session[:gid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+    <tr>
+            <td width="102"><%= item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %>&nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="94"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= '#{item.LOC_ClusterID}'") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %>&nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id}%>&nbsp;</td>
+    </tr>
+    
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:cid]!=nil and session[:gid]!=nil ) %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations where LOC_ClusterID='#{session[:cid]}' and LOC_GroupID='#{session[:gid]}' ")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%= item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="94"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= '#{item.LOC_ClusterID}'") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %><% end %>
+
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id}%>&nbsp;</td>
+ 
+
+    </tr>
+    
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:cid]!=nil and session[:isa]!=nil) %>
+
+
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations where LOC_ClusterID='#{session[:cid]}' and LOC_IsActive ='#{session[:isa]}' ")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= '#{item.LOC_ClusterID}'") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%>&nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %>&nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+ 
+ 
+
+    </tr>
+ 
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:locationid]!=nil) and  (session[:bname]!=nil) %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_SoleID='#{session[:locationid]}' and LOC_BranchName='#{session[:bname]}'") %>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id %>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+ 
+ <% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+  <% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+ 
+
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:locationid]!=nil) and  (session[:gid]!=nil) %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees,LOC_GroupID,LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_SoleID='#{session[:locationid]}' and LOC_GroupID='#{session[:gid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= #{item.LOC_GroupID}") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+            <td width="102"><%= @g %>&nbsp;</td>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="81"><%= status %> &nbsp;</td>
+            <td width="94"><%=@c%> &nbsp;</td>
+   	        <td width="105"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?"%><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+ 
+
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif (session[:gid]!=nil) and  (session[:bname]!=nil) %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where  LOC_BranchName='#{session[:bname]}' and LOC_GroupID='#{session[:gid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= #{item.LOC_GroupID}") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+            <td width="102"><%=  @g%> &nbsp;</td>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td  width="102"><%=@c%> &nbsp;</td>
+  	         <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?"%><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+ 
+
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+ <%end%>     
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif session[:isa]!=nil and session[:gid]!=nil%>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations where LOC_IsActive='#{session[:isa]}' and LOC_GroupID='#{session[:gid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="94"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %>&nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+ 
+
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif session[:bname]!=nil %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID,LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_BranchName='#{session[:bname]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%>&nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+ 	        <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" ,:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+ 
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% elsif session[:gid]!=nil %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_GroupID='#{session[:gid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+<% @t= i.GRP_GroupName %>
+ <%end%>
+<% @r=Cluster.find_by_sql("select CLST_ClusterName from clusters where id= #{item.LOC_ClusterID}") %>
+<% for i in @r %>
+<% @c= i.CLST_ClusterName %>
+<% end %>
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+            <td width="102"><%=  @t%> &nbsp;</td>
+            <td width="102"><%=item.LOC_NoOfEmployees %>&nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%></font> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif session[:locationid]!=nil %>
+
+<% @t= Location.find_by_sql("SELECT id, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_SoleID='#{session[:locationid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=City.find_by_sql("select cityname from cities where id= '#{item.LOC_CityID}'") %>
+<% for i in @r %>
+<% @c= i.cityname %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %>&nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" ,:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+ 
+
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif session[:isa]!=nil %>
+
+<% @t= Location.find_by_sql("SELECT id,LOC_CityID, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations 
+where LOC_IsActive='#{session[:isa]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %>&nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=City.find_by_sql("select cityname from cities where id= '#{item.LOC_CityID}'") %>
+<% for i in @r %>
+<% @c= i.cityname %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %>&nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?" ,:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<% elsif session[:cid]!=nil %>
+
+
+
+<% @t= Location.find_by_sql("SELECT id,LOC_CityID, LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations where LOC_CityID='#{session[:cid]}'")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+    <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+ <% for i in @e%>
+            <td width="102"><%= i.GRP_GroupName%> &nbsp;</td>
+ <%end%>
+<% @r=City.find_by_sql("select cityname from cities where id= '#{item.LOC_CityID}'") %>
+<% for i in @r %>
+<% @c= i.cityname %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<% if item.LOC_IsActive=='0' %>
+<% status="In-Active" %>
+<% else %>
+<% status="Active" %>
+<% end %>
+            <td width="102"><%= status %> &nbsp;</td>
+            <td width="102"><%=@c%>&nbsp;</td>
+            <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id},:title=>"Edit This Item" %>&nbsp;</td>
+ 
+    </tr>
+ <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<!-- MAIN IF ENDS -->
+<%end %>
+
+
+
+<!-- LAST IF FOR SHOW ALL-->
+<% if session[:msg]!=nil%>
+<% @t= Location.find_by_sql("SELECT id,LOC_CityID,LOC_SoleID, LOC_BranchName, LOC_NoOfEmployees, LOC_GroupID, LOC_ClusterID,
+LOC_DQM_IPAddress, LOC_IsActive FROM locations ")%>
+<%if @t!=[]%> 
+<% for item in @t%>
+
+ <tr>
+            <td width="102"><%=item.id%>&nbsp;</td>
+            <td width="102"><%=item.LOC_SoleID %> &nbsp;</td>
+            <td width="102"><%=item.LOC_BranchName %> &nbsp;</td>
+<% @e= Group.find_by_sql(" select GRP_GroupName from groups where id= '#{item.LOC_GroupID}'")%>
+<% for i in @e%>
+            <td width="94"><%= i.GRP_GroupName%> &nbsp;</td>
+<%end%>
+<% @r=City.find_by_sql("select cityname from cities where id= '#{item.LOC_CityID}'") %>
+<% for i in @r %>
+<% @c= i.cityname %>
+<% end %>
+            <td width="102"><%=item.LOC_NoOfEmployees %> &nbsp;</td>
+            <td width="102"><%=item.LOC_DQM_IPAddress%> &nbsp;</td>
+<%if item.LOC_IsActive=='1' %>
+<%@is_active="Active"%>
+<%else%>
+<%@is_active="In Active"%>
+<%end%>
+            <td width="102"><%=@is_active%> &nbsp;</td>
+            <td width="102"><%=@c%> &nbsp;</td>
+  	         <td width="102"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletelocation", :id => item.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%=link_to image_tag("pen.jpg", :border=>0), {:action => 'editlocation', :id => item.id} %>&nbsp;</td>
+
+ </tr>
+<% session[:msg]=nil%>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<%end%>
+  <%    session[:locationid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil%>
+</table></div>
+  
+</fieldset>
+
+ </div>    
+   </div>

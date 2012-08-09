@@ -1,0 +1,76 @@
+
+<form id="form1" name="form1" method="post" action="shownonstp" align="center">	
+
+
+<%= error_messages_for 'nonstpreason' -%>
+
+<div class="fieldset1">
+    <fieldset id="fs">
+    <legend>Selection Criteria[NONSTPReason]</legend>
+    <table width="600" align="center" style="margin-top: 20px;">
+    <tr>
+        <td align="right">
+                <label>Non STP Reason ID&nbsp;&nbsp;:</label>
+        </td>
+        <td >
+                <input id="nonstpreason_id" name="nonstpreason[id]" size="20" style="float: left">
+        </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+        <label>Non STP Reason Name&nbsp;&nbsp;:</label>
+        </td>
+        <td>
+                <input id="nonstpreason_NSTP_NonSTPReason" name="nonstpreason[NSTP_NonSTPReason]" size="20" style="float: left">
+        </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td  align="right">
+                <label>Group&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <select id="nonstpreason_NSTP_GroupID" name="nonstpreason[NSTP_GroupID]">
+                <option value="-1">ALL</option>
+                <% @g= Group.find_by_sql("select id,GRP_GroupName from groups")%>
+                <% for item in @g %>
+                <option value="<%= item.id %>"><%= item.GRP_GroupName %></option>
+                <% end %>
+                </select>
+                </td>
+    </tr>
+    </table>
+    </br>
+    
+    <center>
+     <%= submit_to_remote 'Show',' Show ',:url => {:controller=>'administration',:action => "shownonstp" }%>
+  </center>
+  <br />
+  <% if flash[:notice] -%>
+                    <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+  <%end%>
+  </fieldset>
+  </div>
+  </form>
+   
+    <div id="nonstp_div" class="fieldset2" > 
+        <center>Please fill any of the above fields and click on show button...</center>
+        <%= render(:partial=>"nonstp") %>
+    </div>
+    <div id="addcancel" align="center">
+<!-----------------------------Admin------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_Admin'%>	
+
+<%= button_to_function '  Add  ' , remote_function(:url=> {:controller=>'administration',:action => "addnstp" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>
+
+
+
+     <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+<%else%>
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+
+</div>
+
+<%end%>

@@ -1,0 +1,148 @@
+<h5 style="color:red;"><%= error_messages_for 'services' -%></h5>
+
+<!--[form:user]-->
+
+<table align="center" width="850" border="0">
+    <tr>
+        <td align="right">
+                <label for="services_SVC_ServiceName">Enter Service Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <% @r= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+                SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive , SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+                where id='#{params[:id]}'")%>
+                <%for item in @r%>
+                <%session[:srid]=params[:id]%>
+                <input type=text id="services_SVC_ServiceName" name="services[SVC_ServiceName]" size="16" value="<%=item.SVC_ServiceName%>">
+        </td>
+        <td align="right">
+               <label for="services_SVC_ServiceTypeID">Enter ServiceType Name&nbsp;&nbsp;:</label> 
+        </td>
+        <td align="left">
+                <% @m=ServiceType.find_by_sql("select id,STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID }'") %>
+                <select id="services_SVC_ServiceTypeID" name= "services[SVC_ServiceTypeID]">
+                <%for i in @m%>
+                <option value= "<%= i.id %>"><b><%= i.STYP_ServiceTypeName -%></b></option>
+                <%end%>
+                <% @p=ServiceType.find_by_sql("select id,STYP_ServiceTypeName from service_types  where id != '#{item.SVC_ServiceTypeID }'") %>
+                <%for i in @p%>
+                <option value= "<%= i.id %>"><b><%= i.STYP_ServiceTypeName -%></b></option>
+                <%end%></select>
+        </td>
+    </tr>
+     <tr style="height: 20px;"></tr>   
+    <tr>
+        <td align="right">
+                <label for="services_SVC_GroupID">Enter Group Name&nbsp;&nbsp;:</label>    
+        </td>
+        <td align="left">
+                <% @w=Group.find_by_sql("select id,GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+                <select id="services_SVC_GroupID" name= "services[SVC_GroupID]">
+                <%for i in @w%>
+                <option value= "<%= i.id %>"><b><%= i.GRP_GroupName -%></b></option>
+                <%end%>
+                <%@t= Group.find_by_sql("select id,GRP_GroupName from groups where id !='#{item.SVC_GroupID}'") %>
+                <%for i in @t%>
+                <option value= "<%= i.id %>"><b><%= i.GRP_GroupName -%></b></option>
+                <% end %>
+                </select>
+        </td>
+        <td align="right">
+                <label for="services_SVC_ThresholdTimeMins">Enter ThresholdTime&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <%= time_select"services", "SVC_ThresholdTimeMins", :include_seconds=>true%> &nbsp;</td>
+    </tr>
+     <tr style="height: 20px;"></tr>     
+    <tr>
+        <td align="right">
+                <label for="services_SVC_Priority">Enter Service Priority&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="services_SVC_Priority" name="services[SVC_Priority]" size="16" value="<%=item.SVC_Priority%>">
+        </td>
+        <td align="right">
+                <label for="services_SVC_FromTime">Enter From Time&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <select id="services_SVC_FromHour"  name="services[SVC_FromHour]"> 
+                <option value="<%= item.SVC_FromHour%>"><%= item.SVC_FromHour-%></option>
+                <% for i in 0..23 do%>
+                <% if i<10
+                i="0"+i.to_s 
+                end %>
+                <% if i.to_i!=item.SVC_FromHour.to_i %>
+                <option value="<%=i%>"><%=i-%></option>           
+                <% end %>
+                <% end %>
+                </select>
+                <select id="services_SVC_FromMinute"  name="services[SVC_FromMinute]"> 
+                <option value="<%= item.SVC_FromMinute%>"><%= item.SVC_FromMinute-%></option>
+		          <% for i in 0..59 do%>
+		          <% if i<10
+		          i="0"+i.to_s 
+		          end %>
+                <% if i.to_i!=item.SVC_FromMinute.to_i %>
+                <option value="<%=i%>"><%=i-%></option>           
+                <% end %>
+                <% end %>
+            </select>
+        </td>
+    </tr>
+      <tr style="height: 20px;"></tr>     
+    <tr>
+        <td align="right">
+                <label for="services_SVC_ServiceAcronym">Enter Service Acronym&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="services_SVC_ServiceAcronym" name="services[SVC_ServiceAcronym]" size="16" value="<%=item.SVC_ServiceAcronym%>">
+        </td>
+        <td align="right">
+                <label for="services_SVC_ToTime">Enter To Time&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <select id="services_SVC_ToHour"  name="services[SVC_ToHour]"> 
+                <option value="<%= item.SVC_ToHour%>"><%= item.SVC_ToHour -%></option>
+		<% for i in 0..23 do%>
+		<% if i<10
+		i="0"+i.to_s 
+		end %>
+
+		<% if i.to_i!=item.SVC_ToHour.to_i %>
+           <option value="<%=i%>"><%=i -%></option>           
+           <% end %>
+            <% end %>
+            </select>
+            <select id="services_SVC_ToMinute"  name="services[SVC_ToMinute]"> 
+            <option value="<%= item.SVC_ToMinute%>"><%= item.SVC_ToMinute-%></option>
+		<% for i in 0..59 do%>
+		<% if i<10
+		i="0"+i.to_s 
+		end %>
+
+		          <% if i.to_i!=item.SVC_ToMinute.to_i %>
+           <option value="<%=i%>"><%=i-%></option>           
+           <% end %>
+            <% end %>
+            </select>
+            <%end%>
+        </td>
+    </tr>
+     <tr style="height: 20px;"></tr> 
+     <tr>
+        <td align="right"> 
+                <label for="services_SVC_IsActive">IsActive&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <% @a= Service.find(params[:id])%>
+                <% @b=@a.SVC_IsActive %>
+                <% if @b.to_i== 1 %>
+                      <input type="radio" id="services_SVC_IsActive" name="services[SVC_IsActive]" value="1" checked="checked"  /></b>
+                             Active<b>&nbsp;</b><input type="radio" id="services_SVC_IsActive" name="services[SVC_IsActive]" value="0" unchecked/></b>In Active<b><br/>
+                <% else %> </b>  
+                      <input type="radio" id="services_SVC_IsActive" name="services[SVC_IsActive]" value="1" unchecked/></b>Active<b><input type="radio" id="services_SVC_IsActive" name="services[SVC_IsActive]" value="0" checked="checked"/></b></b>In Active<b><br/></b>
+                <% end %>
+
+        </td>
+    </tr>
+</table>

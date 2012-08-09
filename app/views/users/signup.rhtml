@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ICICI Admin : Users List</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body>
+
+
+<%= start_form_tag :action=> "create" %>
+<p>&nbsp;</p>
+<table  width="874" height="420" align=center><tr>
+  <td  width="868" height="400"><br>
+<table id="table2" align="center" width="475" height="360"><tr>
+  <td width="457" height="350"><table><tr><td width=100% align="center">
+ <%= error_messages_for 'user' %></td></tr></table>
+<h3 align="center"><u>Add New User</u></h3>
+<table width="458" height="87"><tr><td width="215" rowspan="3" height="83"><br/>
+<p align=left>
+ <label for="user_USR_UserName">Enter User name:</label><b><br/>
+  <%= text_field "user", "USR_UserName", :size => 20 %><br/></font></b></p>
+	<p align=left>
+   <label for="user_USR_GroupID">Select Group Name:  </label></font>
+<br/>
+
+ <select id="user_USR_GroupID" name="user[USR_GroupID]">
+    <option>Please Select</option>
+    <% @g= Group.find_by_sql("select id,GRP_GroupName from groups")%>
+    <% for item in @g %>
+<option value="<%= item.id %>"><%= item.GRP_GroupName %></option>
+    <% end %>
+</select>
+	 <p align=left>
+  <label for="user_login">Enter login name:</label><b><br/>
+  <%= text_field "user", "login", :size => 10 %><br/></font></b></p>
+ <p align=left>
+  <label for="user_USR_Password">Choose password:</label><b><br/>
+  <%= password_field "user", "password", :size => 10 %><br/></font></b></p>
+ <p align=left>
+</b>
+<p>&nbsp;</p>
+</td><td width="237" height="47">
+   <p align=left>
+ <label for="user_USR_Role">
+ User Role</label><b><br/>
+<select  id="user_USR_Role" name="user[USR_Role]" style="font-family: Zurich BT; font-size: 8pt">
+<option value="Operator">Operator</option>
+
+<option value="Admin">Admin</option>
+</select>
+
+<br/></b></p>
+
+  
+  </td></tr><tr>
+  <td width="237" height="1">
+  
+
+ <p align="left">
+  
+
+ <label for="user_USR_IsActive">User Status:</label><b><br/>
+ <input type="radio" id="user_USR_IsActive" name="user[USR_IsActive]" value="1" checked="checked" /></b>Active  <b>
+
+</b>
+<b>
+
+ <input type="radio" id="user_USR_IsActive" name="user[USR_IsActive]" value="2" />In Active</td></tr><tr><td width="237" height="70">
+  <%= submit_tag ' Create ' %>
+
+<!--<input type="submit" value="Create User &#187;" class="primary" style="font-family: Zurich BT; font-size: 10pt; float:left" />--></font>
+ <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'users',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 8pt align=left" %>
+
+  
+  </td></tr></table>
+
+	</td></tr></table>
+<%= end_form_tag %> </td></tr></table>
+</body>
+</html>

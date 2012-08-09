@@ -1,0 +1,14 @@
+
+<% if session[:city]!=nil%>
+<% #session[:city]=nil %>
+<%puts "111111111111111111111111111111111111111111111111"%>
+<%= collection_select(:location, :LOC_ClusterID,  clusters,  :id, :CLST_ClusterName,{:prompt   => "Please Select"}) %>
+
+<% else%>
+    <%puts "222222222222222222222222222222222222222222222222222222222222"%>
+         <%= collection_select(:location, :LOC_ClusterID,  clusters,  :id, :CLST_ClusterName,
+                      {:prompt   => "Please Select"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_city"},
+                                                       :with => "'id='+value")}"}) %>
+    
+<% end%>

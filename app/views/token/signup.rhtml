@@ -1,0 +1,30 @@
+<div id="add" style="margin-top: 100px;">
+     <%if @token.errors.any?%>
+     <h2 style="color: red; text-decoration: underline;">Errors :</h2>
+         <ul>
+             <%@token.errors.full_messages.each do|message|%>
+                <li id="li"><%= message%></li>
+             <%end%>
+         </ul>
+     <%end%>
+<center>
+<div class="addheadera" align="center" style="margin-bottom:  50px;">Add New Token Footer Message</div>
+</center>
+<div class="addcontent" align="center"> 
+     <%= start_form_tag :action=> "create" %>
+     <table align="center" width="600"  style="margin-bottom: 30px;">
+        <tr>
+            <td align="right">
+                    <label for="tokenbottomadrt">Enter Message&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                     <%= text_field "tokenbottomad", "BOT_AdMessage", :size => 50 %>
+            </td>
+       </tr>
+    </table>
+                    <input type="submit" value="Create " class="primary" style="font-family: Zurich BT; font-size: 8pt" />
+  
+                     <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'token',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 8pt " %></p>
+   <%= end_form_tag %>
+</div>
+</div>

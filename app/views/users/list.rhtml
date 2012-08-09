@@ -1,0 +1,66 @@
+
+<div class="fieldset2" style="margin-top: 80px;">
+
+<fieldset id="fs" style="width: 990px; height: 300px;"  >
+<div class="titleheader" align="center" > List of Users</div>
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="12.5%">Login</th>
+      	<th width="16.5%" >User Role</th>
+		<th width="10.5%">User Status </th>
+		<th width="10.5%">Login Status </th>
+		<th width="12.5%">User Name </th>
+			<!--<th width="12.5%">User GroupID </th>
+	<th width="12.5%">Created On</th>
+		<th width="12.5%">Updated On </th>-->
+         <!--<th id ="tr4"> </th>-->
+
+</tr>
+    </table>
+
+<div class="contentBox">
+<table style="border:2px solid #FF8C00; z-index: 100;" border="1" bordercolor="#FF8C00" width="920">
+ <% @t = User.find_by_sql("select * from users" ) %>
+ <%if @t!=[]%>   
+<% @t.each do |c| %>
+  <tr>
+  
+	<td width="12.5%"><%#=  link_to c.login, :action => 'edit', :id => c.id %><%=c.login%>&nbsp;</td>	
+	<td width="16.5%"><%= c.USR_Role %>&nbsp;</td>
+	<td width="10.5%">
+<% @b=c.USR_IsActive %>
+<% if @b.to_i== 1 %> Active
+<%else%>In Active
+<%end%>
+
+</td>
+	<td width="10.5%"><%= c.USR_IsLogin %>&nbsp;</td>
+	
+	<td width="12.5%"><%= c.USR_UserName %>&nbsp;</td>
+	<!--<td width="12.5%"><%#= c.USR_GroupID%>&nbsp;</td>
+	<td width="12.5%"><%#= c.created_at.strftime("%d/%m/%y")%>&nbsp;</td>
+	<td width="12.5%"><%#= c.updated_at.strftime("%d/%m/%y") %>&nbsp;</td>-->
+	<!--<td id="table1" nowrap align="center" width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+    
+  
+
+</tr><% end %>	
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available.</font></td>
+        </tr>
+<% end %>
+ 
+</table>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+<!--<p align=center><b><%= link_to 'Add New User', :controller => 'users', :action => 'signup' %></b></p>
+<p>&nbsp;</p>-->

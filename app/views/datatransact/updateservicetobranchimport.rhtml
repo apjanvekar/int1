@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled 1</title>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<style type="text/css">
+.style1 {
+	font-family: "Zurich BT";
+	font-size: small;
+}
+.style2 {
+	color: #08176C;
+}
+.style3 {
+	font-family: "Zurich BT";
+	font-size: small;
+	color: #08176C;
+}
+.style4 {
+	background-color: #08176C;
+}
+.style5 {
+	background-color: #FF9933;
+}
+.style6 {
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+
+<p>&nbsp;</p>
+
+
+<table style="width: 100%; height: 500" cellpadding="0" cellspacing="0">
+<form action="" method="get" name="form1" id="form1">
+	<tr>
+	<td style="height: 100" width=100% align=center>
+
+		
+<fieldset style=" left: 2%; width: 863; height: 196; border: 1px solid #08176C">
+<legend><font color="#08176C" face="Zurich BT" size="4">
+<strong style="font-weight: 400">Select Location To Import from Branches</strong></font></legend>
+<table width="100%" border="0" height="74">
+  <tr>
+    <td align="center" height="28" width=33%>
+    <font face="Zurich BT" size="4" color="#08176C">Zones</font></td>
+    <td align="center" height="28" width=33%>
+    <font face="Zurich BT" size="4" color="#08176C">Regions</font></td>
+    <td align="center" height="28" width=33%>
+    <font face="Zurich BT" size="4" color="#08176C">Clusters</font></td>
+  </tr>
+  <tr>
+    <td  align="center" width=33% height="23">
+  <%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+                      {:prompt   => "Select a Zone"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                                                       :with => "'id='+value")}"}) %>
+
+</td>
+    <td  align="center" width=33% height="23">
+<% @regions=""%>
+ <div id="regions"><%= render :partial => 'regions', :object => @regions %></div> 
+
+    </td>
+    <td  align="center" width=33% height="23">
+   <% @clusters=""%>
+
+    <div id="clusters"><%= render :partial => 'clusters', :object => @clusters %></div></td>
+  </tr>
+  </table>
+
+  <p align=center>
+  
+
+
+  <%= submit_to_remote 'Show','   SHOW   ',:url => {:controller=>'datatransact',:action => "showlocation" }%></p></br>
+   
+  
+       </fieldset>
+       
+        
+        </td></tr>
+
+        
+        
+<tr><td height="200" width=100%>
+    <div id='import_div' align=center >     
+<%= render(:partial=>"import") %>
+</div>	
+</td>
+</tr>
+
+
+</form>
+</table>
+</body>
+</html>

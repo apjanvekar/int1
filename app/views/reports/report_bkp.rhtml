@@ -1,0 +1,140 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body>
+
+<form  name="form1" id="form1", method="post">
+<table width="482" height="354">
+<tr>
+
+<td width="380" height="30" colspan="2"><font face="Zurich BT" size="5" color="#800000">
+<p><label >Select Dates for Report:-</label></p></font>
+</td>
+</tr>
+
+<tr>
+
+<td width="380" height="80" colspan="2"><font face="Zurich BT" size="5" color="#800000"><p><label >Select Start Date:-</label>
+<%= date_select('range','start_date',:order => [:day, :month, :year]) %> </p></font>
+</td>
+</tr>
+ 
+<tr>
+<td width="380" height="30" colspan="2"><font face="Zurich BT" size="5" color="#800000"><p><label>Select End Date:-</label>&nbsp;
+<%= date_select('range','end_date',:order => [:day, :month, :year])%> 
+</p></font>
+</td>
+</tr>
+<td width="380" height="80" colspan="2"><font face="Zurich BT" size="5" color="#800000">
+<p><label >Select Report to generate:-</label></p></font>
+</td>
+</tr>
+
+<tr>
+
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+
+<td  height="10" width="336"><p align="left"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Counter Wise",:submit => "form1",:url => {:controller => "reports",:action => "counter_report"} %></li>
+</ul>
+</font></p>
+
+</td>
+
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+
+<td width="376" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Service Wise",:submit => "form1",:url => {:controller => "reports",:action => "service_report"} %> </li>
+</ul>
+</font></p>
+</td>
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+<td width="380" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Counter Wise Summary",:submit => "form1",:url => {:controller => "reports",:action => "ct_summary_report"} %></li>
+</ul>
+</font></p>
+</td>
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+<td width="380" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Service Wise Summary",:submit => "form1",:url => {:controller => "reports",:action => "service_summary_report"} %></li>
+</ul>
+</font></p>
+</td>
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+<td width="380" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Executive Summary",:submit => "form1",:url => {:controller => "reports",:action => "Executive_summary_report"} %></li>
+</ul>
+</font></p>
+</td>
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+<td width="380" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "User Wise",:submit => "form1",:url => {:controller => "reports",:action => "User_report"} %></li>
+</ul>
+</font></p>
+</td>
+</tr>
+
+<tr>
+<td  height="10" width="44">
+<p align="left"></p>
+</td>
+<td width="380" height="10" colspan="2">
+<p align="center"><font face="Zurich BT" size="5" color="#800000">
+<ul>
+<li><%= link_to_remote "Wait Time",:submit => "form1",:url => {:controller => "reports",:action => "Wait_time_report"} %></li>
+</ul>
+</font></p>
+</td>
+</tr>
+</table>
+</form>
+</body>
+
+</html>

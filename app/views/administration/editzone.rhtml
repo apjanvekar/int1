@@ -1,0 +1,24 @@
+
+
+<div id="edit" style="margin-top: 100px;">
+<div id="li">
+<%= error_messages_for 'zone'-%>
+
+</div>
+
+
+<center>
+<div class="addheadera" align="center">Edit zone</div></center>
+
+<div class="addcontent" align="center">
+<p >
+<% form_tag :action => 'updatezone', :id => @zone do %>
+
+ <%= render :partial => 'formzone' %>
+ <%= submit_tag 'Save', :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancelzone" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</div>
+</div> 
+
+<% end %></p>
+
+

@@ -1,0 +1,14 @@
+<div id="edit">
+<div id="li">
+<%= error_messages_for 'scrollmsg' %>
+
+</div>
+     <center><div class="editheadera" align="center">Edit Display Scroll Message</div></center></br>
+     <div class="editcontent" align="center">
+                <% form_tag :controller =>'displayscrollmessage', :action => 'update', :id => @scrollmsg do %>
+                         <%= render :partial => 'form' %></br>
+                         <%= submit_tag  ' Save ', :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+                         <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'displayscrollmessage',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+      </div>
+</div>
+<% end %>

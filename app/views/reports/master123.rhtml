@@ -1,0 +1,126 @@
+<html>
+
+<head>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+			<%
+   			@zones  = Zone.find(:all)
+    		@regions = Region.find(:all)
+    		@clusters= Cluster.find(:all)
+   			@locations=Location.find(:all)%>
+
+		
+<table style="width: 100%; height: 420">
+	<form id="form1" name="form1" method="post" align="center">
+	<p align="center">
+<font face="Zurich BT" size="4" color="#800000">
+<%= submit_to_remote 'Generate','Generate',:url => {:controller=>'reports',:action => 'master_report' }%>
+
+<%= button_to_function 'Back' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</font>
+
+</p>
+		<font color="#901010" size= "3.5">
+			<% if session[:msg] %>
+
+				<div id="msg" style="width:300;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px;
+ 					background-color: #f0f0f0; height:22; padding-left:7px; padding-right:7px; padding-top:7px"><%= session[:msg] %>
+ 					</div>
+				<%session[:msg]=nil%>
+			<% end %>
+			</font>
+	 <tr>
+		<td align="center" width=100% >	
+			<h2 align="center"> <u><font face="Arial" size="4" color="#CC3300">Master Report</font></u></h2>
+			<br>
+ <fieldset style="border:1px solid #CC3300; width: 90%; height:300; position:relative; left:5% right:5%">
+		<legend>
+			<font color="#CC3300" face="Zurich BT" size="4">
+			<strong style="font-weight: 400">Selection Criteria</strong>
+			</font>
+		</legend>
+		
+	<table width=100% height="175" >
+		
+		<tr>
+			<td align="right" width=50% height=23>
+			<label >
+				<font face="Zurich BT" size="4" color="#800000">
+					Select Start Date:</font><font face="Zurich BT" size="4" color="#800000">-
+				</font>
+			</label>
+			</td>
+			
+			<td align="left" width=50% height=23 >
+			<font face="Zurich BT" size="4" color="#800000">
+				<%= date_select('range','start_date',:order => [:day, :month, :year]) %> 
+			</font>
+			</td>
+		</tr>
+
+		<tr>
+			<td width=50% align=right height=30>
+				<label><font face="Zurich BT" size="4" color="#800000">Select End Date:-</font></label>
+			</td>
+			<td width=50% align=left height=30>
+			<%= date_select('range','end_date',:order => [:day, :month, :year])%> 
+			</td>
+		</tr>
+		
+		<tr>
+		<td width=50% align=right height=25>
+		<label><font face="Zurich BT" size="4" color="#800000">Zone Name:-</font>
+		</td>
+		<td width=50% align=left height=25>
+		<%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+                      {:prompt   => "Select a Zone"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                                                       :with => "'id='+value")}"}) %> 
+         </td>
+         </tr>
+         
+		  <tr>
+		  <td width=50% align=right height=22>
+	      <font face="Zurich BT" size="4" color="#800000">
+		  <label>Region Name:-</label></font>
+		  </td>
+		  <td width=50% align=left height=22>
+		  <div id="regions" align=left> <%= render :partial => 'regions', :object => @regions %></div>
+		  </td>
+		  </tr>
+		  
+		  <tr>
+		  <td width=50% align=right height=22>
+		  <font face="Zurich BT" size="4" color="#800000">
+          <label>Cluster Name:-</label></font>
+          </td>
+
+		  <td width=50% align=left height=22>
+		  <div id="clusters" align="left" ><%= render :partial => 'clusters', :object => @clusters %></div>
+		  </td>
+		  </tr>
+
+		  <tr>
+		  <td width=50% align=right height=22>
+		  <font face="Zurich BT" size="4" color="#800000">
+		  <label>Location Name:-</label></font>
+		  </td>
+		  <td width=50% align=left height=22>
+		  <div id="locations" align="left" ><%= render :partial => 'locations', :object => @locations %></div>
+		  </td>
+		  </tr>
+	</table>
+ </fieldset>
+</form>
+</td>
+</tr>
+</table>
+</body>
+</html>

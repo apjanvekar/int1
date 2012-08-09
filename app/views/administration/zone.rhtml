@@ -1,0 +1,53 @@
+
+
+<form id="form1" name="form1" method="post" >
+
+        <%= error_messages_for 'zone' -%>
+    
+<div class="fieldset1">
+    <fieldset id="fs">
+    <legend>Selection Criteria[Zone]</legend>
+    <table width="250" align="center" style="margin-top: 20px;">
+    <tr>
+           <td align="right" >
+                <label>Zone ID&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+               <input type=text id="zone_id" name="zone[id]" size="16" >
+            </td>
+        </tr>
+        <tr height="40px">
+        </tr>
+        <tr>
+            <td align="right">
+               <label>Zone name&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+               <input type=text id="zone_ZONE_ZoneName" name="zone[ZONE_ZoneName]" size="16">
+            </td>
+        </tr>
+    </table>
+    </br>
+           <center>
+              <%= submit_to_remote 'Show',' Show ',:url => {:controller=>'administration',:action => "showzone" }%>           
+            </center>  
+            </br></br>
+             <% if flash[:notice] -%>
+                    <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+             <%end%>
+ </fieldset>
+     
+</div>
+
+      <!-- <div class="middle">
+        <center >Please click on show button to view all data... </center>
+        </div>-->
+    <div id= "zone_div" class="fieldset2">
+    <center >Please click on show button to view all data... </center>
+    <%= render(:partial=>"display") %>
+    </div>
+</form>
+<div id="addcancel" align="center">
+     <%= button_to_function '  Add  ' , remote_function(:url=> {:controller=>'administration',:action => "addz" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+     <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</div>

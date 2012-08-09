@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CMT</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+sfHover = function() {
+	var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onmouseover=function() {
+			this.className+=" over";
+		}
+		sfEls[i].onmouseout=function() {
+			this.className=this.className.replace(new RegExp(" over\\b"), "");
+		}
+	}
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+
+//--><!]]></script>
+
+<style type="text/css">
+body {
+	font: normal px Zurich BT;
+	}
+
+
+</style>
+
+<%= stylesheet_link_tag "style" %>
+
+<script type="text/javascript">
+
+var myclose = false;
+
+function ConfirmClose()
+{
+if (event.clientY < 0)
+{
+event.returnValue = 'Are You Sure You Want to Quit?';
+
+setTimeout('myclose=false',100);
+myclose=true;
+}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request("<%= url_for :controller=> :account,:action=>:logout1 %>",{method:'get'})
+}
+
+}
+
+</script>
+ 
+</head>
+<body topmargin=0 leftmargin=0 rightmargin=0 onbeforeunload="ConfirmClose()" onunload="HandleOnClose()" >
+<table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor=maroon width=100% cellpadding="0" id="AutoNumber1" height="99" bgcolor="#FFFFFF" align=center>
+    <tr>
+   <td width=100% height="3" colspan="2"> 
+    <table border="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#990033" width="100%" id="AutoNumber2" height="70" cellpadding="0">
+      <tr>
+        <td width="100%" height="70" id=logo_2 style="background-repeat:no-repeat"></td>
+        
+        <!--<td width="30%" height="55" id=logo_3 style="background-repeat:no-repeat"></td>-->
+     
+      </tr>
+      </table>
+    </td>
+  </tr>
+ <tr>
+ </tr>
+</tr>
+    <td id=tr3 width=100%  height="20"  colspan="2" ><BLINK>
+          <font size="4">
+          <MARQUEE id=tr3  scrolldelay="100" class='menu' width=100% behaviour="alternative" height="16"  	<b>Welcome To ICICI</b></font>	</MARQUEE></font></BLINK></td>
+  </tr>
+  <td width=100% height="1" bgcolor="#fcff00" colspan="2"> </td></tr>
+  
+<%if session[:role] == "Admin"%>
+
+  <tr>
+ 
+<td height="1" align="left" width=100% colspan="2" bgcolor="#990033" >
+<ul id="nav">
+<li><font face="Zurich BT" width="20px"><a href="#"><b><font size="3">Administration</font></b></a>
+  </font>
+    <ul>
+		 <li><font size="3"  face="Zurich BT"><a href="#">Masters&nbsp; &gt;</a>
+</font>
+        <ul>
+          
+          
+          <li><font size="2" face="Zurich BT"><%=link_to "Zone", {:controller => 'administration',:action => 'zone' }%></font></li>
+			<li><font size="2" face="Zurich BT"><%=link_to "Region", {:controller => 'administration',:action => 'region' }%></font></li>
+          
+          <li><font size="2" face="Zurich BT"><%=link_to "Cluster", {:controller => 'administration',:action => 'cluster' }%></font></li>
+          <li><font size="2" face="Zurich BT"><%=link_to "Group", {:controller => 'administration',:action => 'group' }%></font></li>
+          <li><font size="2" face="Zurich BT"><%=link_to "DQM Vendors", {:controller => 'administration',:action => 'vendor' }%></font></a></li>
+          <li><font size="2" face="Zurich BT"> <%=link_to "Location", {:controller => 'administration',:action => 'location' }%></font></li>
+		  <li><font size="2" face="Zurich BT"><%=link_to "Service_Master", {:controller => 'administration',:action => 'service_master' }%></font></li>
+          <li><font size="2" face="Zurich BT"><%=link_to "STP Reason", {:controller => 'administration',:action => 'stpreason' }%></font></li>
+          <li><font size="2" face="Zurich BT"><%=link_to "NON STP reason", {:controller => 'administration',:action => 'nonstpreasons' }%></font></li>
+          <li><font size="2" face="Zurich BT"><%=link_to "Pause reason", {:controller => 'administration',:action => 'pausereason' }%></font></li>
+                  
+        </ul>
+      </li>
+
+      <li><font size="2" face="Zurich BT"><%=link_to "Users", {:controller => 'users',:action => 'list' }%></font></li>
+      <li><font size="2"><%=link_to "Token Footer", {:controller => 'token',:action => 'list' }%></font></li>
+     
+     
+     
+      <li><font size="2"><%=link_to "DisplayScrollMessage", {:controller => 'displayscrollmessage',:action => 'list' }%></font></li>
+      <li><font size="2" face="Zurich BT"><%=link_to "Card Details", {:controller=>'carddetails', :action => 'list' }%> </font> </li>   
+      <li><font size="2" face="Zurich BT"><%=link_to "Customer Type", {:controller=>'administration', :action => 'list' }%> </font> 
+      
+   
+  </li>
+   
+      
+    </ul>
+  </li>
+  
+  <li><font face="Zurich BT"><a href="#"><b><font size="3">Data Transfer</font></b></a>
+  </font>
+    <ul>
+		 <li><font size="2"  face="Zurich BT"><a href="#">Data Export &gt;</a>
+         </font>
+        <ul>
+          
+          
+          <li><font size="2" face="Zurich BT"><%=link_to "Export Data", {:controller => 'datatransact',:action => 'updateservicetobranchexport' }%></font></li>
+			<li><font size="2" face="Zurich BT"><%=link_to "Location Export Status", {:controller => 'datatransact',:action => 'exportfailure' }%></font></li>
+  
+                 
+        </ul>
+      </li>
+      <li><font size="2"  face="Zurich BT"><a href="#">Data Import &gt;</a>
+      </font>
+        <ul>
+          
+          
+          <li><font size="2" face="Zurich BT"><%=link_to "Import Data", {:controller => 'datatransact',:action => 'updateservicetobranchimport' }%></font></li>
+			<li><font size="2" face="Zurich BT"><%=link_to "Location Import Status", {:controller => 'datatransact',:action => 'importfailure' }%></font></li>
+  
+                 
+        </ul>
+      </li>
+
+      </ul>
+    </li>  
+
+  <li><font face="Zurich BT"><a href="#"><b><font size="2">Data Transfer</font></b></a>
+  </font>
+    <ul>
+		  <li><font size="2" face="Zurich BT"><%=link_to "Export Data", {:controller => 'datatransact',:action => 'updateservicetobranchexport' }%></font></li>
+		   <li><font size="2" face="Zurich BT"><%=link_to "Location Export Status", {:controller => 'datatransact',:action => 'exportfailure' }%></font></li>
+</ul></li>
+</font>
+   <li><font face="Zurich BT"><a href="#"><b><font size="2">Data Import</font></b></a>
+  </font>
+    <ul>
+		  <li><font size="2" face="Zurich BT"><%=link_to "Import Data", {:controller => 'datatransact',:action => 'updateservicetobranchimport' }%></font></li>
+		   <li><font size="2" face="Zurich BT"><%=link_to "Location Import Status", {:controller => 'datatransact',:action => 'importfailure' }%></font></li>
+</ul></li>
+  
+  
+  <li><b><font size="3" face="Zurich BT"><%=link_to "Reports", {:controller=>'reports', :action => 'master' }%> </font></b></li> 
+     <li><b><font size="3" face="Zurich BT"><%=link_to "Floor-View", {:controller=>'floorview', :action => 'ipselection' }%> </font></b>
+  </li>
+  
+
+<li><b><font size="3" face="Zurich BT" ><%=link_to "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp", {:controller => 'account', :action => 'logout' }%> </font> </b>
+   
+  </li>
+   
+</ul></td></tr>
+<%else%>
+
+ <tr>
+     <td height="1" align="left" width=100% bgcolor=#93b1c9 colspan="2">
+
+<ul id="nav">
+
+  <li><font face="Zurich BT"><a href="#"><b><font size="2">Data Import</font></b></a>
+  </font>
+    <ul>
+		  <li><font size="2" face="Zurich BT"><%=link_to "Import Data", {:controller => 'datatransact',:action => 'updateservicetobranchimport' }%></font></li>
+		   <li><font size="2" face="Zurich BT"><%=link_to "Location Import Status", {:controller => 'datatransact',:action => 'importfailure' }%></font></li>
+</ul></li>
+
+   
+  <li><b><font size="3" face="Zurich BT"><%=link_to "Reports", {:controller=>'reports', :action => 'master' }%> </font></b> 
+   
+  </li>
+<li><b><font size="2" face="Zurich BT"><%=link_to "Change Password", {:controller=>'administration', :action => 'password' }%> </font> </b>
+   
+  </li>
+  <li><b><font size="2" face="Zurich BT"><%=link_to "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log out", {:controller => 'account', :action => 'logout' }%> </font>
+    
+  </li>
+
+</ul>
+</td>
+  </tr>
+  
+<%end%>
+
+  <tr>
+    <td width="100%" height="450" bgcolor="#000000" colspan="2">
+    
+    
+    <div id="content">
+	<%= yield%>
+	</div>
+
+    </td>
+  </tr>
+ 
+    <tr >
+ <td width=100% height="1" bgcolor="pink" colspan="2"> </td></tr>
+ 
+<tr >
+    <td width="25%"  height="24" align=left bordercolor="#990033" bgcolor="#990033"  >
+         <font size="2" face="Zurich BT" color=#FFFFFF><b>
+          <%todate=Time.now()%>USER :
+	<%=( session[:login]).upcase%></b></font></td>
+
+    <td width="25%"  height="24" align=left bordercolor="#990033"  bgcolor="#990033">
+         <font size="2" face="Zurich BT" color=#FFFFFF><b>
+          <p align="right">DATE:<%= todate.strftime("%d/%m/%y")%>	</b></font></td>
+
+  </tr>
+  
+  <td width=100%  bgcolor="#ffffff" height="1" colspan="2" > </td></tr>
+
+
+</table>
+</body>
+</html>

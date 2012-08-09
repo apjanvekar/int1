@@ -1,0 +1,599 @@
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Non STP Reasons</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="30%">Non STP Reasons ID</th>
+      	<th width="40%">Non STP Reasons </th>
+		<th width="30%">Group </th>
+		<!--<th id="tr4">&nbsp;</th>-->
+
+ </tr>
+</table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if (session[:nstpid]!=nil and session[:nstpdesc]!= nil and session[:gid]!=nil) 
+#puts "In 1 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where NSTP_GroupID='#{session[:gid]}' and id='#{session[:nstpid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+
+if @n!=[]   
+
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="30%"><%= item.id%>&nbsp;</td>
+            <td width="40%"><%=  item.NSTP_NonSTP %>&nbsp;</td>
+            <td width="30%" ><%= @me %>&nbsp;</td>
+ <!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+    </tr>
+
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+<% elsif (session[:nstpid]!=nil and session[:nstpdesc]!= nil)
+#puts "In 2 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  id ='#{session[:nstpid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="30%" ><%=item.id%>&nbsp;</td>
+            <td width="40%" ><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%" ><%= @me %>&nbsp;</td>
+ 	<!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+ </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+<% elsif (session[:nstpid]!=nil and session[:gid]!=nil)
+#puts "In 3 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where NSTP_GroupID= '#{session[:gid]}' and id ='#{session[:nstpid]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="30%"><%=item.id%>&nbsp;</td>
+            <td width="40%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+ 	<!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+    </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+ <% elsif (session[:nstpdesc]!= nil and session[:gid]!=nil )
+#puts "In 4 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason,NSTP_GroupID from non_stp_reasons  where NSTP_GroupID= '#{session[:gid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="30%" ><%=item.id%>&nbsp;</td>
+            <td width="40%" ><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%" ><%= @me %>&nbsp;</td>
+ <!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+ </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+ <% elsif (session[:nstpid]!=nil) 
+#puts "In 5 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where id ='#{session[:nstpid]}' ")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+     <tr>
+            <td width="30%"><%=item.id%>&nbsp;</td>
+            <td width="40%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+ <!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+    </tr>
+
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+<% elsif (session[:nstpdesc]!= nil)
+#puts "In 6 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="30%"><%= item.id %>&nbsp;</td>
+            <td width="40%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+ <!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+ </tr>
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+ 
+ <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+ 
+<% elsif (session[:gid]!=nil and session[:gid]!=nil)
+
+#puts "In 7 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  NSTP_GroupID='#{session[:gid]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+
+end
+%>
+    <tr>
+            <td width="30%"><%= item.id%>&nbsp;</td>
+            <td width="40%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+ <!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+ </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+<% end %>
+
+ <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+<%if session[:msg]!=nil%>
+
+<% @t=NonSTPReason.find_by_sql("select  id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons ") %>
+   <%if @t!=[]%>                                   	
+            <% for c in @t  %> 
+<%@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{c.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+
+end
+%>
+
+      
+    <tr>
+            <td width="30%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%=  c.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%" ><%= @me %>&nbsp;</td>
+<!--<td id="table1" nowrap align="center" width="10%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id =>c.id },:confirm =>"Are you sure want to delete this item?" %>&nbsp;</td>-->
+
+ </tr><%end %>  
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+<% session[:msg]=nil%>
+
+<%end %>           
+
+  </div>          
+ </table>
+ 
+</fieldset>
+
+</div>
+ 
+ <!----------------------------------Admin----------------------------------------------------------->   
+ <%else%>
+
+
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Non STP Reasons</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="20%">Non STP Reasons ID</th>
+      	<th width="35%" >Non STP Reasons </th>
+		<th width="30%" >Group </th>
+		<th width="15%" ></th>
+
+ </tr>
+
+
+
+</table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+ 
+ <% if (session[:nstpid]!=nil and session[:nstpdesc]!= nil and session[:gid]!=nil) 
+#puts "In 1 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where NSTP_GroupID='#{session[:gid]}' and id='#{session[:nstpid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="20%"><%=item.id%>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTP %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id} %>&nbsp;</td>
+
+ </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+<% elsif (session[:nstpid]!=nil and session[:nstpdesc]!= nil)
+#puts "In 2 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  id ='#{session[:nstpid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="20%"><%=item.id%>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id} %>&nbsp;</td>
+
+ </tr>
+
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+<% elsif (session[:nstpid]!=nil and session[:gid]!=nil)
+#puts "In 3 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where NSTP_GroupID= '#{session[:gid]}' and id ='#{session[:nstpid]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="20%"><%=item.id%>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id} %>&nbsp;</td>
+
+    </tr>
+
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+ <% elsif (session[:nstpdesc]!= nil and session[:gid]!=nil )
+#puts "In 4 else if"
+@n= NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason,NSTP_GroupID from non_stp_reasons  where NSTP_GroupID= '#{session[:gid]}' and  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end%>
+ <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+        <td width="30%"><%= @me %>&nbsp;</td>
+        <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id} %>&nbsp;</td>
+
+ </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+ <% elsif (session[:nstpid]!=nil) 
+#puts "In 5 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where id ='#{session[:nstpid]}' ")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="20%"><%=item.id%>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id}%>&nbsp;</td>
+
+    </tr>
+
+ <%end%>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+<% elsif (session[:nstpdesc]!= nil)
+#puts "In 6 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  NSTP_NonSTPReason='#{session[:nstpdesc]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+end
+%>
+    <tr>
+            <td width="20%"><%=item.id %>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?"  %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id} %>&nbsp;</td>
+
+    </tr>
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+ <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+ 
+ 
+<% elsif (session[:gid]!=nil and session[:gid]!=nil)
+
+#puts "In 7 else if"
+@n=  NonSTPReason.find_by_sql("select id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons  where  NSTP_GroupID='#{session[:gid]}'")
+if @n!=[]
+for item in @n 
+@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{item.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+
+end
+%>
+    <tr>
+            <td width="20%"><%= item.id%>&nbsp;</td>
+            <td width="35%"><%=  item.NSTP_NonSTPReason %>&nbsp;</td>
+            <td width="30%"><%= @me %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id => item.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => item.id}%>&nbsp;</td>
+
+ </tr>
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+ 
+  <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+<% end %>
+
+ <% 
+ session[:nstpid]=nil
+ session[:gid]=nil
+ session[:nstpdesc]=nil%>
+
+<%if session[:msg]!=nil%>
+
+<% @t=NonSTPReason.find_by_sql("select  id, NSTP_NonSTPReason, NSTP_GroupID from non_stp_reasons ") %>
+          <%if @t!=[]%>                            	
+            <% for c in @t  %> 
+<%@r= Group.find_by_sql("select GRP_GroupName from groups where id ='#{c.NSTP_GroupID}'")
+
+for i in @r
+@me=i.GRP_GroupName
+
+end%>
+
+      
+ <tr>
+        <td width="20%"><%=c.id%>&nbsp;</td>
+        <td width="35%"><%=  c.NSTP_NonSTPReason %>&nbsp;</td>
+        <td width="30%"><%= @me %>&nbsp;</td>
+        <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletenonstp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"  %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editnonstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %>  
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+ 
+<% session[:msg]=nil%>
+
+<%end %>           
+
+ </div>          
+ </table>
+ <br>
+</fieldset>
+
+</div>
+ <%end%><!---If Ends-->
+</div>
+
+</div>
+     </div>

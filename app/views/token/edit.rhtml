@@ -1,0 +1,14 @@
+<div id="edit">
+<div id="li">
+<%= error_messages_for 'token' %>
+</div>
+      <center><div class="editheadera" align="center">Edit  Token Footer Message</div></center></br>
+      <div class="editcontent" align="center">
+                  <% form_tag :controller =>'token', :action => 'update', :id => @token do %>
+                               <%= render :partial => 'form' %>
+           </br>       
+                  <%= submit_tag ' Add ', :style=>"font-family: Zurich BT; font-size: 10pt" %> &nbsp;<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'token',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+      </div>
+</div>
+
+<%end%>

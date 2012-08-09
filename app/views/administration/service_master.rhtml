@@ -1,0 +1,96 @@
+
+<form id="form1" name="form1" method="post" action="showservices" align="center">	
+<div class="fieldset1">
+    <fieldset id="fs">
+    <legend>Selection Criteria[Service_master]</legend>
+    <table align="center" border="0" width="680" style="margin-top: 20px;">
+        <tr>
+                <td align="right">
+				        <label>Master Service ID&nbsp;&nbsp;:</label> 
+                </td>
+                <td align="left">
+				        <input id="services_id" name="services[id]" size="10"   >
+                </td>
+               
+                <td align="right">
+                        <label>Service Name&nbsp;&nbsp;:</label>
+                </td>
+
+                <td align="left">
+                        <input id="services_SVC_ServiceName" name="services[SVC_ServiceName]" size="10" >
+                </td>
+                
+                
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                        <label>Service Type&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                        <select id="services_SVC_ServiceTypeID" name="services[SVC_ServiceTypeID]">
+				        <option value="-1">ALL</option>
+                        <% @b= ServiceType.find_by_sql("select id,STYP_ServiceTypeName from service_types ")%>
+                        <% for m in @b %>
+                        <option value="<%=m.id %>"><%= m.STYP_ServiceTypeName%></option>
+                        <% end %>
+				        </select>
+            </td>
+            
+            <td align="right"> 
+			             <label>Group&nbsp;&nbsp;:</label>  
+            </td>
+            <td align="left"> 
+				        <select id="services_SVC_GroupID" name="services[SVC_GroupID]">
+				        <option value="-1">ALL</option>
+                        <% @g= Group.find_by_sql("select id, GRP_GroupName from groups")%>
+                        <% for item in @g %>
+                        <option value="<%= item.id %>"><%= item.GRP_GroupName %></option>
+                        <% end %>
+				        </select>
+            </td>
+            
+        </tr> <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right"> 
+                        <label>Service Acronym&nbsp;&nbsp;:</label> 
+                </td>
+               <td align="left"> 
+                        <input id="services_SVC_ServiceAcronym" name="services[SVC_ServiceAcronym]" size="10"  >
+               </td>
+            <td align="right">
+                        <label>Active&nbsp;&nbsp;:</label> 
+            </td>
+            <td align="left">
+                        <select id="services_SVC_IsActive" name="services[SVC_IsActive]">
+                        <option  value="-1">ALL </option>
+                        <option value="0">In-Active </option>
+                        <option value="1">Active</option>
+                        </select>
+            </td>
+        </tr>
+</table>
+</br></br>
+     <center>
+				<%= submit_to_remote 'Show','  Show  ',:url => {:controller=>'administration',:action => "showservices" }%>
+    </center>
+		</br>
+		<% if flash[:notice] -%>
+            <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+         <%end%>
+
+</fieldset>
+
+	
+	<div id="services_div" class="fieldset2" >     
+                    <center>Please fill any of the above fields and click on show button...</center>
+                    <%= render(:partial =>"services")  %>
+    </div>	
+    </div>
+    </form>
+		
+		
+<div id="addcancel" align="center">
+        <%= button_to_function '  Add  ' , remote_function(:url=> {:controller=>'administration',:action => "addser" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>
+        <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</div>

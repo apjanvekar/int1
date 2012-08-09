@@ -1,0 +1,62 @@
+<!--<#%= error_messages_for 'cluster' -%>-->
+<%= start_form_tag :action => "addcluster" %>
+
+ <div id="add"  style="margin-top: 100px;" >
+ <%if @cluster.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@cluster.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add Cluster</div>
+</center>
+
+
+
+<div class="addcontent" align="center">
+<table width="300" align="center" style="margin-bottom: 50px;">
+        <tr>
+            <td align="right">
+                <label>Cluster Name&nbsp;&nbsp;: </label>
+            </td>
+            <td align="left"> 
+                <%= text_field 'cluster', 'CLST_ClusterName' %>
+            </td>
+        </tr>
+      <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                <label>Zone&nbsp;&nbsp;:</label>          
+            </td>
+         
+                <% @zones=Zone.find(:all)%>
+        
+          <td align="left">
+                <%= collection_select(:zone, :zone_id,  @zones,  :id, :ZONE_ZoneName,{:prompt   => "Please Select"},
+                {:onchange => "#{remote_function(:url => {:action => "update_regions"},:with => "'id='+value")}"}) %>
+          </td>
+        </tr>
+         <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">Region&nbsp;&nbsp;:</td>
+              
+                <% @regions=""%>
+            
+            <td align="left">
+                <div id="regions" ><%= render :partial => 'regions', :object => @regions %></div>
+            </td>
+        </tr>
+         
+         </table>
+         
+<center>
+<%= submit_tag " Add "%>&nbsp;&nbsp;&nbsp;
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "toc" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</center>
+</div>
+</div>
+<% end_form_tag %>

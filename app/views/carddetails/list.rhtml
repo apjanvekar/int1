@@ -1,0 +1,132 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+<STYLE type="text/css"> 
+  
+
+</STYLE>
+<% stylesheet_link_tag "design"%>
+</head>
+
+<body link="white" alink="white" vlink="#A9A9F5">
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+
+<table  align=center width="100%"><tr width=70% align=center>
+  <td width=100% >
+<br>
+<%= error_messages_for 'carddetail'-%></td></tr></table>
+
+<table width="102%" height="396" align=center>
+<tr><td width="100%" height="347" >
+<table id="fs" width=659 height="336"  cellspacing="1" align=center><tr>
+  <td height="332" align="center" width="643">
+<table width=513 align=center height="172"><tr><td width="539" height="168" align=center>
+<h1> Listing Card Details</h1>
+
+<div class=clsDataGrid id=divList  style="width: 529; height: 201 ">
+ 
+<table width ="635" cellpadding="0"  cellspacing="0"   height="49"  align=center>
+<br/> 
+<tr  align=center> <th id="tr4" nowrap  width="97" height="13" >ID
+        <font color=white face="Arial" size="2"></font></th>
+
+      	<th id="tr4"  nowrap  width="97" height="13" >Bin No</th>
+		<th id="tr4"   nowrap width="236" height="13">Product</th>
+		<th id="tr4"  nowrap width="87" height="13" >ExpireDate</th>
+		<th id="tr4"  nowrap width="100" height="13" >Priority</th>
+		<!--<th id="tr4"  nowrap width="95" height="13" ></th>-->
+ </tr>
+ 
+
+ <% @t = Carddetail.find_by_sql("select * from carddetails" ) %>
+<% @t.each do |c| %>
+  <tr align=center>
+  
+	<td id="table1" align=center width="91" height="1"><font face="arial" size="2"><%=c.id %>&nbsp;</font></td>
+	<td id="table1" nowrap align=center width="97" height="1"><font face="arial" size="2"><%= c.bin %></td>
+	<td id="table1" nowrap align=center width="236" height="1" ><font face="arial" size="2"><%= c.product %></td>
+
+	<td id="table1" nowrap align=center width="87" height="1" ><font face="arial"  size="2" ><%= c.expiredate.strftime("%d/%m/%y") %></font></td>
+	
+	<td id="table1" nowrap align=center width="100" height="1"><font face="arial"  size="2"><%= c.priority %></font></td>
+
+	
+    
+   	<!--<td id="table1" nowrap align="center" width="15%"><font face="Zurich BT"  size="2"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This Item" %><%= link_to image_tag("pen.jpg", :border=>0),:controller=>'carddetails',:action => 'edit', :id => c.id%></td>-->
+
+
+</tr><% end %>	
+</table></div>
+<p align="left"> <font color ="white" font face="arial" size="3" >
+<br/>
+ <!--<p align="center"><%= link_to 'Add New Card Details', :controller=>'carddetails', :action => 'new' %></p>-->
+</td></tr></table></td></tr>
+  </table>
+  </td></tr></table>
+  
+  <!----------------------------------Admin----------------------------------------------------------->   
+ <%else%>
+ <table  align=center width="100%"><tr width=70% align=center>
+  <td width=100% >
+<br>
+<%= error_messages_for 'carddetail'-%></td></tr></table>
+
+<table width="102%" height="396" align=center>
+<tr><td width="100%" height="347" >
+<table id="fs" width=659 height="336"  cellspacing="1" align=center><tr>
+  <td height="332" align="center" width="643">
+<table width=513 align=center height="172"><tr><td width="539" height="168" align=center>
+<h1> Listing Card Details</h1>
+
+<div class=clsDataGrid id=divList  style="width: 529; height: 201 ">
+ 
+<table width ="635" cellpadding="0"  cellspacing="0"   height="49"  align=center>
+<br/> 
+<tr  align=center> <th id="tr4" nowrap  width="97" height="13" >ID
+        <font color=white face="Arial" size="2"></font></th>
+
+      	<th id="tr4"  nowrap  width="97" height="13" >Bin No</th>
+		<th id="tr4"   nowrap width="236" height="13">Product</th>
+		<th id="tr4"  nowrap width="87" height="13" >ExpireDate</th>
+		<th id="tr4"  nowrap width="100" height="13" >Priority</th>
+		<th id="tr4"  nowrap width="95" height="13" ></th>
+ </tr>
+ 
+
+ <% @t = Carddetail.find_by_sql("select * from carddetails" ) %>
+<% @t.each do |c| %>
+  <tr align=center>
+  
+	<td id="table1" align=center width="91" height="1"><font face="arial" size="2"><%=c.id %>&nbsp;</font></td>
+	<td id="table1" nowrap align=center width="97" height="1"><font face="arial" size="2"><%= c.bin %></td>
+	<td id="table1" nowrap align=center width="236" height="1" ><font face="arial" size="2"><%= c.product %></td>
+
+	<td id="table1" nowrap align=center width="87" height="1" ><font face="arial"  size="2" ><%= c.expiredate.strftime("%d/%m/%y") %></font></td>
+	
+	<td id="table1" nowrap align=center width="100" height="1"><font face="arial"  size="2"><%= c.priority %></font></td>
+
+	
+    
+   	<td id="table1" nowrap align="center" width="15%"><font face="Zurich BT"  size="2"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This Item" %><%= link_to image_tag("pen.jpg", :border=>0),:controller=>'carddetails',:action => 'edit', :id => c.id%></td>
+
+
+</tr><% end %>	
+</table></div>
+<p align="left"> <font color ="white" font face="arial" size="3" >
+<br/>
+ <p align="center"><%= link_to 'Add New Card Details', :controller=>'carddetails', :action => 'new' %></p>
+</td></tr></table></td></tr>
+  </table>
+  </td></tr></table>
+<%end%>
+</body>
+
+</html>

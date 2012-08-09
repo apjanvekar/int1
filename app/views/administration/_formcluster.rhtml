@@ -1,0 +1,48 @@
+<table><tr align=center><td width=100% align=center>
+<%= error_messages_for 'cluster' -%></td></tr></table>
+<p align=center>
+<font face="Zurich BT" size="3" color="#08176c">
+<% @r=Cluster.find_by_sql("select CLST_ClusterName,CLST_RegionID from clusters where id='#{session[:cluid]}'")%>
+<%for item in @r%> </font>
+<table width="400" border="0" align="center">
+       <tr>
+        	<td  align="right">
+        		<font face="Zurich BT" size="3" color="#FFFFFF">
+                <label for="cluster_CLST_ClusterName">Cluster Name&nbsp;&nbsp;:</label></font>
+        	</td>
+        	
+        	<td align="left">
+        		<input type=text id="cluster_CLST_ClusterName" name="cluster[CLST_ClusterName]" size="16" value="<%=item.CLST_ClusterName%>">
+        	</td>
+       </tr>
+       <tr>
+       		<td></td>
+       		
+       		<td></td>
+       </tr>
+	   <tr>
+	   		<td  align="right">
+	   			<label >Zone Name&nbsp;&nbsp;:</label>
+	   		</td>
+	   		
+	   		<td  align="left">
+	   			<% @zones=Zone.find(:all)%>
+                <%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,{:prompt   => "Select a Zone"},{:onchange => "#{remote_function(:url  => {:action => "update_regions"},:with => "'id='+value")}"}) %> &nbsp;</td>
+	   </tr>
+	   <tr>
+       		<td></td>
+       		
+       		<td></td>
+       </tr>
+       <tr>
+       		<td  align="right">
+       			<label for="region_REG_RegionName">Region Name&nbsp;&nbsp;:</label>
+       		</td>
+       		
+       		<td  align="left">
+       			<% @regions=Region.find_by_sql("select id,REG_RegionName from regions where id='#{item.CLST_RegionID}'")%>
+                <% session[:editcls]="true"%>
+                <div id="regions"><%= render :partial => 'regions', :object => @regions %></div><%end%>
+       		</td>
+       </tr>
+</table>

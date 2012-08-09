@@ -1,0 +1,16 @@
+
+
+<table width="550" border="0" align="center">
+    <tr>
+        <td align="right">
+                    <label for="pausereason_PR_PauseReasonDesc">Enter Pause Reason Description&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                    <% @r=PauseReason.find_by_sql("select PR_PauseReasonDesc from pause_reasons where id='#{params[:id]}'")%>
+                    <%for item in @r%>
+                    <% session[:pid]=params[:id] %>
+                    <input type=text id="pausereason_PR_PauseReasonDesc" name="pausereason[PR_PauseReasonDesc]" size="16" value="<%=item.PR_PauseReasonDesc%>">
+        </td>
+    </tr>
+</table>
+<%end%>

@@ -1,0 +1,57 @@
+
+
+<center><h2>Reports</h2></center>
+<div style="border:3px solid  #FF8C00; width:100%; margin:0px auto;" ><br>
+<center>
+<table width="90%" border="1" cellspacing="10" >
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;" ><%=link_to 'DQM Status Report(real-time)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Day Employee Wise Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%></font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Average Wait Time',:controller=>"reports",:action=>"dateselection",:reportid=>"awt"%><font>&nbsp;</td>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Hour Wise Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Branch Employee Wise Token Pulled',:controller=>"reports",:action=>"dateselection",:reportid=>"bewtp"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Service Wise Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Branch Employee Service Wise Token Pulled',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Service Guarantee MIS',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Branch Employee Token-Service Wait Time',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Segmented Wait Time MIS',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+      <tr>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Branch Service Token-Service Wait Time',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Number of Days The Reports Are Not Available Centerally',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Branch STP Name Token Wise Count',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Absolute Number of Days Where DQM Report is Available(Monthly)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+      <tr>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Branch Service STP Namec Token Wise Count',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Number of DQMs Where The Report is available For 7 or Less Number of Days In a Month(Monthly)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Zone Wise Top 5 Branches In Average Wait Time And Outliers(For Privilege And Customer Tokens)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+      <tr>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Cash Wise Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Zone Wise Top 5 Branches In Average Wait Time and Outliers(For Privilege And Customer Tokens)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+      <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Day Service Wise Footfall',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+           <td class="color2"><font style="font-family: Zurich BT;"><%=link_to 'Top 5 Branches In Where The Wait Time Has Increased Substantially(Say > 20-25%)Compared To Prevoius Month)',:controller=>"reports",:action=>"dateselection",:reportid=>"0"%><font>&nbsp;</td>
+       </tr>
+       <tr>
+           <td class="color1"><font style="font-family: Zurich BT;"><%=link_to 'Master Report',:controller=>"reports",:action=>"dateselection",:reportid=>"cmttransact"%><font>&nbsp;</td>
+       </tr>
+
+</table>
+</center><br>
+</div>

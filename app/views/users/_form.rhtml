@@ -1,0 +1,73 @@
+<table><tr width=100% align="center"><td width=100% align="center">
+ <%= error_messages_for 'user' %></td></tr></table>
+<table width="435"><tr><td width=200 >
+<!--[form:user]-->
+<p align=center>
+<label for="user_USR_UserName">Enter User Name:</label><br/>
+<%= text_field "user", "USR_UserName", :size => 10 %><br/>
+<p align=center>
+<% @m=User.find_by_sql("select id,USR_GroupID from users where id= '#{ params[:id]}'") %>
+<%for item in @m%>
+<label for="user_USR_GroupID">Select Group Name:</label><br/>
+<% @w=Group.find_by_sql("select id,GRP_GroupName from groups where id='#{item.USR_GroupID}' ") %>
+<select id="user_USR_GroupID" name= "user[USR_GroupID]">
+<%for i in @w%>
+<option value= "<%= i.id %>"><b><%= i.GRP_GroupName-%></b></option>
+<%end%>
+<%@t= Group.find_by_sql("select id,GRP_GroupName from groups where id !='#{item.USR_GroupID}' ") %>
+<%for i in @t%>
+<option value= "<%= i.id %>"><b><%= i.GRP_GroupName -%></b></option>
+<%end%></select><%end%><br \></p>
+<p align=center><label for="user_login">LoginName</label><b><br/>
+<%= text_field 'user', 'login', :size =>10 %></b></p></td><td width=225>
+<p align=center> <label for="user_USR_Role">User Role</label><b><br/>
+<select  id="user_USR_Role" name="user[USR_Role]" style="font-family: Zurich BT">
+
+<% @z=User.find(params[:id])%>
+<% @type=@z.USR_Role %>
+<% if @type=="Admin" %>
+<option value="Admin">Admin</option>
+<option value="Operator">Operator</option>
+<% else %>
+<option value="Operator">Operator</option>
+<option value="Admin">Admin</option>
+<% end %>
+</select> </font>
+
+
+
+
+</b>
+<p align=center> User Status</font>
+<% @a= User.find(params[:id])%>
+<% @b=@a.USR_IsActive %>
+<% if @b.to_i== 1 %> 
+
+
+
+<p align=center>
+
+<input type="radio" id="user_USR_IsActive" name="user[USR_IsActive]" value="1" checked="checked"  /></b>Active <b>&nbsp;</b><b><input type="radio" id="user_USR_IsActive0" name="user[USR_IsActive]" value="2" unchecked/></b><b> </b>
+In Active<b><br/>
+
+<% else %> </b> 
+<input type="radio" id="user_USR_IsActive" name="user[USR_IsActive]" value="1" unchecked/>Active<b>
+</b> 
+<input type="radio" id="user_USR_IsActive" name="user[USR_IsActive]" value="2" checked="checked"/>In Active
+<% end %><!--[eoform:user]--> </b>
+
+
+
+<p align=center><label for="user_USR_IsLogin">Login Status</label><br/>
+<% @a= User.find(params[:id])%>
+<% @b=@a.USR_IsLogin %>
+<% if @b == 'Y' %> 
+<input type="radio" id="user_USR_IsLogin" name="user[USR_IsLogin]" value="Y" checked="checked"  />Logged In <input type="radio" id="user_USR_IsLogin" name="user[USR_IsLogin]" value="N" unchecked/>Logged Out<br/>
+
+<% else %> </b>  
+
+<input type="radio" id="user_USR_IsLogin" name="user[USR_IsLogin]" value="Y" unchecked/>Logged In<b>
+
+<input type="radio" id="user_USR_IsLogin" name="user[USR_IsLogin]" value="N" checked="checked"/></b>Logged Out<b><br/>
+<% end %><!--[eoform:user]--> </b>
+</p></td></tr></table>

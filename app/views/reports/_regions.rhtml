@@ -1,0 +1,7 @@
+
+
+
+  <%= collection_select(:cluster, :CLST_RegionID,  regions,  :id, :REG_RegionName,
+                      {:prompt   => "ALL"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_clusters"},
+                                                       :with => "'id='+value")}"}) %>

@@ -1,0 +1,16 @@
+<div id="edit" style="height: 640px; margin-top: 50px;">
+<div id="li">
+<%= error_messages_for 'location' %>
+</div>
+<center><div class="editheadera" align="center" >Edit Branch Details</div></center>
+<% form_tag :action => 'updatelocation', :id => @location do %>
+<div class="editcontent" align="center" style="height: 300px;" >
+
+  <%= render :partial => 'formlocation' %>
+</div>
+<center>
+<%= submit_tag ' Save ', :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancellocation" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</center>
+<% end %>
+
+</div>

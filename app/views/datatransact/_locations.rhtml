@@ -1,0 +1,14 @@
+<% if session[:msgL]%>
+<% session[:msgL]=nil%>
+<%= collection_select(:location, :id,  locations,  :id, :LOC_BranchName,
+                      {:prompt   => "Please Select"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_loc"},
+                                                       :with => "'id='+value")}"}) %>
+<% else %>
+									<select id="select1" name= "select1"  disabled>
+                      				 <option>Please Select</option>
+	
+					
+    			</select>
+
+<% end %>

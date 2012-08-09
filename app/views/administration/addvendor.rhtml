@@ -1,0 +1,82 @@
+<!--<%= error_messages_for 'dqmvendor'-%>-->
+
+<%= start_form_tag :action => "addvendor" %>
+
+<div id="add" style="margin-top: 100px;">
+<%if @dqmvendor.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@dqmvendor.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add DQM Vendor</div>
+</center>
+
+<div >
+<table width="500" align="center" style="margin-bottom: 50px;">
+        <tr>
+            <td align="right">
+                    <label>Vendor Name&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_VendorName' %>
+            </td>
+      </tr>
+      <tr style="height: 20px;"></tr>
+      <tr>
+            <td align="right">
+                    <label>Vendor Address&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_Address' %>
+            </td>
+      </tr>
+      <tr style="height: 20px;"></tr>
+      <tr>
+            <td align="right">
+                    <label> Contact Person Name&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_ContactPersonName' %>
+            </td>
+      </tr>
+      <tr style="height: 20px;"></tr>
+      <tr>
+            <td align="right">
+                    <label>Vendor E-Mail Address&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_ContactEmailID' %>
+
+            </td>
+      </tr>
+      <tr style="height: 20px;"></tr>
+      <tr>
+            <td align="right">
+                    <label> Vendor Phone No&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_Telephone', :size=>"30" , :maxlength=>"15"%>
+            </td>
+      </tr>
+      <tr style="height: 20px;"></tr>
+       <tr>
+            <td align="right">
+                    <label>  Vendor Fax No&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'dqmvendor', 'VND_Fax', :size=>"30" , :maxlength=>"10" %>
+            </td>
+      </tr>
+</table>
+    <center>
+            <%= submit_tag "  Add  "%>
+            <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tov" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+    </center>
+</div>
+</div>
+<% end_form_tag %>

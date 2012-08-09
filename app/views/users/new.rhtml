@@ -1,0 +1,9 @@
+<h1><font color="#08176C" face="Arial" size="3">New user</font></h1>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to 'Back', :action => 'list' %>

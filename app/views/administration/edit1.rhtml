@@ -1,0 +1,64 @@
+
+
+<div id="edit">
+<div id="li">
+<%= error_messages_for 'threshold'-%>
+</div>
+<center>
+<div class="editheadera" align="center">Edit Customer Type</div></center>
+<div class="editcontent" align="center">
+<%= start_form_tag :action=> "update",:id=>@threshold%>
+
+<table>
+    <tr>
+        <td align="right">
+ 	              <label for="thresholdtimes_ctypedesc">Customer Type&nbsp;&nbsp;:</label> 
+ 	      </td>
+ 	      <td align="left">
+ 	              <%= text_field "threshold", "ctypedesc", :size => 18, :disabled=>true %> </font></b>
+ 	      </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+	       <td align="right">
+  		            <label for="threshold_priority">Priority&nbsp;&nbsp;: </label>
+            </td>
+            <td align="left">
+ 	                  <%= text_field "threshold", "priority", :size => 18 %>
+            </td>
+    </tr>
+     <tr style="height: 20px;"></tr>
+    <tr>
+	       <td align="right">
+ 	                  <label for="thresholdtime_thresholdtime">ThresholdTime&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+ 	                  <%= time_select"threshold", "thresholdtime",:include_seconds=>true %>
+ 	          </td>
+    </tr>
+</table>
+	</div>      
+
+</div>
+  
+ <div id="addcancel">
+<center>   
+		<input type="submit" value="Save" class="primary" style="font-family: Zurich BT; font-size: 10pt; float:center" />
+		 <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "canceladd" }), :style=>"font-family: Zurich BT; font-size: 8pt align=left" %>
+</center>
+</div>
+
+
+  
+
+
+	
+<%= end_form_tag %> 
+</td></tr>
+</table>
+<p>&nbsp;</p>
+</td></tr></table></td></tr></table>
+
+</body>
+
+</html>

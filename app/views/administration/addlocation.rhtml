@@ -1,0 +1,183 @@
+<script>
+function Validate()
+{
+	
+	
+	
+	var grp=document.getElementById("location[LOC_GroupID]");
+	var v_grp = grp.options[grp.selectedIndex].value;
+	
+	var dqm=document.getElementById("location[LOC_DQMVendorID]");
+	var v_dqm = dqm.options[dqm.selectedIndex].value;
+	
+
+
+	if(v_grp=="") and (v_dqm=="")
+	{
+	alert('Please Select Group and Dqm Vendor! ')
+	grp.focus();
+	return(false);
+	
+	   elseif(v_grp=="") and (v_dqm!="")
+	                {
+						alert('Please Select Group ! ')
+						grp.focus();
+						return(false);
+					}
+			
+			else
+			    {  alert('Please Select DQM Vendor ! ')
+					dqm.focus();
+					return(false);
+
+				}
+
+	}
+
+}
+</script>
+
+<%#= error_messages_for 'location' -%>
+<form id="form1" name="form1" method="post" action="addlocation" align="center" >	
+
+<div id="add" style="height:429; margin-top: 50px; width:933">
+<%if @location.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@location.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add Branch Details</div>
+</center>
+<div class="addcontent" align="center" style="height: 350px;" >
+<table align="center" width="850" border="0">
+        <tr>
+                <td align="right">
+                            <label>Branch Sole ID&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <%= text_field 'location', 'LOC_SoleID',:size=>15 %></td>
+                <td align="right">
+                            <label>Group&nbsp;&nbsp;:</label>    
+                </td>
+                <td align="left">
+                            <select id="location_LOC_GroupID" name= "location[LOC_GroupID]">
+                            <% @z=Group.find_by_sql("select id,GRP_GroupName from groups")%>
+                            <option value="">Please Select</option>
+                            <% for item in @z %>
+                            <option value= "<%= item.id %>"><b><%= item.GRP_GroupName -%></b></option>
+                            <% end %>
+                            </select>              
+                </td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+      <tr>
+                <td align="right">
+                            <label> Branch Name&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <%= text_field 'location', 'LOC_BranchName',:size=>15 %></td>
+                <td align="right" >
+                            No. Of Employees&nbsp;&nbsp;:
+                </td>
+ 
+                <td align="left">
+                            <%= text_field 'location', 'LOC_NoOfEmployees', :size => "6", :maxlength => "6" %></td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+      <tr>          
+                <td align="right">
+                            <label>Zone&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <% @zones=Zone.find(:all)%>
+                            <%= collection_select(:zone, :zone_id,  @zones,  :id, :ZONE_ZoneName,{:prompt   => "Please Select"},{:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                            :with => "'id='+value")}"}) %></td>
+                <td align="right">
+                            <label>DQM IP Address&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left"> 
+                            <%= text_field 'location', 'LOC_DQM_IPAddress', :size => "15", :maxlength => "15"%></td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+      <tr>
+                <td align="right">
+                            <label>Region&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <div id="regions"  align="left">
+                            <% @regions=Region.find(:all)%>
+                            <%@regions=""%>
+                            <%= render :partial => 'regions', :object => @regions %>
+                            </div>
+                </td>
+                 <td align="right" >
+                            <label>DQM Vendor&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <select id="location_LOC_DQMVendorID" name= "location[LOC_DQMVendorID]">
+                            <% @z=Dqmvendor.find_by_sql("select id,VND_VendorName from dqmvendors")%>
+                            <option value="">Please Select</option>
+                            <% for item in @z %>
+                            <option value= "<%= item.id %>"><b><%= item.VND_VendorName -%></b></option>
+                            <% end %>
+                            </select>
+                </td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+       <tr>
+                <td align="right">
+                            <label>Cluster&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left" >
+                            <div id="clusters"  align="left">
+                            <% @clusters=Cluster.find(:all)%>
+                            <%@clusters=""%>
+                            <%= render :partial => 'clusters', :object => @clusters %>
+                            </div>
+                </td>
+                <td align="right">
+                            <label>DQM Version 1.0 or Later&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left" >
+                            <input name="cb1" type="checkbox" value="">        
+                </td>
+      </tr>
+      <tr style="height: 10px;"></tr>
+      <tr>
+            <td align="right">
+                 <label>City&nbsp;&nbsp;:</label>
+            </td>
+            <td>
+                <div id="cities"  align="left">
+                            <% @cities=City.find(:all)%>
+                            <%@cities=""%>
+                            <%= render :partial => 'cities', :object => @cities %>
+                </div>
+                
+            </td>
+      		<td align="right">
+                            <label>Active&nbsp;&nbsp;:</label>
+                </td>
+                <td align="left">
+                            <input type="checkbox" id="location_LOC_IsActive" name="location[LOC_IsActive]" value="1" checked="checked" /></td>
+                </td>
+      </tr>
+ </table>
+ 
+ 
+
+
+</div>
+<center>
+ <input type="submit" name="submit" id="submit" value="  Add   " style="float: center">
+
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tol" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</center>
+
+</div>
+</form>

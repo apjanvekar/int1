@@ -1,0 +1,38 @@
+<%= start_form_tag :action => "addpausereason" %>
+<div id="add"  style="margin-top: 100px;">
+<%if @pausereason.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@pausereason.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+
+<center>
+<div class="addheadera" align="center">Add New Pause Reason</div>
+</center>
+<div class="addcontent" align="center" >
+<table align="center" width="500" style="margin-bottom: 50px;">
+       <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                     <label>Pause Reason Description&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'pausereason','PR_PauseReasonDesc' , :size =>"25"%>
+            </td>
+        </tr>
+  </table>
+ 
+<center>
+ <%= submit_tag '  Add  '%>
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "topause" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</center>
+ 
+
+
+ </div>
+</div>
+<% end_form_tag %>

@@ -1,0 +1,126 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+<%= javascript_include_tag "prototype","effects",:defaults %>
+</head>
+
+<body>
+<table align=center width="100%"><tr width=70% align=center>
+  <td width=100% >
+<br>
+<%= error_messages_for 'carddetail'-%></td></tr></table>
+
+<table height="390" align=center bgcolor="#000000">
+  <tr><td height="433">
+<table  width="700" height="392" align=center><tr>
+  <td width="700" height="392" align="center">
+<table id="table2" cellspacing="1"><tr><td>
+<table width="500" height="329" align=center><tr><td width="400" height="284">
+<%= start_form_tag :action=> "create",:id=>@carddetail%>
+
+<table width="350" height="228">
+<tr>
+   
+    <td width="350" height="34" colspan="2" align="center"> 
+ 	 <p align="center"><b> Enter Card Details</b></td>
+</tr>
+<tr>
+    
+    <td width="357" height="23" align="left"> 
+ 	 <p align="right"> 
+ 	 <b>
+ 	 <label for="card_bin">Bin No:</label>
+ 	 
+ 	</td>
+ 	<td width="258" height="23" align="left">
+ 	 <%= text_field 'carddetail', 'bin'  %></font></b>
+ 	</td>
+</tr>
+<tr>
+	
+	<td height="24" width="357" align="left" >
+  		<p align="right">
+  		<b> 
+ 		 <label for="card_product">Product: </label>
+  </td>
+  <td width="258" height="24" align="left">
+ 	 <%= text_field 'carddetail', 'product'  %></font></b>
+  </td>
+</tr>
+<tr>
+	
+	<td height="28" width="357" align="left">
+ 	 <p align="right">
+ 	 <b>
+ 	 <label for="card_expiredate">Expiry Date: </label>
+ 	 </b>
+ 	 </td>
+ 	 <td width="258" height="28" align="left">
+ 	 
+ 	 
+ 	 <%= date_select 'carddetail', 'expiredate',:start_year=>Date.today.year,:end_year=>Date.today.year+15 %>
+ 	 </b>
+ 	 </td>
+</tr>
+<tr>
+	
+	<td height="26" width="357" align="left">
+ 	 <p align="right">
+ 	 <b>
+ 	 <label for="card_priority">Priority:
+ 	 
+ 	 </label>
+ 	 </td>
+ 	 <td width="258" height="26" align="left">
+ 	 
+ 	<select id="card_priority" name="carddetail[priority]">
+ 	 <option value="">Please Select</option>
+   		<% @p=Thresholdtime.find_by_sql("select priority from thresholdtimes")%>
+ 
+   		
+     <% for item in @p %>
+<option value="<%= item.priority %>"><%= item.priority %></option>
+    <% end %>
+											
+     	 										</select>
+
+ 	 
+ 	 
+ 	 </font></b>
+ 	 </td>
+</tr>
+
+<tr>
+	
+	<td width="357" height="20">
+		&nbsp;
+	</td>
+		<td width="150" height="20">
+		<input type="submit" value="Save &#187;" class="primary" style="font-family: Zurich BT; font-size: 10pt; float:left" />
+		 <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'carddetails',:action => "canceladd" }), :style=>"font-family: Zurich BT; font-size: 8pt align=left" %>
+	</td>
+ </tr>
+  </td></tr></table>
+  
+
+  
+
+
+	
+<%= end_form_tag %> </font></font>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+</body>
+
+</html>

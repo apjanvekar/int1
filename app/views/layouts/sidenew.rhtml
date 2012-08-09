@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+    <script type="text/javascript" >
+    function expand(s)
+{
+  var td = s;
+  var d = td.getElementsByTagName("div").item(0);
+
+  td.className = "menuHover";
+  d.className = "menuHover";
+}
+
+function collapse(s)
+{
+  var td = s;
+  var d = td.getElementsByTagName("div").item(0);
+
+  td.className = "menuNormal";
+  d.className = "menuNormal";
+}
+
+    
+    
+    
+    </script> 
+    <%= javascript_include_tag "prototype","effects","application",:defaults %>
+
+     <%= stylesheet_link_tag "style" %>
+
+</head>
+
+<body>
+<!-------------------------------------------Header Starts----------------------------------------------->
+<div id="header">
+    <div style=" width:50%; float:left; height:60px;">
+    <%=image_tag("logo.gif")%>
+    </div>
+    <div style=" width:50%;float:left; height:60px;">
+         <table border="0" style="margin-top:20px;">
+                <tr >
+                      <td width="25%"  height="24" align="right">
+                      <font size="2" face="Zurich BT" color=#000000><b>
+                      <%todate=Time.now()%>Login as:
+	                  <%=( @session['login'])%>&nbsp;|&nbsp;</b></font></td>
+                      <td width="25%"  height="24" align="left">
+                      <font size="2" face="Zurich BT" color=#000000><b>
+                      Date:<%= todate.strftime("%d/%m/%Y")%></b></font></td>
+                 </tr>
+         </table>
+    </div>
+</div>
+<!---------------------------------------------Header Ends----------------------------------------------->
+
+<!-------------------------------------------Marquee Starts----------------------------------------------->
+<div id="marquee">
+ <MARQUEE scrolldelay="100" behaviour="alternative">Welcome To ICICI Bank</MARQUEE>
+</div>
+<!-------------------------------------------Marquee Ends----------------------------------------------->
+
+<!-------------------------------------------Navigation Starts-------------------------------------------->
+ 
+<div id="navigation">
+ <!-- MAIN MENU START -->
+
+<%if session[:role] == "cmt_Admin"%>
+  <table class="navbar" width="800">
+    <tr>
+    
+      <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><a><u>Administrator</u></a></p>
+        <div class="menuNormal" width="190">
+          <table class="menu" width="190">
+            <tr>
+
+              <!-- SUBMENU 1 START -->
+              <td class="menuNormal" width="154" onmouseover="expand(this);" 
+              onmouseout="collapse(this);" ><u>Masters</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>  
+
+                <div class="menuNormal" width="150">
+                  <table class="menu" width="150">
+                    <tr><td ><a  class="menuitem"><%=link_to "Zone", {:controller => 'administration',:action => 'zone' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "Region", {:controller => 'administration',:action => 'region' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "Cluster", {:controller => 'administration',:action => 'cluster' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "City_Master", {:controller => 'administration',:action => 'cityindex' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "Group", {:controller => 'administration',:action => 'group' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "DQM Vendors", {:controller => 'administration',:action => 'vendor' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "Branch Details", {:controller => 'administration',:action => 'location' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "Service_Master", {:controller => 'administration',:action => 'service_master' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "STP ", {:controller => 'administration',:action => 'stpreason' }%></a></td></tr>
+                    <tr><td ><a  class="menuitem"><%=link_to "NON STP ", {:controller => 'administration',:action => 'nonstpreasons' }%></a></td></tr>
+                   <tr><td ><a  class="menuitem"><%=link_to "Pause reason", {:controller => 'administration',:action => 'pausereason' }%></a></td></tr>
+                  </table>
+                </div>
+              </td>
+              <!-- SUBMENU 1 END -->
+
+            </tr>
+            <tr><td class="menuNormal">
+              <a  class="menuitem"><%=link_to "Users", {:controller => 'users',:action => 'list' }%>	</a>
+            </td></tr>
+            <tr><td class="menuNormal">
+              <a class="menuitem"><%=link_to "Token Footer", {:controller => 'token',:action => 'list' }%></a>
+            </td></tr>
+            <tr><td class="menuNormal">
+              <a  class="menuitem"><%=link_to "DisplayScrollMessage", {:controller => 'displayscrollmessage',:action => 'list' }%></a>
+            </td></tr>
+            <tr><td class="menuNormal">
+              <a class="menuitem"><%=link_to "Customer Type", {:controller=>'administration', :action => 'list' }%> </a>
+            </td></tr>
+                    </table>
+        </div>
+      </td>
+      <!-- MENU 1 END -->
+
+      <!-- MENU 2 START -->
+      <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><%=link_to "Reports", {:controller=>'reports', :action => 'masterpage' }%></p>
+       </td>
+      <!-- MENU 2 END -->
+
+      <!-- MENU 3 START -->
+      <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><%=link_to "Floor-View", {:controller=>'floorview', :action => 'ipselection' }%> </p>
+       </td>
+      <!-- MENU 3 END -->
+
+      <!-- MENU 4 START -->
+      <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><u>Settings</u></p>
+        <div class="menuNormal" width="155">
+          <table width="155" class="menu">
+            <tr><td class="menuNormal">
+              <a class="menuitem"><%=link_to "Data Purging", {:controller=>'datapurge', :action => 'selection' }%> </font></li>
+</a>
+                 </td></tr>
+                      </table>
+        </div>
+      </td>   
+      
+       <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><%=link_to "Help",{:controller=>'help', :action => 'help1' }%></p>
+       </td>
+ 
+            
+            <td class="menuNormal" width="160" onmouseover="expand(this);" 
+      onmouseout="collapse(this);">
+        <p><%=link_to "Log out ", {:controller => 'account', :action => 'logout' }%> </p>
+       </td>
+      
+</tr>
+  </table>
+  </table>
+  <%end%>
+  <!-- MAIN MENU END -->
+
+
+
+ </div>
+
+<!-------------------------------------------Navigation Ends-------------------------------------------->
+
+<!-------------------------------------------Content Starts----------------------------------------------->
+<div id="content">
+      <div class="content_actual">
+          	<%=yield%>
+      </div>
+</div>
+<!-------------------------------------------Content Ends----------------------------------------------->
+
+<!-------------------------------------------Footer Starts----------------------------------------------->
+<div id="footer">
+
+</div>
+<!-------------------------------------------Footer Ends----------------------------------------------->
+</body>
+</html>

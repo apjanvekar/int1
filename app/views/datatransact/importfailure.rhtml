@@ -1,0 +1,217 @@
+<html>
+
+<head>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>All</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 800px; 
+HEIGHT:300px;
+} 
+</STYLE>
+
+
+<script language="JavaScript">
+function showrep()
+{
+	
+	
+    
+      document.getElementById('aux_div').style.visibility = "visible"
+
+    //new Ajax.Request("<%= url_for :controller=> :reports,:action=>:master_report %>",{method:'post'})
+ 
+	
+	
+}
+
+function show()
+{
+document.getElementById("chk0").checked=true
+
+alert("hello");
+
+}
+</script>
+
+</head>
+<body>
+<p>&nbsp;</p><table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#08176C" width="100%" id="AutoNumber1" height="584">
+<tr>
+    	<td width="100%" height="584">
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#08176C" width="100%" id="AutoNumber1" height="582">
+	  <tr>
+    	<td width="100%" height="47">
+    			<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="black" width="100%" id="AutoNumber2" height="34">
+      				<form action="" method="get" name="form1" id="form1">
+
+      				<tr>
+        			 <td width="16%" height="24" align="center" >
+        				
+        				<font face="Zurich BT" size="4">
+        				<!--<input type="radio" checked name="radio1" id="radio2" value="1">-->
+        				<input type="radio" name="radio1" id="radio2" checked value="1" style="float: center" onclick="<%=remote_function(
+											:url => {:controller => 'datatransact', :action => 'showall'}
+								)-%>" />
+
+                        </font>
+        			 
+        				
+        				<font size="4" face="Zurich BT" color="#08176C">
+                        All-Location</font><font size="4" face="Zurich BT">
+                        </font>
+        			 </td>
+        			 <td width="16%" height="24" align="center">
+        				
+        				<!--<input type="radio" name="radio1" id="radio3" value="2" style="float: right">-->
+        				<p align="right">
+        				<input type="radio" name="radio1" id="radio3" value="2" style="float: center" onclick="<%=remote_function(
+											:url => {:controller => 'datatransact', :action => 'showr'}
+								)-%>" />
+        			 
+        			 
+        				<font face="Zurich BT" size="4" color="#08176C">Region:-</font>
+        			 </td>
+        			 <td width="16%" height="24">
+						<div id="regions" >
+ <%= render :partial => 'reg', :object => @regions %></div>
+        					
+        <!--<select size="1" name="cmbregion">
+        			</select>-->
+       				 </td>
+        			 <td width="16%" height="24">
+        				
+        				<!--<input type="radio" name="radio1" id="radio4" value="3" style="float: right">-->
+        				<p align="right">
+        				<input type="radio" name="radio1" id="radio4" value="3" style="float: center" onclick="<%=remote_function(
+											:url => {:controller => 'datatransact', :action => 'showl'}
+								)-%>" />
+        			
+        				
+        				<font face="Zurich BT" size="4" color="#08176C">Location:-</font>
+        			 </td>
+        			 <td width="16%" height="24">
+        <!--<select size="1" name="D1">
+        </select>-->
+        				<div id="loc">
+ <%= render :partial => 'locations', :object => @locations %></div>
+        			 </td>
+        			 <td width="16%" height="24"><p align=center><!--
+                     <font face="Zurich BT" size="4" color="#08176C">Select All </font>
+<input type="checkbox" name="chk1" id="chk4" value="ON" >-->
+        			</td>
+      			</tr>
+    	</table>
+     </td>
+  	</tr>
+  	<tr><td width="100%" height="58">
+      <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="black" width="100%" id="AutoNumber2" height="40">
+      				
+      				<tr>
+        			  <td width="20%" height="40">
+        				<p align="center"><font face="Zurich BT" size="4" color="#08176C">
+        				Import-Status:-</font>
+        			
+        				<select size="1" name="impstatus" id="impstatus">
+        					<option value="0">All</option>
+        					<option value="1">Yes</option>
+        					<option value="2">No</option>
+        				</select>
+        			</td>
+        			<td width="24%" height="40">
+        				<p align="left">
+        				<font face="Zurich BT" size="4" color="#08176C">Date:-</font>
+        			
+        			<%= date_select('range','start_date',:order => [:day, :month, :year]) %> 
+					</td>
+					<td width="13%" height="40"><%@t= DataImportStatus.find_by_sql("select count(distinct IMP_LocationID) as LOC_Count from data_import_statuses")%>
+          							<% for r in @t%>
+          							<% t=r.LOC_Count %>
+          							<%end %>
+                    <p align="center">
+          							<font face="Zurich BT" color="#08176C" size="4">
+          							<lable>No of Locations:-</lable> </td>
+                      <td width="23%" height="40">
+
+          							 <input type="text" value=<%= t%> disabled size="5"></font></td>
+          							<!--<td><font face="Zurich BT" color="#08176C" size="4">
+          							 <lable>Check All:-</lable>
+          							 </font>
+          							 <input type=checkbox deselected name="chk" id="chk" value="ON" onclick="show();"> 
+									 <input type=checkbox deselected name="chk0" id="chk0" value="ON"> 
+	
+	          							 </td>--></td></tr></table></td></tr>
+<tr><td width=100% height="1">
+<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="100%" id="AutoNumber5" height="29">
+    <tr>
+    <td width=100%> <p align=center>
+     <%= submit_to_remote 'Show','Show',:url => {:controller=>'datatransact',:action => 'showimpstatus' }%> 
+<%= submit_to_remote 'Import','Import',:url => {:controller=>'datatransact',:action => 'selectedimport' },:before=>'showrep();'%> 
+<input type="button" name="sub1" id="sub1" value="Check All"  disabled  style="float: center" onclick="<%=remote_function(
+											:url => {:controller => 'datatransact', :action => 'allimport'}
+								)-%>" />
+    <!--<input type="button" value="Import">-->
+    
+	</td>
+	</tr>
+    </table></td></tr>
+  	<tr>
+     <td width="100%" height="476" align=center>
+    		<table border="5" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor=#93b1c9 width="90%" id="AutoNumber3" height="400" align=center>
+				<tr> 
+				 <td width="100%" height="400" align=center>
+				 <br>
+    				<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="96%" id="AutoNumber3" height="70%" align=center>
+      					<tr>
+        					<td width="100%" height="350" align=center>
+       							<!-- <div align="center">
+          						 <center>-->
+          						 <div id="impstat" align=center ><%= render :partial => 'impstat'%></div>
+<!--          						  <div id="impcheck" style="visibility:hidden;align=center" > </div>-->
+
+        						<!-- -->
+         					</td>
+         					</tr>
+         				</table>
+        			</td>
+      			</tr>
+    		</table>
+      </td>
+  </tr>
+ </table>
+   <center>
+    <div id="aux_div" style="visibility:hidden; width:60%;
+  									border: 2px solid red;
+  									padding-bottom: 0px;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:28; padding-left:2px; padding-right:2px; padding-top:2px" >
+                                 <font size=4 color=#900000>
+
+                                    Please Wait Importing is in Progress.....<%= image_tag('spinner.gif') %>
+                                  
+                                    </font>			
+									
+                                     </div>
+
+	</center>
+    
+    </td>
+  </tr>
+
+  </table> 
+
+</form>
+</body>
+
+</html>

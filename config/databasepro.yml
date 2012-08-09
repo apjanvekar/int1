@@ -1,0 +1,10 @@
+
+production:
+  adapter: sqlserver
+  database: DQMS
+  host: 10.24.155.127
+  username: dqms
+  password: dqms#123
+  mode: ADO
+  provider: SQLOLEDB
+  port: 2353

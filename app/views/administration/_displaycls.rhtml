@@ -1,0 +1,264 @@
+
+
+<div class="fieldset2">
+<fieldset id="fs"  >
+      <legend>Clusters</legend>
+ 
+
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+
+    <tr>
+  
+      	<th width="20%">Cluster ID</th>
+      	<th width="25%">Cluster Name</th>
+		<th width="25%" height="22">Region Name </th>
+        <th width="20%">  </th>
+    </tr>
+
+         </table>
+
+<div class="contentBox">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if session[:cid]!=nil and session[:cname]!= nil and session[:rid]!= nil 
+#puts "In Main if"
+#@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where id='#{session[:cid]}' and CLST_ClusterName='#{session[:cname]}' and CLST_RegionID= '#{session[:rid]}'")
+@n= Cluster.find(:select=>"id,CLST_ClusterName, CLST_RegionID",:conditions =>["id=?,CLST_ClusterName=?,CLST_RegionID=?",'#{session[:cid]}','#{session[:cname]}','#{session[:rid]}'])
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%%"><%=item.id %>&nbsp;</td>
+        <td width="25%"><%= item.CLST_ClusterName%> &nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id}%>&nbsp;</td>
+
+ </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+ 
+ <% elsif session[:cid]!=nil and session[:cname]!=nil
+#puts "In 1 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where id='#{session[:cid]}' and CLST_ClusterName='#{session[:cname]}'")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id =' #{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%"><%= item.CLST_ClusterName%>&nbsp; </td>
+        <td width="25%"><%= @rname%>&nbsp; </td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id}%>&nbsp;</td>
+
+    </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+ 
+ <% elsif session[:cid]!=nil and session[:rid]!= nil 
+#puts "In 2 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where id='#{session[:cid]}' and CLST_RegionID= '#{session[:rid]}'")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%" align="center" height="20"><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp; </td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id}%>&nbsp;</td>
+
+ </tr>
+ <%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+ 
+<% elsif session[:cname]!= nil and session[:rid]!= nil 
+#puts "In 3 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where CLST_ClusterName='#{session[:cname]}' and CLST_RegionID=' #{session[:rid]}'")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id %>&nbsp;</td>
+        <td width="25%" align="center" height="20"><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp; </td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id }%>&nbsp;</td>
+
+   </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+ 
+ <% elsif session[:cid]!=nil 
+#puts "In 4 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where id='#{session[:cid]}'")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%= item.id%>&nbsp;</td>
+        <td width="25%"><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp;</td>
+        <td width="20%"><font face="Zurich BT"  size="2"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id}%>&nbsp;</td>
+
+  </tr>
+ <%end%>
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+<% elsif session[:cname]!= nil
+#puts "In 5 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where CLST_ClusterName='#{session[:cname]}' ")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%"><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id} %>&nbsp;</td>
+
+   </tr>
+ <%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+<% elsif session[:rid]!= nil 
+# puts "IN 6 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters where CLST_RegionID= '#{session[:rid]}'")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%"><font color=white size=2><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{ :action => 'editcluster', :id => item.id}%>&nbsp;</td>
+
+    </tr>
+ <%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+ <% elsif session[:msg]!= nil 
+# puts "IN 7 else if"
+@n= Cluster.find_by_sql("select id,CLST_ClusterName, CLST_RegionID from clusters")
+if @n!=[]
+for item in @n 
+@r= Region.find_by_sql("select REG_RegionName from regions where id = '#{item.CLST_RegionID}'")
+for i in @r
+@rname=i.REG_RegionName
+end
+%>
+    <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%"><%= item.CLST_ClusterName%>&nbsp;</td>
+        <td width="25%"><%= @rname%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecluster", :id => item.id },:confirm =>"If you delete this cluster related cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editcluster', :id => item.id}%>&nbsp;</td>
+    </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+ session[:msg]=nil%>
+ <%end%>
+ <% 
+ session[:rid]=nil
+ session[:cid]=nil
+ session[:cname]=nil
+  session[:msg]=nil%>
+</table></div>
+
+
+<br></fieldset>
+      </div>

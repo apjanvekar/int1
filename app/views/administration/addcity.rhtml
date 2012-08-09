@@ -1,0 +1,82 @@
+
+
+
+<form id="form123" name="form123" method="post" action="addcity123" align="center">
+
+
+      <div id="add" style="margin-top: 100px;">
+        <%= error_messages_for 'location' -%>
+<center>
+<div class="addheadera" align="center">Add City</div>
+</center>
+  
+    <div class="addcontent" align="center">
+        <table width="300" border="0" align="center" style="margin-bottom: 50px;">
+            <tr>
+                        
+                <td align="right">
+                    <label> City Name&nbsp;&nbsp;:</label>
+                </td>
+                            
+                <td align="left">
+                    <%= text_field 'location', 'cityname' %>&nbsp;</td>
+            </tr>
+             <tr style="height: 20px;"></tr>          
+            <tr>
+                <td align="right">
+                      <label>Zone&nbsp;&nbsp;:</label> 
+                </td>
+        
+                <td align="left">
+                       <% @zones=Zone.find(:all)%>
+                       <%= collection_select(:zone, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+                      {:prompt   => "Please Select"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                                                       :with => "'id='+value")}"}) %> &nbsp;</td>
+            </tr>
+         <tr style="height: 20px;"></tr>  
+            <tr>
+          
+                <td align="right">
+                        <label>Region&nbsp;&nbsp;:</label> 
+                </td>
+                
+                <td align="left">
+                   <div id="regions"  align="left">
+                           <% @regions=Region.find(:all)%>
+                           <%@regions=""%>
+                           <%= render :partial => 'regions', :object => @regions %>
+                   </div>
+                </td>
+            </tr>
+        <tr style="height: 20px;"></tr>  
+               
+            <tr>
+                <td align="right">
+                   <label>  Cluster &nbsp;&nbsp;:</label>
+                </td>
+            
+                <td align="left">
+                      <div id="clusters"  align="left">
+                        <% @clusters=Cluster.find(:all)%>
+                        <%@clusters=""%>
+                        <%= render :partial => 'clusters', :object => @clusters %>
+                      </div>
+                </td>
+            </tr>
+       
+       </table>
+ 
+
+
+
+
+ <p align="center">    
+    
+<%= submit_tag ' Add  ', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cityback" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+</p>
+</div>
+</div>
+</form>

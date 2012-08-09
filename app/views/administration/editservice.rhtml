@@ -1,0 +1,61 @@
+
+<script  language="JavaScript">
+function Validate()
+{
+	
+	
+	
+	var tohour=document.getElementById("services_SVC_ToHour");
+	var v_tohour =tohour.options[tohour.selectedIndex].value;
+	var fromhour=document.getElementById("services_SVC_FromHour");
+	var v_fromhour = fromhour.options[fromhour.selectedIndex].value;
+	
+	var tomin=document.getElementById("services_SVC_ToMinute");
+	var v_tomin =tomin.options[tomin.selectedIndex].value;
+	var fromin=document.getElementById("services_SVC_FromMinute");
+	var v_fromin = fromin.options[fromin.selectedIndex].value;
+	
+	if(v_fromhour > v_tohour)
+	
+	{
+	alert('Please Select To time greater than From time! ')
+	fromhour.focus();
+	return(false);
+	}
+
+
+   if(v_fromhour == v_tohour)
+	{
+	if(v_fromin >= v_tomin)	
+	{
+	alert('Please Select To time greater than From time! ')
+	fromhour.focus();
+	return(false);
+	}
+	
+	}
+	
+
+
+}
+	
+
+</script>
+
+
+
+
+<div id="edit">
+<center>
+<div class="editheadera" align="center">Edit Services</div></center>
+<div class="editcontent" align="center" style="width:700px; height:300px;">
+
+<% form_tag :action => 'updateservice', :id => @services do %>
+  <%= render :partial => 'formservice' %>
+ 
+</div>
+<center>
+<%= submit_tag ' Save ',:onclick =>"return Validate()", :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancelservice" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</center>
+</div>
+<% end %>

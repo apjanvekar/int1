@@ -1,0 +1,207 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+
+<!-- CODE FOR DISPLAYING PROGRESS BAR WHEN RECEIVE DATA BUTTON IS CLICKED -->
+<!-- CODE DONE BY SUREKHA ON 09-02-2009 -->
+
+<script  language="JavaScript">
+
+
+function show_progress()
+{
+	  var loc_ref=document.all("loc_id");
+      loc_count=loc_ref.options.length;
+	    if(loc_count<=0)
+		{
+			alert("Please add atleast one location for importing");	
+		}
+	    else
+		{
+	      	document.getElementById('aux_div').style.visibility = "visible";
+    	 	new Ajax.Request("<%= url_for :controller=> :datatransact,:action=>:import %>",{method:'post'});
+     	}
+
+
+}
+</script>
+
+<!-- END -->
+
+</head>
+
+<body>
+<!--<fieldset style="border:1px solid "#08176C"; width: 96%; height: 90; color:#990000; ; left:2%">-->
+
+    <% if session[:cid]!=nil%>
+    <fieldset style="border:1px solid #08176C; width: 96%; height: 150; color:#08176C;  left:2%">
+    <% @r= Location.find_by_sql("select id,LOC_BranchName from locations where LOC_ClusterID=#{session[:cid]} and LOC_IsActive=1")%>
+ <legend><font color="#08176C" face="Zurich BT" size="4">
+  					<strong style="font-weight: 400">Location
+  					</strong>
+  				</font>
+  	  </legend>
+  <table width=100% border="0" height="90">
+  		<tr>
+    		<td width="33%" height="20">
+            <p align="center"><font face="Zurich BT" color="#08176C" size="4">Available 
+            Locations</font></td>
+    		<td width="33%" height="20"></td>
+    		<td width="33%" height="20">
+            <p align="center"><font face="Zurich BT" color="#08176C" size="4"> Selected Locations</font></td>
+  		</tr>
+  		
+  		<tr>
+    		<td width="33%" height="50">
+    			<p align="right">
+ 				<select id="location_id" name= "location[id][]" multiple>
+								<% 	for c in @r %>
+								<font face="Zurich BT" size="2"> <option value="<%= c.id %>"><%= c.LOC_BranchName -%></option></font>
+								<% end %>	
+					</select>
+    <!--<select id="location_id" name="location[id]"  multiple>-->
+					&nbsp;<% session[:cid]=nil%>
+     			  </p></td>
+      
+	  
+ 	  		<td width="33%" height="50" >
+      				<table width="100%" >
+	 						
+	 						
+							<tr>
+								<td align="center" > 
+								<%= submit_to_remote 'Add','      ADD      ',:url => {:controller=>'datatransact',:action => 'new_locations' }%>
+								
+
+     							</td>
+     						</tr>
+     		       
+  							<!--Remove Button Code  -->
+     						
+     	 					<tr>
+    							<td  align="center">
+    								<%= submit_to_remote 'Remove','  REMOVE  ',:url => {:controller=>'datatransact',:action => 'remove_locations' }%>    							</td>
+    						</tr>
+							
+
+						</table>
+				</td>
+		
+				<td  width="33%" height="50">
+				<div id="imp_but">
+				<%= render :partial => 'buttons' %>
+				</div>
+
+  				
+				</td>	
+				
+	 	</tr>
+	 	
+ <tr>
+    <td  align="center" width="33%" height="20">&nbsp;</td>
+    <td  align="center" width="33%"  height="20">
+    <font size="4"><% submit_to_remote 'Send Data','RECEIVE DATA',:url => {:controller=>'datatransact',:action => 'import' }%>
+    <input type="button" onclick="show_progress();" value="RECEIVE DATA"></font></td>
+    <td align="center" width="33%"  height="20">&nbsp;</td></tr>
+
+</table>
+ 	
+
+<% session[:cid]=nil%>
+</fieldset>
+<%else %>
+    <fieldset style="border:1px solid #08176C; width: 96%; height: 150; color:#08176C;  left:2%">
+    <% @r= Location.find_by_sql("select id,LOC_BranchName from locations where LOC_IsActive=1")%>
+ <legend><font color="#08176C" face="Zurich BT" size="4">
+  					<strong style="font-weight: 400">Location
+  					</strong>
+  				</font>
+  	  </legend>
+  <table width=100% border="0" height="90">
+  		<tr>
+    		<td width="33%" height="20">
+            <p align="center"><font face="Zurich BT" color="#08176C" size="4"> Available Locations</font></td>
+    		<td width="33%" height="20"></td>
+    		<td width="33%" height="20">
+            <p align="center"><font face="Zurich BT" color="#08176C" size="4"> Selected Locations</font></td>
+  		</tr>
+  		
+  		<tr>
+    		<td width="33%" height="50">
+    			<p align="right">
+ 				<select id="location_id" name= "location[id][]" multiple>
+								<% 	for c in @r %>
+								<font face="Zurich BT" size="2"> <option value="<%= c.id %>"><%= c.LOC_BranchName -%></option></font>
+								<% end %>	
+					</select>
+    <!--<select id="location_id" name="location[id]"  multiple>-->
+					&nbsp;<% session[:cid]=nil%>
+     			  </p></td>
+      
+	  
+ 	  		<td width="33%" height="50" >
+      				<table width="100%" >
+	 						
+	 						
+							<tr>
+								<td align="center" > 
+								<%= submit_to_remote 'Add','      ADD      ',:url => {:controller=>'datatransact',:action => 'new_locations' }%>
+								
+
+     							</td>
+     						</tr>
+     		       
+  							<!--Remove Button Code  -->
+     						
+     	 					<tr>
+    							<td  align="center">
+    								<%= submit_to_remote 'Remove','  REMOVE  ',:url => {:controller=>'datatransact',:action => 'remove_locations' }%>    							</td>
+    						</tr>
+							
+
+						</table>
+				</td>
+		
+				<td  width="33%" height="50">
+				<div id="imp_but">
+				<%= render :partial => 'buttons' %>
+				</div>
+
+  				
+				</td>	
+				
+	 	</tr>
+	 	
+       <tr>
+    <td  align="center" width="33%" height="20">&nbsp;</td>
+    <td  align="center" width="33%"  height="20">
+    <font size="4">
+    <% submit_to_remote 'Send Data','RECEIVE DATA',:url => {:controller=>'datatransact',:action => 'import' }%>
+    <input type="button" onclick="show_progress();" value="RECEIVE DATA"></font></td>
+   <td align=center width=100% height=10%> </td></tr>
+                                     </table>
+ 	
+
+<% session[:cid]=nil%>
+</fieldset>
+<p align=center>
+<div id="aux_div" style="visibility:hidden; align:center; width:60%;
+  									border: 2px solid blue;
+  									padding-bottom: 0px;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:28; padding-left:2px; padding-right:2px; padding-top:2px" >
+                                 <font size=4 color=#014D7A>
+
+                                    Please Wait Importing is in Progress.....<%= image_tag('spinner.gif') %>
+                                    <br>
+                                  </font>			
+									
+                                     </div></p>
+<%end%><!-- -->
+</body>
+</html>

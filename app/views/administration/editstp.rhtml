@@ -1,0 +1,16 @@
+<div id="edit">
+<div id="li">
+<%= error_messages_for 'stp' %>
+</div>
+<center>
+<div class="editheadera" align="center">Edit STP Reason</div></center>
+<div class="editcontent" align="center">
+
+
+<% form_tag :action => 'updatestp', :id => @stp do %>
+  <%= render :partial => 'formstp' %>
+</br></br>
+ <%= submit_tag ' Save ', :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancelstp" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</div>
+</div>
+<% end %>

@@ -1,0 +1,250 @@
+<div class="fieldset2">
+   <fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Regions</strong></font></legend>
+</br></br>
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+<tr >
+  
+      	<th width="20%">RegionID</th>
+      	<th width="25%">Region Name</th>
+        <th width="25%">Zone</th>
+         <th width="20%" > </th>
+ </tr>
+ 
+  </table>
+
+<div class="contentBox">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+ <% if session[:rid]!=nil and session[:rname]!= nil and session[:zid]!= nil 
+#puts "In Main if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where REG_ZoneID= #{session[:zid]} and id =#{session[:rid]} and REG_RegionName='#{session[:rname]}'")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+
+for i in @r
+@me=i.ZONE_ZoneName
+end
+
+%>
+   <tr>
+    <td width="20%"><%=item.id%>&nbsp;</td>
+    <td width="25%"><%= item.REG_RegionName%> &nbsp;</td>
+    <td width="25%"><%= @me%>&nbsp;</td>
+ 	<td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editregion', :id => item.id }%>&nbsp;</td>
+
+ </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+  
+<% elsif session[:rid]!=nil and session[:rname]!= nil 
+#puts "In 1 Else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where  id =#{session[:rid]} and REG_RegionName='#{session[:rname]}'")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+        <td width="20%"><%=item.id%>&nbsp;</td>
+        <td width="25%"><%= item.REG_RegionName%>&nbsp; </td>
+        <td width="25%"><%= @me%>&nbsp;</td>
+  	    <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{ :action => 'editregion', :id => item.id} %>&nbsp;</td>
+    </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+ 
+ <% elsif session[:rid]!=nil and session[:zid]!= nil 
+#puts "In 2 else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where REG_ZoneID= #{session[:zid]} and id =#{session[:rid]} ")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+     <td width="20%"><%=item.id%>&nbsp;</td>
+      <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+      <td width="25%"><%= @me%>&nbsp;</td>
+  	  <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0), { :action => 'editregion', :id => item.id} %>&nbsp;</td>
+
+ </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+ 
+ <% elsif session[:rname]!= nil and session[:zid]!= nil 
+#puts "In 3 else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where REG_ZoneID= #{session[:zid]} and REG_RegionName='#{session[:rname]}'")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+      <td width="20%" ><%=item.id%>&nbsp;</td>
+      <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+      <td width="25%"><%= @me%>&nbsp;</td>
+ 	  <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editregion', :id => item.id}%>&nbsp;</td>
+   </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+ <% elsif session[:rid]!=nil 
+#puts "In 4 else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where id =#{session[:rid]} ")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+     <td width="20%"><%=item.id%>&nbsp;</td>
+      <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+      <td width="25%"><%= @me%>&nbsp;</td>
+ 	  <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editregion', :id => item.id}%>&nbsp;</td>
+     </tr>
+
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+<% elsif session[:rname]!= nil
+#puts "In 5 else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where REG_RegionName='#{session[:rname]}'")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+   <tr>
+     <td width="20%"><%=item.id%>&nbsp;</td>
+     <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+     <td width="25%"><%= @me%>&nbsp;</td>
+ 	 <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editregion', :id => item.id}%>&nbsp;</td>
+  </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+ <% elsif session[:zid]!= nil
+#puts "In 6 else if"
+@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions where REG_ZoneID=#{session[:zid]}")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+     <td width="20%"><%=item.id%>&nbsp;</td>
+     <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+     <td width="25%"><%= @me%>&nbsp;</td>
+ 	 <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editregion', :id => item.id}%>&nbsp;</td>
+    </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ session[:zid]=nil
+ session[:rname]=nil%>
+ <%end%>
+ 
+ <% if session[:msg]!=nil %>
+
+<%@n= Region.find_by_sql("select id,REG_RegionName,REG_ZoneID from regions")
+if @n!=[]
+for item in @n 
+@r= Zone.find_by_sql("select ZONE_ZoneName from zones where id = #{item.REG_ZoneID}")
+for i in @r
+@me=i.ZONE_ZoneName
+end
+%>
+     <tr>
+     <td width="20%"><%=item.id%>&nbsp;</td>
+       <td width="25%"><%= item.REG_RegionName%>&nbsp;</td>
+       <td width="25%"><%= @me%>&nbsp;</td>
+  	   <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteregion", :id => item.id },:confirm =>"If you delete this region related clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editregion', :id => item.id} %>&nbsp;</td>
+  	 </tr>
+ <%end%>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+  <% 
+ session[:rid]=nil
+ #session[:zid]=nil
+ session[:rname]=nil
+ session[:msg]=nil%>
+ <% end %>
+
+ 
+
+</table></div>
+
+</fieldset>
+    </div>
+     </div>
+</body>

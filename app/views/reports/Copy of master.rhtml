@@ -1,0 +1,172 @@
+<html>
+
+<head>
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+
+
+<style> 
+</style> 
+<script  language="JavaScript">
+function showrep()
+{
+	
+	
+    
+      document.getElementById('aux_div').style.visibility = "visible"
+
+    //new Ajax.Request("<%= url_for :controller=> :reports,:action=>:master_report %>",{method:'post'})
+ 
+	
+	
+}
+</script>
+
+</head>
+
+<body>
+
+			<%
+   			@zones  = Zone.find(:all)
+    		@regions = Region.find(:all)
+    		#@clusters= Cluster.find(:all)
+   			@locations=Location.find(:all)%>
+<br>
+		
+<table style="width: 100%; height: 400" align=center>
+	<form id="form1" name="form1" action="master_report" method="post" >
+	
+	<p align="center">
+
+
+</p>
+		
+	 <tr align=center>
+		<td align="center" width=80% align=center>	
+			<h2 align="center"> <u>Master Report</u></h2>
+	<font color="#901010" size= "4">
+			<% if session[:msg] %>
+<p align=center>
+	
+				<div id="msg" style="align:center;width:60%;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px;
+ 					 height:22; padding-left:7px; padding-right:7px; padding-top:7px"><%= session[:msg] %>
+ 					</div>
+				<%session[:msg]=nil%>
+			<% end %>
+			</font>
+			</p>
+ <fieldset id="fs">
+		<legend>
+			
+			<font color="#FFFFFF">
+			
+			<strong>Selection Criteria</strong></font>
+			
+		</legend>
+		
+	<table width=100% height="216" >
+		
+		<tr>
+			<td align="right" width=50% height=27>
+			<label >Select Start Date:-</label>
+			</td>
+			
+			<td align="left" width=50% height=27 >
+			
+				<%= date_select('range','start_date',:order => [:day, :month, :year]) %> 
+			
+			</td>
+		</tr>
+
+		<tr>
+			<td width=50% align=right height=35>
+				<label>Select End Date:-</label>
+			</td>
+			<td width=50% align=left height=35>
+			<%= date_select('range','end_date',:order => [:day, :month, :year])%> 
+			</td>
+		</tr>
+<!-- Goes Here-->
+		
+		<tr>
+		<td width=50% align=right height=29>
+		<label>Zone Name:-
+		</td>
+		<td width=50% align=left height=29>
+		<%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+                      {:prompt   => "ALL"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                                                       :with => "'id='+value")}"}) %> 
+         </td>
+         </tr>
+         
+		  <tr>
+		  <td width=50% align=right height=30>
+	      
+		  <label>Region Name:-</label>
+		  </td>
+		  <td width=50% align=left height=30>
+		  <% @regions=""%>
+		  <div id="regions" align=left> <%= render :partial => 'regions', :object => @regions %></div>
+		  </td>
+		  </tr>
+		  
+		  <tr>
+		  <td width=50% align=right height=30>
+		
+          <label>Cluster Name:-</label></font>
+          </td>
+
+		  <td width=50% align=left height=30>
+		  <%@clusters=""%>
+		  <div id="clusters" align="left" ><%= render :partial => 'clusters', :object => @clusters %></div>
+		  </td>
+		  </tr> 
+
+		  <tr>
+		  <td width=50% align=right height=34>
+		  
+		  <label>Location Name:-</label></font>
+		  </td>
+		  <td width=50% align=left height=34>
+		  <%@locations=""%>
+		  <div id="locations" align="left" ><%= render :partial => 'locations', :object => @locations %></div>
+		  </td>
+		  </tr>
+	</table>
+ </fieldset>
+ <br>
+
+<%= submit_to_remote 'GENERATE REPORT','Generate Report',:url => {:controller=>'reports',:action => "master_report" },:before=>'showrep();'%>
+<%= button_to_function 'Back' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>
+
+</td>
+</tr><tr><td align=center width=100% height=10%>
+<div id="aux_div" style="padding:2px; visibility:hidden; align:center; width:60%;
+  									border: 2px solid blue;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:39; ">
+                                   
+                                   
+                                   
+                                    Please Wait Report Generation is in Progress....</font>
+                                 
+                                     <%= image_tag("spinner.gif") %>
+                                     <br>
+                                      
+
+                                     </div>
+
+
+</td></tr>
+
+</table>
+</form>
+
+            
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+
+ 
+<div class="fieldset2" style="margin-top: 80px;">
+
+<fieldset id="fs" style="width: 920px; height: 300px;"  >
+<div class="titleheader" align="center" > List of Token Footers</div>
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="20%">ID</th>
+      	<th width="30%">Message </th>
+		<th width="25%">Created On </th>
+		<th width="25%">Updated On </th>
+          <!--<th id="tr4" height="21" width="100">&nbsp;</th>-->
+
+ </tr>
+    </table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+ <% @t = TokenBottomAd.find_by_sql("select * from token_bottom_ads" ) %>
+ <%if @t!=[]%> 
+<% @t.each do |c| %>
+  <tr>
+  
+	<td width="20%"><%= c.id%>&nbsp;</td>	
+	<td width="30%"><%= c.BOT_AdMessage %>&nbsp;</td>
+	<td width="25%"><%= c.created_at.strftime("%d/%m/%y")%>&nbsp;</td>
+	<td width="25%"><%= c.updated_at.strftime("%d/%m/%y") %>&nbsp;</td>
+</tr><% end %>	
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available.</font></td>
+        </tr>
+<% end %>
+</table>
+</div>
+<br/>
+</div>
+
+<!----------------------------------Admin----------------------------------------------------------->   
+ <%else%>
+
+<div class="fieldset2" style="margin-top: 80px;">
+<% if flash[:notice] -%>
+       <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+<%end%>
+
+<fieldset id="fs" style="width: 990px; height: 300px;"  >
+<div class="titleheader" align="center"> List of Token Footers</div>
+
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+      	<th width="20%">ID</th>
+      	<th width="20%">Message </th>
+		<th width="20%">Created On </th>
+		<th width="20%">Updated On </th>
+        <th width="20%">   </th>
+
+ </tr>
+    </table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+<% @t = TokenBottomAd.find_by_sql("select * from token_bottom_ads" ) %>
+<%if @t!=[]%> 
+<% @t.each do |c| %>
+  <tr>
+  
+	<td width="20%"><%= c.id%>&nbsp;</td>	
+	<td width="20%"><%= c.BOT_AdMessage %>&nbsp;</td>
+	<td width="20%"><%= c.created_at.strftime("%d/%m/%y")%>&nbsp;</td>
+	<td width="20%"><%= c.updated_at.strftime("%d/%m/%y") %>&nbsp;</td>
+	<td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'edit', :id => c.id },:title=>"Edit This item" %>&nbsp;</td>
+
+
+
+</tr><% end %>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available.</font></td>
+        </tr>
+<% end %>	
+</table></div>
+</div>
+</form>
+</div>
+</br></br>
+<center>
+<%= link_to 'Add New Message', :controller => 'token', :action => 'signup'%>
+</center>
+ <%end%>

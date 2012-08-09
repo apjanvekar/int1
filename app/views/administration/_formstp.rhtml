@@ -1,0 +1,35 @@
+
+
+<!--[form:user]-->
+<table width="600" border="0" align="center">
+    <tr>
+        <td align="right">
+                <label for="stpreason_STP_STPReason">Enter STP Reason&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left" >
+                <% @r=STPReason.find_by_sql("select id,STP_STPReason,STP_ServiceID from stp_reasons where id=#{params[:id]}")%>
+                <%for item in @r%>
+                <%session[:stid]=params[:id]%>
+                <input type=text id="stpreason_STP_STPReason" name="stpreason[STP_STPReason]" size="30" value="<%=item.STP_STPReason%>">
+        </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+                <label for="stpreason_STP_ServiceID">Enter ServiceType&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <% @w=Service.find_by_sql("select id,SVC_ServiceName,SVC_ServiceID from services  where SVC_ServiceID= '#{item.STP_ServiceID }'") %>
+                <select id="stpreason_STP_ServiceID" name= "stpreason[STP_ServiceID]">
+                <%for i in @w%>
+                <option value= "<%= i.SVC_ServiceID %>"><b><%= i.SVC_ServiceName -%></b></option>
+                <%end%>
+                <% @t=Service.find_by_sql("select id,SVC_ServiceName,SVC_ServiceID from services where SVC_ServiceID!= '#{item.STP_ServiceID }'") %>
+                <%for i in @t%>
+                <option value= "<%= i.SVC_ServiceID %>"><b><%= i.SVC_ServiceName -%></b></option></p>
+                <%end%>
+                </select>
+        </td>
+    </tr>
+</table>
+<%end%>

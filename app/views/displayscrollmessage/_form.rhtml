@@ -1,0 +1,16 @@
+
+<!--[form:user]-->
+<%@r=DisplayScrollMessage.find_by_sql("select SCRL_DisplayScrollMessage from display_scroll_messages where id='#{params[:id]}'" )%>
+<%for item in @r%>
+<table>
+    <tr>
+        <td align="right">
+                <label for="scrollmsg_SCRL_DisplayScrollMessage">Enter Message&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="display_scroll_messages_SCRL_DisplayScrollMessage" name="display_scroll_messages[SCRL_DisplayScrollMessage]" size="40" value="<%=item.SCRL_DisplayScrollMessage%>">
+        </td>
+        </tr>
+        </table>
+
+<% end %>

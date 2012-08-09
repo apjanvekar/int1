@@ -1,0 +1,241 @@
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>List Of Pause Reason</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+  
+      	<th width="50%">PauseReasonID</th>
+      	<th width="50%">PauseReason</th>
+        <!--<th id="tr4">&nbsp;</th>-->
+       
+</tr>
+</table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if (session[:pausename]!=nil and session[:pauseid]!=nil) %>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where id=#{session[:pauseid]} and PR_PauseReasonDesc='#{session[:pausename]}'") %>
+        <%if @t!=[]%>                               	
+            <% @t.each do |c| %> 
+
+
+    <tr>
+            <td width="50%"><%=c.id%>&nbsp;</td>
+            <td width="50%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+    </tr>
+
+ <% end %>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% elsif (session[:pauseid]!=nil)%>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where id=#{session[:pauseid]}") %>
+        <%if @t!=[]%>                                	
+            <% @t.each do |c| %> 
+
+    <tr>
+        <td width="50%"><%=c.id%>&nbsp;</td>
+        <td width="50%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+ </tr>
+ <%end%>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% elsif (session[:pausename]!=nil)%>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where PR_PauseReasonDesc='#{session[:pausename]}'") %>
+      <%if @t!=[]%>                                     	
+            <% @t.each do |c| %> 
+
+    <tr>
+            <td width="50%"><%=c.id%>&nbsp;</td>
+            <td width="50%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+ </tr>
+<%end%>
+
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+
+<% else %>
+
+ <% session[:pausename]=nil%>
+<% session[:pauseid]=nil%>
+ <% end%>
+ <% session[:pausename]=nil%>
+<% session[:pauseid]=nil%>
+
+<%if session[:msg]!=nil%>
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons ") %>
+        <%if @t!=[]%>                                    	
+            <% @t.each do |c| %> 
+
+    <tr>
+            <td width="50%"><%=c.id%>&nbsp;</td>
+            <td width="50%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+
+ </tr>
+<%end%>
+
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% session[:msg]=nil%>
+<%end%>
+
+<  </div>          
+ </table>
+ 
+</fieldset>
+
+</div>
+ 
+<!----------------------------------Admin----------------------------------------------------------->   
+ <%else%>
+ <div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>List Of Pause Reason</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+      	<th width="40%" >PauseReasonID</th>
+      	<th width="40%">PauseReason</th>
+        <th width="20%" > </th>
+</table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if (session[:pausename]!=nil and session[:pauseid]!=nil) %>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where id=#{session[:pauseid]} and PR_PauseReasonDesc='#{session[:pausename]}'") %>
+           <%if @t!=[]%>                           	
+            <% @t.each do |c| %> 
+
+
+    <tr>
+            <td width="40%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+            <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletepause", :id => c.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editpause', :id => c.id} %>&nbsp;</td>
+
+ </tr>
+
+ <% end %>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% elsif (session[:pauseid]!=nil)%>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where id=#{session[:pauseid]}") %>
+        <%if @t!=[]%>                                  	
+            <% @t.each do |c| %> 
+
+    <tr>
+            <td width="40%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+ 	          <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletepause", :id => c.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editpause', :id => c.id} %>&nbsp;</td>
+
+ </tr>
+ <%end%>
+
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% elsif (session[:pausename]!=nil)%>
+
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons where PR_PauseReasonDesc='#{session[:pausename]}'") %>
+       <%if @t!=[]%>                                   	
+            <% @t.each do |c| %> 
+
+    <tr>
+            <td width="40%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+ 	          <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletepause", :id => c.id },:confirm =>"Are you sure want to delete this item?"  %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editpause', :id => c.id}%>&nbsp;</td>
+
+ </tr>
+<%end%>
+
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% else %>
+
+ <% session[:pausename]=nil%>
+<% session[:pauseid]=nil%>
+ <% end%>
+ <% session[:pausename]=nil%>
+<% session[:pauseid]=nil%>
+
+<%if session[:msg]!=nil%>
+<% @t=PauseReason.find_by_sql("select id, PR_PauseReasonDesc from pause_reasons ") %>
+        <%if @t!=[]%>                                	
+            <% @t.each do |c| %> 
+
+    <tr>
+            <td width="40%" ><%=c.id%>&nbsp;</td>
+            <td width="40%" ><%= c.PR_PauseReasonDesc %>&nbsp;</td>
+            <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletepause", :id => c.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editpause', :id => c.id} %>&nbsp;</td>
+
+ </tr>
+<%end%>
+
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+<% session[:msg]=nil%>
+<%end%>
+
+</div>          
+ </table>
+ <br>
+</fieldset>
+
+</div>
+<%end%><!---If Ends-->
+</div>
+
+</div>
+     </div>

@@ -1,0 +1,558 @@
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+       <div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>STP Reasons</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="20%">ID</th>
+      	<th width="40%">Reasons</th>
+		<th width="40%">Service</th>
+        <!--<th id="tr4" width="51">&nbsp;</th>-->
+
+       </tr>
+      </table>
+
+<div class="contentBox">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+
+<% if (session[:stpname]!=nil and session[:stpid]!=nil and  session[:stpser]!=nil)%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_StpReason='#{session[:stpname]}' and STP_ServiceID='#{session[:stpser]}'") %>
+ <%if @t!=[]%>                              	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+            <td width="20%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+            <td width="40%"><%=  @r.SVC_ServiceName%>&nbsp;</td>
+
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr>
+ <%end %>
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% elsif session[:stpname]!=nil and session[:stpid]!=nil  %>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_StpReason='#{session[:stpname]}'")%>
+   <%if @t!=[]%>                           	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+            <td width="20%"><%=c.id%>&nbsp;</td>
+            <td width="40%"><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+            <td width="40%"><%= @r.SVC_ServiceName %>&nbsp;</td>
+
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr>
+ 
+ <%end %>  
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+<% elsif (session[:stpname]!=nil and  session[:stpser]!=nil )%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_StpReason='#{session[:stpname]}' and STP_ServiceID='#{session[:stpser]}'") %>
+     <%if @t!=[]%>                 	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+ <td width="20%"><%=c.id %>&nbsp;</td>
+ <td width="40%"><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+ <td width="40%"><%= @r.SVC_ServiceName%>&nbsp;</td>
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+
+ </tr>
+ <%end %>
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+  
+<% elsif ( session[:stpid]!=nil and  session[:stpser]!=nil  ) %>
+
+
+
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_ServiceID='#{session[:stpser]}'") %>
+    <%if @t!=[]%>                               	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+ <td width="20%"><%=c.id%>&nbsp;</td>
+ <td width="40%"><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+ <td width="40%"><%= @r.SVC_ServiceName%>&nbsp;</td>
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?" ,:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+
+ </tr>
+ <%end %> 
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+   
+ <% elsif session[:stpid]!=nil  %>
+
+
+
+<% @t=STPReason.find_by_sql("select id,STP_STPReason,STP_ServiceID from stp_reasons where id='#{session[:stpid]}'") %>
+      <%if @t!=[]%>                                   	
+            <% @t.each do |c| %> 
+     
+  
+   
+            <tr>
+ <td width="20%"><%=c.id%>&nbsp;</td>
+ <td width="40%" ><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+ <td width="40%"><%= @r.SVC_ServiceName %>&nbsp;</td>
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr>
+ <%end %> 
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% elsif session[:stpname]!=nil  %>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_STPReason='#{session[:stpname]}'") %>
+        <%if @t!=[]%>                               	
+            <% @t.each do |c| %>
+                   <tr>
+ <td width="20%"><%= c.id%>&nbsp;</td>
+ <td width="40%" ><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+ <td width="40%" ><%= @r.SVC_ServiceName%>&nbsp;</td>
+  	<!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr>
+ <%end %>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+ 
+  <% elsif session[:stpser]!=nil  %>
+  
+
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_ServiceID='#{session[:stpser]}'") %>
+  
+   <%if @t!=[]%>   
+   
+                       <%puts "else"%> 
+                       <%puts session[:stpser]%>              	
+            <% @t.each do |c| %>
+                   <tr>
+ <td width="20%"><%=c.id%>&nbsp;</td>
+ <td width="40%" ><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+
+ <td width="40%" ><%= @r.SVC_ServiceName%>&nbsp;</td>
+  <!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?" ,:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr><%end %> 
+
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+
+
+
+ <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% end%>
+ <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+
+
+<%if session[:msg]!=nil%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons ") %>
+         <%if @t!=[]%>                                 	
+            <% @t.each do |c| %> 
+
+       <tr>
+ <td width="20%" ><%=c.id%>&nbsp;</td>
+ <td width="40%" ><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+
+<td width="40%"><%= @r.SVC_ServiceName%>&nbsp;</td>
+
+  <!--<td id="table1" nowrap align="center" width="51"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?",:title =>"Delete This item"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id},:title=>"Edit This Item" %></td>-->
+
+ </tr><%end %>  
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+<% session[:msg]=nil%>
+
+<%end %> </div>          
+ </table>
+ 
+</fieldset>
+
+</div>
+
+
+<!----------------------------------Admin----------------------------------------------------------->   
+
+
+ <%else%>
+ <div class="fieldset2">
+   <fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>STP Reasons</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="15%">ID</th>
+      	<th width="35%">Reasons</th>
+		<th width="35%">Service</th>
+        <th width="15%"> </th>
+
+ </tr>
+
+</table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+
+<% if (session[:stpname]!=nil and session[:stpid]!=nil and  session[:stpser]!=nil)%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_StpReason='#{session[:stpname]}' and STP_ServiceID='#{session[:stpser]}'") %>
+          <%if @t!=[]%>                      	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+        <td width="15%"><%=c.id%>&nbsp;</td>
+        <td width="35%"><%= c.STP_STPReason %>&nbsp;</td>
+        <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+        <td width="35%" ><%= @r.SVC_ServiceName %>&nbsp;</td>
+
+  	<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %>
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% elsif session[:stpname]!=nil and session[:stpid]!=nil  %>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_StpReason='#{session[:stpname]}'")%>
+                            	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+ <td width="15%" ><%=c.id%>&nbsp;</td>
+ <td width="35%" ><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+ <td width="35%" ><%= @r.SVC_ServiceName  %>&nbsp;</td>
+
+  	<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %> 
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+<% elsif (session[:stpname]!=nil and  session[:stpser]!=nil )%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_StpReason='#{session[:stpname]}' and STP_ServiceID='#{session[:stpser]}'") %>
+             <%if @t!=[]%>         	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+ <td width="35%"><%=c.id %>&nbsp;</td>
+ <td width="15%"><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+ <td width="35%"><%= @r.SVC_ServiceName  %>&nbsp;</td>
+<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+
+ </tr><%end %>
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+  
+<% elsif ( session[:stpid]!=nil and  session[:stpser]!=nil  ) %>
+
+
+
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where id=#{session[:stpid]} and STP_ServiceID='#{session[:stpser]}'") %>
+                   <%if @t!=[]%>             	
+            <% @t.each do |c| %> 
+            
+
+
+
+ <tr>
+ <td width="15%"><%=c.id%>&nbsp;</td>
+ <td width="35%"><%= c.STP_STPReason %>&nbsp;</td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+ <td width="35%"><%= @r.SVC_ServiceName  %>&nbsp;</td>
+  	<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+
+ </tr><%end %> 
+ 
+  
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+   
+ <% elsif session[:stpid]!=nil  %>
+
+
+
+<% @t=STPReason.find_by_sql("select id,STP_STPReason,STP_ServiceID from stp_reasons where id='#{session[:stpid]}'") %>
+          <%if @t!=[]%>                                 	
+            <% @t.each do |c| %> 
+     
+  
+   
+   <tr>
+            <td width="15%"><%=c.id%>&nbsp;</td>
+            <td width="35%"><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+            <td width="35%"><%= @r.SVC_ServiceName  %>&nbsp;</td>
+            <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %> 
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% elsif session[:stpname]!=nil  %>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_STPReason='#{session[:stpname]}'") %>
+         <%if @t!=[]%>                                   	
+            <% @t.each do |c| %>
+    <tr>
+            <td width="15%"><%= c.id%>&nbsp;</td>
+            <td width="35%"><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+            <td width="35%"><%= @r.SVC_ServiceName  %>&nbsp;</td>
+  	         <td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %>
+ 
+  <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+ 
+  <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+ 
+  <% elsif session[:stpser]!=nil  %>
+  
+
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons where STP_ServiceID='#{session[:stpser]}'") %>
+        <%if @t!=[]%>   
+                       <%puts "else"%> 
+                       <%puts session[:stpser]%>              	
+            <% @t.each do |c| %>
+                   <tr>
+ <td width="15%" ><%=c.id%>&nbsp;</td>
+ <td width="35%"><%= c.STP_STPReason %>&nbsp;</td>
+  <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+
+ <td width="35%"><%= @r.SVC_ServiceName  %>&nbsp;</td>
+  	<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id} %>&nbsp;</td>
+
+ </tr><%end %> 
+
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+
+
+ <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+ <% end%>
+ <% session[:stpname]=nil%>
+<% session[:stpid]=nil%>
+<% session[:stpser]=nil%>
+
+
+
+<%if session[:msg]!=nil%>
+
+<% @t=STPReason.find_by_sql("select id, STP_STPReason,STP_ServiceID from stp_reasons ") %>
+          <%if @t!=[]%>                                 	
+            <% @t.each do |c| %> 
+
+       <tr>
+ <td width="15%" ><%=c.id%>&nbsp;</td>
+ <td width="35%" align="center" height="19" ><%= c.STP_STPReason %></td>
+ <% @r=Service.find(:first,:select=>"SVC_ServiceName",:conditions=>["SVC_ServiceID=?",c.STP_ServiceID])%>
+
+<td width="35%"><%= @r.SVC_ServiceName %>&nbsp;</td>
+
+  	<td width="15%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletestp", :id =>c.id },:confirm =>"Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editstp', :id => c.id}%>&nbsp;</td>
+
+ </tr><%end %>  
+ 
+ <%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+
+ 
+<% session[:msg]=nil%>
+
+<%end %> </div>          
+ </table>
+</fieldset>
+
+</div>
+
+
+
+
+<%end%><!---If Ends-->
+
+</div>
+
+</div>
+     </div>

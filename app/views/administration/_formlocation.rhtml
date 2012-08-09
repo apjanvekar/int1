@@ -1,0 +1,127 @@
+
+<% @r= Location.find_by_sql("SELECT    LOC_SoleID , LOC_BranchName, LOC_ClusterID , LOC_GroupID , LOC_NoOfEmployees , LOC_DQM_IPAddress , LOC_IsActive , LOC_DQMVendorID FROM         locations where id ='#{session[:lid]}'")%>
+<% for item in @r%>
+<table width="750" align="center" border="0">
+        <tr>
+            <td align="right">
+                 <label for="location_LOC_SoleID">Branch SolID&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                <input type=text id="location_LOC_SoleID" name="location[LOC_SoleID]" size="16" value="<%=item.LOC_SoleID%>">
+            </td>
+            <td align="right">
+                <label for="group_GRP_GroupName">Group Name&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                <select id="location_LOC_GroupID" name= "location[LOC_GroupID]" >
+                         <option value="">Please select</option>
+                         <% @w= Group.find_by_sql("select id,GRP_GroupName from groups where id=#{item.LOC_GroupID}")%>
+                         <%for i in @w%><option value= "<%= i.id %>"><%= i.GRP_GroupName -%></option>
+                         <%end%>
+                         <% @t= Group.find_by_sql("select id,GRP_GroupName from groups where id!= #{item.LOC_GroupID}")%>
+                         <%for i in @t%>
+                               <option value= "<%= i.id %>"><%= i.GRP_GroupName -%></option>
+                         <%end%>
+                </select>
+           </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+            <label for="location_LOC_BranchName">Branch Name&nbsp;&nbsp;:</label>
+        </td>
+    
+        <td align="left">
+            <input type=text id="location_LOC_BranchName" name="location[LOC_BranchName]" size="16" value="<%=item.LOC_BranchName%>">
+        </td>
+        <td align="right">
+                <label for="location_LOC_NoOfEmployees">No of Employee&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="location_LOC_NoOfEmployees" name="location[LOC_NoOfEmployees]" size="6" maxlength="6" value="<%=item.LOC_NoOfEmployees%>"><br/>
+        </td>
+    </tr>
+     <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+            <label >Zone Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+	
+	           <% @zones= Zone.find(:all)%>
+                    <%= collection_select(nil, :zone_id,  @zones,  :id, :ZONE_ZoneName,
+                      {:prompt   => "Select a Zone"},
+                      {:onchange => "#{remote_function(:url  => {:action => "update_regions"},
+                                                       :with => "'id='+value")}"}) %> &nbsp;
+        </td>
+        <td align="right">
+                <label for="location_LOC_DQM_IPAddress">DQM IP Address&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type=text id="location_LOC_DQM_IPAddress" name="location[LOC_DQM_IPAddress]" size="15" maxlength="15" value="<%=item.LOC_DQM_IPAddress%>"><br/>
+        </td>
+    </tr>
+     <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+                <label >Region Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <% @regions=Region.find(:all)%> 
+                <div id="regions"><%= render :partial => 'regions', :object => @regions %></div>
+        </td>
+        <td align="right">
+                <label for="dqmvendor_VND_VendorName">DQM Vendor Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <select id="location_LOC_DQMVendorID" name= "location[LOC_DQMVendorID]">
+                <% @w= Dqmvendor.find_by_sql("select id,VND_VendorName from dqmvendors where id=#{item.LOC_DQMVendorID}")%>
+                <%for i in @w%>
+                <option value= "<%= i.id %>"><b><%= i.VND_VendorName -%></option>
+                <%end%>
+                <% @t= Dqmvendor.find_by_sql("select id,VND_VendorName from dqmvendors where id!=#{item.LOC_DQMVendorID}")%>
+                <%for i in @t%>
+                <option value= "<%= i.id %>"><%= i.VND_VendorName -%></option>
+                <%end%>
+                </select>
+        </td>
+    </tr>
+     <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+                <label for="cluster_CLST_ClusterName">Cluster Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+            <% @t= Location.find_by_sql("select LOC_ClusterID from locations where id =#{session[:lid]}")%>
+            <% for l in @t%>
+                  <% csid=l.LOC_ClusterID%>
+            <% end %>
+            <% @clusters=Cluster.find_by_sql("select id,CLST_ClusterName from clusters where id=#{csid}")%>
+            <% for e in @clusters%>
+            <% end%>
+            <% session[:edit]="true"%>
+            <div id="clusters" ><%= render :partial => 'clusters', :object => @clusters %></div>
+        </td>
+        <td align="right">
+                <label for="location_LOC_IsActivee">Active&nbsp;&nbsp;:</label>
+        </td>
+         <td align="left">
+             <%if item.LOC_IsActive=='1' %>
+                 <input type="checkbox" id="location_LOC_IsActive" name="location[LOC_IsActive]" value="1" checked="checked" onclick="<%=remote_function(:url => {:controller => 'administration', :action => 'change'})-%>"/>
+             <% else %>
+                <input type="checkbox" id="location_LOC_IsActive" name="location[LOC_IsActive]" value="0" unchecked onclick="<%=remote_function(:url => {:controller => 'administration', :action => 'change'})-%>"/>
+         </td>
+         <%end%>
+      </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">City&nbsp;&nbsp;:</td>
+            <td align="left">
+                 <div id="cities"  align="left">
+                 <% @cities=City.find(:all)%>
+                            <%@cities=""%>
+                            <%= render :partial => 'cities', :object => @cities %>
+                 </div>
+            </td>
+        </tr>
+</table><%end%>

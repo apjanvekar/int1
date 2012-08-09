@@ -1,0 +1,103 @@
+
+
+<!-----------------------------Operator------------------------------------>
+<%@user_role=User.find(:first,:select =>"USR_Role",:conditions =>["login=?","#{@session['login']}"])
+if @user_role.USR_Role=='cmt_BranchOperator'%>
+
+<div class="fieldset2" style="margin-top: 80px;">
+
+<fieldset id="fs" style="width: 990px; height: 300px;"  >
+<div class="titleheader" align="center" > List of Customer Types</div>
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="20%"> ID</th>
+      	<th width="30%">Customer Type</th>
+		<th width="20%">Priority</th>
+		<th width="30%">Threshold Time</th>
+		<!--<th id="tr4" width="200" height="27" > &nbsp;</th>-->
+
+ </tr>
+    </table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+<% @t = Thresholdtime.find_by_sql("select * from thresholdtimes" ) %>
+<%if @t!=[]%> 
+<% @t.each do |c| %>
+  <tr>
+  	<td width="20%"><%=c.id %>&nbsp;</td>
+	<td width="30%"><%= c.ctypedesc %>&nbsp;</td>
+	<td width="20%"><%= c.priority %>&nbsp;</td>
+	<td width="30%"><%= c.thresholdtime.	strftime("%H:%M:%S") %>&nbsp;</td>
+   	<!--<td id="table1"   align="center" width="200"><%= link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%= link_to image_tag("pen.jpg", :border=>0), :controller=>'administration', :action => 'edit1', :id => c.id %></td>-->
+    
+   
+
+</tr><% end %>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available.</font></td>
+        </tr>
+<% end %>		
+</table></div>
+<br/>
+</div>
+<!----------------------------------Admin----------------------------------------------------------->   
+ <%else%>
+ <div class="fieldset2" style="margin-top: 80px;">
+<% if flash[:notice] -%>
+       <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+<%end%>
+
+<fieldset id="fs" style="width: 990px; height: 300px;"  >
+<div class="titleheader" align="center" > List of Customer Types</div>
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+  
+      	<th width="15%"> ID</th>
+      	<th width="25%">Customer Type</th>
+		<th width="10%">Priority</th>
+		<th width="25%">Threshold Time</th>
+		<th width="15%"></th>
+
+ </tr>
+    </table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+ <% @t = Thresholdtime.find_by_sql("select * from thresholdtimes" ) %>
+ <%if @t!=[]%> 
+<% @t.each do |c| %>
+  <tr>
+  	<td width="15%"><%=c.id %>&nbsp;</td>
+    <td width="25%"><%= c.ctypedesc %>&nbsp;</td>
+	<td width="10%"><%= c.priority %>&nbsp;</td>
+    <td width="25%"><%= c.thresholdtime.	strftime("%H:%M:%S") %>&nbsp;</td>
+   	<td width="15%"><%= link_to image_tag("dot.jpg", :border=>0),{ :action => "delete", :id => c.id },:confirm =>"Are you sure want to delete this item?",:title=>"Delete This Item" %><%= link_to image_tag("pen.jpg", :border=>0), :controller=>'administration', :action => 'edit1', :id => c.id %>&nbsp;</td>
+    
+   
+
+</tr><% end %>	
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available.</font></td>
+        </tr>
+<% end %>	
+</table> &nbsp;</div>
+</div>
+</form>
+</div>
+</br>
+<center>
+<%= link_to 'Add New Customer Type', :controller=>'administration', :action => 'new' %>
+</center>
+
+<%end%>

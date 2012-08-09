@@ -1,0 +1,1054 @@
+
+
+<div class="fieldset2" style="width: 940; height: 59">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>Services</strong></font></legend>
+     <div id="main" style="width: 930; height: 54">
+                    <table border="solid 2px" bordercolor="Maroon" id="tableheader" height="1">
+                    <tr>
+      	                       <th width="57" height="1">ID</th>
+      	                       <th width="72" height="1" >Name</th>
+		                       <th width="77" height="1">Group</th>
+		                       <th width="75" height="1">Priority </th>
+		                       <th width="83" height="1">Acronym</th>
+                               <th width="77" height="1"> Service<p>Type</th>
+							   <th width="97" height="1">Threshold<p>Time</th>
+		                       <th width="73" height="1">Active</th>
+		                       <th width="79" height="1">FromTime </th>
+		                       <th width="79" height="1">ToTime  </th>
+                               <th width="79" height="1"> </th>
+                   </tr>
+                   </table>
+                   <div class="contentBox" style="position:absolute;">
+                               <table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+                                             <% if session[:sid]!=nil and session[:gid]!=nil  and session[:isa]!=nil %>
+                                             <% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+                                                    SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+                                                    WHERE SVC_ServiceTypeID='#{session[:sid]}' and SVC_GroupID='#{session[:gid]}'
+                                                    and SVC_IsActive='#{session[:isa]}'")%>
+                                                    <% if @t!=[]%>
+                                                    <% for item in @t%>
+                                                    <tr>
+                                                        <td width="57" > <%=item.id%>&nbsp;</td>
+                                                        <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+                                                                         <% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+                                                                         <% for i in @r %>
+                                                                         <% @g= i.GRP_GroupName %>
+                                                                         <% end %>
+                                                       <td width="77"> <%=@g%> &nbsp;</td>
+                                                       <td width="75"> <%=item.SVC_Priority%>&nbsp;</td>
+                                                       <td width="83">  <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                                                                        <% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+                                                                        <% for i in @r %>
+                                                                        <% @c= i.STYP_ServiceTypeName %>
+                                                                        <% end %>
+                                                       <td width="77"> <%=@c%>&nbsp;</td>
+                                                                       <%@u=item.SVC_ThresholdTimeMins%>
+                                                                       <%@uv=@u.to_s[11,9]%>
+                                                       <td width="97" > <%= @uv  %>&nbsp;</td>
+                                                                       <% if item.SVC_IsActive=="0" %>
+                                                                             <%@k="In-Active"%>
+                                                                       <%else%>
+                                                                              <%@k="Active"%>
+                                                                        <%end%>
+                                                      <td width="73" > <%=@k%>&nbsp;</td>
+                                                      <td width="79" > <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                                                      <td  width="79" > <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                                                      <td width="79" ><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+                                                  </tr>
+                                                   <%end%>
+                                                   <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+
+      %>
+
+<% elsif  session[:sid]!=nil and  session[:gid]!=nil%>
+
+
+<% @t= Service.find_by_sql("select id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where SVC_ServiceTypeID='#{session[:sid]}' and SVC_GroupID='#{session[:gid]}' ")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57"> <%=item.id%>&nbsp;</td>
+                <td width="72" >  <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%=@g%>&nbsp;</td>
+                <td width="75" > <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83" > <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77" > <%= @c %>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+    
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+                <td width="73" > <%=@k%>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"> <%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+	
+
+        </tr><%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+      
+%>
+
+<%end%>
+                                                   <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:acro]=nil
+
+      
+%>
+<% elsif  session[:sid]!=nil and  session[:isa]!=nil%>
+
+
+<% @t= Service.find_by_sql("select id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where SVC_ServiceTypeID='#{session[:sid]}' and SVC_IsActive='#{session[:isa]}' ")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57" > <%=item.id%>&nbsp;</td>
+                <td width="72" >  <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77" > <%=@g%>&nbsp;</td>
+                <td width="75"> <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83" > <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%= @c %>&nbsp;</td>
+  <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+                <td width="97" > <%= @uv  %>&nbsp;</td>
+                <td width="73" > <%=@k%>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+</tr><%end%>
+                                           <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:acro]=nil
+
+%>
+<% elsif  session[:acro]!=nil %>
+
+
+<% @t= Service.find_by_sql("select id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where SVC_ServiceAcronym='#{session[:acro]}' ")%>
+<% if @t!=[]%>
+
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57"> <%=item.id%>&nbsp;</td>
+                <td width="72">  <%=item.SVC_ServiceName %> &nbsp;</td>
+                <td width="77" > <%=@g%>&nbsp;</td>
+                <td width="75" > <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77" > <%= @c %> &nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+    
+         
+         
+                <td width="97">  <%= @uv%>&nbsp;</td>
+                <td width="73"> <%=@k%> &nbsp;</td>
+                <td width="79">  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %> &nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %> &nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+</tr>
+ <%session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:msg]=nil
+       session[:acro]=nil
+       %>
+<%end%>
+
+                                               <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+
+<% elsif  session[:sid]!=nil %>
+
+
+<% @t= Service.find_by_sql("select id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where SVC_ServiceTypeID='#{session[:sid]}' ")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57" > <%= item.id%>&nbsp;</td>
+                <td width="72">  <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"><%=@g%>&nbsp;</td>
+                <td width="75"> <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%= @c %>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+    
+         
+         
+                <td width="97" > <%= @uv %>&nbsp;</td>
+                <td width="73" ><%=@k%>&nbsp;</td>
+                <td width="79" > <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79"> <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79" ><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%> <%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+</tr>
+ <%session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:msg]=nil
+        session[:acro]=nil
+%>
+<%end%>
+                                                 <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:msg]=nil
+        session[:acro]=nil
+
+     
+%>
+<% elsif (session[:servicesid]!=nil) and (session[:bname]!=nil)  and (session[:acro]!=nil) %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+WHERE id='#{session[:servicesid]}' and SVC_ServiceName='#{session[:bname]}'
+ and SVC_ServiceAcronym='#{session[:acro]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+        <tr>
+                <td width="57"> <%= item.id %>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+ <% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+
+                <td width="77"> <%=@g%>&nbsp;</td>
+                <td width="75"> <%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+    
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+ <% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+                <td width="73"> <%=@k%>&nbsp;</td>
+                <td width="79">  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+ 	
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %> <%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+ 
+        </tr><%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+
+ <%end%>
+
+                                                 <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+ 
+<% elsif (session[:servicesid]!=nil) and  (session[:bname]!=nil) %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where id='#{session[:servicesid]}' and SVC_ServiceName='#{session[:bname]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+        <tr>
+                <td width="57" > <%=item.id %>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+ 
+ <% @e= Group.find_by_sql(" select GRP_GroupName from groups where id='#{item.SVC_GroupID}'")%>
+ <% for i in @e%>
+                <td width="77" > <%= i.GRP_GroupName%>&nbsp;</td>
+ <%end%>
+ 
+                <td width="75" > <%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83" > <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+ <% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+   
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+                <td width="73"> <%= @k %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %> <%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+ </tr><%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+                                                 
+ <%end%>
+                                              <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+
+<% elsif (session[:servicesid]!=nil) and (session[:gid]!=nil) %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour ,SVC_ToMinute FROM services
+WHERE id='#{session[:servicesid]}' and SVC_GroupID='#{session[:gid]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id=' #{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+        <tr>
+                <td width="57" >  <%=item.id%>&nbsp;</td>
+                <td width="72" >  <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77" >  <%= @g%>&nbsp;</td>
+                <td width="75" >  <%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83" >  <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77" >  <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+                <td width="73"> <%=@k%>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+	
+
+        </tr><%end%>
+                                                 <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+
+<% elsif (session[:gid]!=nil) and  (session[:bname]!=nil) %>
+
+<% @t=Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where  SVC_ServiceName='#{session[:bname]}' and SVC_GroupID='#{session[:gid]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id=' #{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+        <tr>
+                <td width="57" > <%=item.id %>&nbsp;</td>
+                <td width="72" > <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77" > <%= @g%>&nbsp;</td>
+                <td width="75" > <%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+    
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+ <% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+                <td width="73"><%=@k%>&nbsp;</td>
+                <td width="79">  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79" ><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;&nbsp;&nbsp; </td>
+	
+
+        </tr><%end%> 
+                                                         <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+     %>
+ 
+   <% elsif (session[:gid]!=nil) and  (session[:isa]!=nil) %>
+
+<% @t=Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where  SVC_IsActive='#{session[:isa]}' and SVC_GroupID='#{session[:gid]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id=' #{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+        <tr>
+                <td width="57" > <%= item.id %>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%= @g%>&nbsp;</td>
+                <td width="75" ><%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83" > <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+                <td width="97" >  <%= @uv  %>&nbsp;</td>
+ <% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+                <td width="73"> <%=@k%>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%> <%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+	
+
+ </tr><%end%>
+                                                  <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+ 
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+     %>
+ 
+  
+ 
+<% elsif session[:bname]!=nil %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,
+SVC_ServiceTypeID,SVC_ServiceAcronym, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+where SVC_ServiceName='#{session[:bname]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+ 
+    <tr>
+            <td width="57"> <%=item.id%>&nbsp;</td>
+            <td width="72" >  <%= item.SVC_ServiceName %>&nbsp;</td>
+ <% @r=Group.find_by_sql("select GRP_GroupName from groups where id = '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %><% end %>
+            <td width="77" > <%= @g %>&nbsp;</td> 
+            <td width="75"> <%= item.SVC_Priority %>&nbsp;</td>
+            <td width="83" ><%= item.SVC_ServiceAcronym %>&nbsp;</td>
+ <% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+            <td width="77" > <%= @c%>&nbsp;</td> <% end %>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+            <td width="97" >  <%= @uv  %>&nbsp;</td>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+            <td width="73"> <%= @k %>&nbsp;</td>
+            <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+            <td width="79" > <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+            <td width="79" ><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+ </tr><%end%> 
+
+                                                  <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      %>
+ 
+     
+ <% elsif session[:gid]!=nil %>
+ 
+
+<% @t= Service.find_by_sql("select id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive , SVC_FromHour, SVC_FromMinute, SVC_ToHour ,SVC_ToMinute from services
+where SVC_GroupID='#{session[:gid]}'")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id='#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57"><%= item.id %>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77" > <%= @g%>&nbsp;</td>
+                <td width="75" > <%=item.SVC_Priority%>&nbsp;</td>
+                <td width="83" > <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+ 
+         
+         
+                <td width="97">  <%= @uv%>&nbsp;</td>
+                <td width="73"> <%=@k%>&nbsp;</td>
+
+                <td width="79">  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+	
+
+    </tr><%end%> 
+                                                  <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+       %>
+ 
+<% elsif session[:servicesid]!=nil %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,
+SVC_ServiceTypeID,SVC_ServiceAcronym, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+WHERE id='#{session[:servicesid]}' ") %>
+<% if @t!=[]%>
+<% for item in @t%>
+
+ <% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57"> <%=  item.id%>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%= @g%>&nbsp;</td>
+                <td width="75"> <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"> <%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+     
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+
+                <td width="73" > <%=@k%>&nbsp;</td>
+
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+ </tr><%end%> 
+                                                    <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+     %>
+ 
+<% elsif  session[:isa]!=nil %>
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority,
+SVC_ServiceTypeID,SVC_ServiceAcronym, SVC_ThresholdTimeMins, SVC_IsActive ,SVC_FromHour,SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services
+WHERE SVC_IsActive='#{ session[:isa]}'  ") %>
+<% if @t!=[]%>
+<% for item in @t%>
+
+ <% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr>
+                <td width="57"> <%=item.id %>&nbsp;</td>
+                <td width="72"> <%=item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%= @g%>&nbsp;</td>
+                <td width="75"> <%=item.SVC_Priority %>&nbsp;</td>
+                <td width="83"> <%=item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77"><%=@c%>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+
+                <td width="73"><%=@k%>&nbsp;</td>
+
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+
+ </tr>
+ <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      session[:msg]=nil%>
+      
+
+ <%end%> 
+                                                  <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+<%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:sid]=nil
+      session[:isa]=nil
+       session[:acro]=nil
+
+      session[:msg]=nil%>
+      
+
+
+ 
+  <%end%> 
+
+
+
+<%if session[:msg]!=nil%>
+
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive , SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services")%>
+<% if @t!=[]%>
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr> 
+                <td width="57"><%=  item.id %>&nbsp;</td>
+                <td width="72" > <%= item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%=@g %>&nbsp;</td>
+                <td width="75">  <%= item.SVC_Priority %>&nbsp;</td>
+                <td width="83" >  <%= item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77">  <%= @c %>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+     
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+                <td width="73" ><%= @k %>&nbsp;</td>
+                <td width="79" >  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79"> <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+  	
+                <td width="79"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+</tr></font>
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:acro]=nil
+
+%>
+<% end %><% session[:msg]=nil%>
+                                                 <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+
+<% end %>
+
+<%if session[:delser]!=nil%>
+
+
+<% @t= Service.find_by_sql("SELECT id, SVC_ServiceName, SVC_GroupID, SVC_Priority, SVC_ServiceAcronym,
+SVC_ServiceTypeID, SVC_ThresholdTimeMins, SVC_IsActive , SVC_FromHour, SVC_FromMinute, SVC_ToHour, SVC_ToMinute FROM services")%>
+<% if @t!=[]%>
+
+<% for item in @t%>
+
+<% @r=Group.find_by_sql("select GRP_GroupName from groups where id= '#{item.SVC_GroupID}'") %>
+<% for i in @r %>
+<% @g= i.GRP_GroupName %>
+<% end %>
+<% @r=ServiceType.find_by_sql("select STYP_ServiceTypeName from service_types  where id= '#{item.SVC_ServiceTypeID}'") %>
+<% for i in @r %>
+<% @c= i.STYP_ServiceTypeName %>
+<% end %>
+
+<% if item.SVC_IsActive=="0" %>
+<%@k="In-Active"%>
+<%else%>
+<%@k="Active"%>
+<%end%>
+
+        <tr> 
+                <td width="57"><%=item.id%>&nbsp;</td>
+                <td width="72">  <%= item.SVC_ServiceName %>&nbsp;</td>
+                <td width="77"> <%=@g %>  &nbsp;</td>
+                <td width="75">  <%= item.SVC_Priority %>&nbsp;</td>
+                <td width="83">  <%= item.SVC_ServiceAcronym %>&nbsp;</td>
+                <td width="77">  <%= @c %>&nbsp;</td>
+ <%@u=item.SVC_ThresholdTimeMins%>
+ <%@uv=@u.to_s[11,9]%>
+          
+
+         
+         
+                <td width="97">  <%= @uv  %>&nbsp;</td>
+                <td width="73">  <%= @k %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_FromHour.to_s %><%= ":".to_s %><%=  item.SVC_FromMinute.to_s %>&nbsp;</td>
+                <td width="79">  <%= item.SVC_ToHour.to_s %><%= ":".to_s %><%= item.SVC_ToMinute.to_s %>&nbsp;</td>
+  	
+                <td width="79" ><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deleteservice", :id => item.id },:confirm =>"If you delete this service related STP reasons also get deleted.Are you sure want to delete this item?" %><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editservice', :id => item.id %>&nbsp;</td>
+
+        </tr>
+  <%    session[:servicesid]=nil
+      session[:bname]=nil
+      session[:gid]=nil
+      session[:cid]=nil
+      session[:isa]=nil
+      session[:sid]=nil
+       session[:acro]=nil
+
+%>
+<% end %><% session[:delser]=nil%>
+                                                 <%else%>
+                                                    <tr>
+ 	                                                    <td align="center"><font size="5">Sorry data is not available for these selection.</font></td>
+                                                    </tr>
+                                                   <% end %>
+
+<% end %>
+
+
+  
+</table></div>
+  
+</fieldset>
+
+ </div>    
+ <p>&nbsp;</div>

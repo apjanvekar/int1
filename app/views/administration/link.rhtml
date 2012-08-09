@@ -1,0 +1,79 @@
+<pre>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;title&gt;CMT&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;&lt;!--//--&gt;&lt;![CDATA[//&gt;&lt;!--
+
+sfHover = function() {
+var sfEls = document.getElementById(&quot;nav&quot;).getElementsByTagName(&quot;LI&quot;);
+for (var i=0; i&lt;sfEls.length; i++) {
+sfEls[i].onmouseover=function() {
+this.className+=&quot; over&quot;;
+}
+sfEls[i].onmouseout=function() {
+this.className=this.className.replace(new RegExp(&quot; over\\b&quot;), &quot;&quot;);
+}
+}
+}
+if (window.attachEvent) window.attachEvent(&quot;onload&quot;, sfHover);
+
+//--&gt;&lt;!]]&gt;&lt;/script&gt;
+
+&lt;style type=&quot;text/css&quot;&gt;
+</pre>
+<pre>#side a.side-link:link {
+  color: red;
+}
+
+#side a.side-link:visited {
+  color: yellow;
+}
+
+#side a.side-link:hover {
+  color: white;
+}
+
+#side a.side-link:active {
+  color: green;
+}
+&lt;/style&gt;
+
+&lt;%= stylesheet_link_tag &quot;style&quot; %&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+
+var myclose = false;
+
+function ConfirmClose()
+{
+if (event.clientY &lt; 0)
+{
+event.returnValue = 'Are You Sure You Want to Quit?';
+
+setTimeout('myclose=false',100);
+myclose=true;
+}
+}
+
+function HandleOnClose()
+{
+if(myclose==true)
+{
+new Ajax.Request(&quot;&lt;%= url_for :controller=&gt; :account,:action=&gt;:logout1 %&gt;&quot;,{method:'get'})
+}
+
+}
+
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;</pre>
+<pre><span class="quoting-level-1">&lt;div id=&quot;side&quot;&gt;</span>
+<span class="quoting-level-1">&gt; &nbsp; &lt;a href = &quot;<a class="postedlink" href="http://www.....%22" rel="nofollow">http://www.....&quot;</a> class = &quot;side-link&quot;&gt;Home&lt;/a&gt;&lt;br /&gt;</span>
+<span class="quoting-level-1">&gt; &nbsp; &lt;%= link_to &quot;Products&quot;, :action =&gt; &quot;show_products&quot;, :class =&gt;</span>
+<span class="quoting-level-1">&gt; &quot;side-link&quot; %&gt;&lt;br /&gt;</span>
+<span class="quoting-level-1">&gt; &lt;/div&gt;</span>
+</pre>
+<pre>&lt;/body&gt;</pre>
+<pre>&lt;/html&gt;</pre>

@@ -1,0 +1,22 @@
+<% if session[:true]%>
+<div id="progress_div" style="visibility:visible; width:824;size:5;
+  									border: 2px solid blue;
+  									padding-bottom: 0px;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:33; padding-left:2px; padding-right:2px; padding-top:2px">
+
+
+<p align="left"><font size="5" color="#FF0000"><b>Please Wait Exporting In Progress...........</b></font>.
+</div>
+<% session[:true]=nil %>
+<% else %>
+<div id="progress_div" style="visibility:hidden; width:824;size:5;
+  									border: 2px solid blue;
+  									padding-bottom: 0px;
+  									margin-bottom: 0px;
+  									background-color: #f0f0f0; height:33; padding-left:2px; padding-right:2px; padding-top:2px">
+
+
+<p align="left"><font size="5" color="#FF0000"><b>Please Wait Exporting In Progress...........</b></font>.
+</div>
+<% end %>

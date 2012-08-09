@@ -1,0 +1,137 @@
+<html>
+
+<head>
+
+
+<style> 
+</style> 
+<script type="text/javascript">
+function showrep()
+{
+         var rep_msg=<%=@report_msg%>
+         if(rep_msg!=nil)
+         alert("dfdxgdfh")
+         alert("Please Wait...... ")
+         //document.getElementById('aux_div').style.visibility = "visible"	  
+          //window.location = "/reports/master"   
+  
+       
+}
+</script>
+
+</head>
+
+<body>
+ <br>
+		
+<table style="width: 100%; height: 400" align=center>
+	<form id="form1" name="form1" action="masterreporth" method="post" >
+	
+	<p align="center">
+
+
+</p>
+		
+	 <tr align=center>
+		<td align="center" width=80% align=center>	
+			<h2 align="center"> <u>Master Report</u></h2>
+	<font color="#901010" size= "4">
+<p align=center>
+	
+				<!--<div id="msg" style="align:center;width:60%;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px;
+ 					 height:22; padding-left:7px; padding-right:7px; padding-top:7px"><%= session[:msg] %>
+ 					</div>-->
+
+			</font>
+			</p>
+ <fieldset id="fs">
+		<legend>
+			
+			<font color="#FFFFFF">
+			
+			<strong>Selection Criteria</strong></font>
+			
+		</legend>
+		
+	<table width=100% height="121" >
+		
+		<tr>
+			<td align="right" width=50% height=1>
+			<label >Select Start Date:-</label>
+			</td>
+			
+			<td align="left" width=50% height=1 >
+			
+				<%= @date1=date_select('range','start_date',:order => [:day, :month, :year]) %> 
+			
+			</td>
+		</tr>
+
+		<tr>
+			<td width=50% align=right height=1>
+				<label>Select End Date:-</label>
+			</td>
+			<td width=50% align=left height=1>
+			<%= @date2=date_select('range','end_date',:order => [:day, :month, :year])%> 
+			</td>
+		</tr>
+		<tr>
+			<td width=50% align=right height=32>
+				<label>Select Branch:-</label>
+			</td>
+			<td width=50% align=left height=32>
+			
+
+			<%#=@cb=collection_select :transact, :soleid, Transact.find(:all, :select => 'DISTINCT soleid'), :soleid, :soleid%> 
+			<%=@cb=collection_select :location, :LOC_SoleID, Location.find_by_sql("select distinct locations.LOC_BranchName,locations.LOC_SoleID from transacts,locations where transacts.soleid=locations.LOC_SoleID"), :LOC_SoleID, :LOC_BranchName%> 
+
+
+			</td>
+		</tr>
+<div style="margin:0px auto; background-color:#ff8c00; width:200px;">
+   <%=@report_msg%>
+    <%#    render :action => "master"
+    %>
+</div>
+
+		
+		
+	</table>
+	<input type="submit" value="Generate Report" onClick="showrep();">
+ </fieldset>
+
+ <br>
+
+<!--<%= submit_to_remote 'GENERATE REPORT','Generate Report',:url => {:controller=>'reports',:action => "master_report" },:before=>'showrep();'%>
+<%= button_to_function 'Back' , remote_function(:url=> {:controller=>'administration',:action => "tomain" }), :style=>"font-family: Zurich BT; font-size: 10pt" %>-->
+
+</td>
+</tr><tr><td align=center width=100% height=10%>
+<div id="aux_div" style="padding:2px; visibility:hidden; align:center; width:60%;
+  									border: 2px solid blue;
+  									margin-bottom: 0px;
+  									background-color: #000000; height:39; ">
+                                   
+                                   
+                                   
+                                    Please Wait Report Generation is in Progress....</font>
+                                 
+                                     <%= image_tag("spinner.gif") %>
+                                     <br>
+                                      
+
+                                     </div>
+
+
+</td></tr>
+</table>
+</form>
+
+            
+
+
+
+
+
+</body>
+</html>

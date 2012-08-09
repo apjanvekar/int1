@@ -1,0 +1,101 @@
+<div class="fieldset2">
+            <fieldset id="fs"><legend><font color="#FFFFFF"><strong>Zones</strong></font></legend>
+            <div id="main">
+                           <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+                           <tr>
+                              <th width="30%">Zone ID</th>
+                               <th width="40%">Zone Name</th>
+                               <th width="30%"></th>
+                           </tr>
+                           </table>
+<div class="contentBox">
+            <table style="border:2px solid #FF8C00;"  border="1" bordercolor="#FF8C00" width="920">
+            <% if (session[:zonename]!=nil and session[:zoneid]!=nil) %>
+                          <% @t=Zone.find_by_sql("select id, ZONE_ZoneName from zones where id='#{session[:zoneid]}' and ZONE_ZoneName='#{session[:zonename]}'") %>                       	
+                          <%if @t!=[]%><!-- If data available-->
+                                       <% @t.each do |c| %> 
+                                       <tr>
+                                            <td  width="30%"> <%= c.id %>&nbsp;</td>
+                                            <td width="40%"> <%= c.ZONE_ZoneName %>&nbsp;</td>
+                                            <td width="30%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletezone", :id => c.id },:confirm =>"If you delete this zone related regions,clusters,cities and branches also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editzone', :id => c.id }%>&nbsp;</td>
+                                       </tr>
+                                       <% end %>
+                          <%else%>
+                                  <tr>
+ 	                                   <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+                                  </tr>
+                          <% end %>
+            <% elsif (session[:zoneid]!=nil)%>
+                          <% @t=Zone.find_by_sql("select id, ZONE_ZoneName from zones where id='#{session[:zoneid]}'") %>  
+                          <%if @t!=[]%><!-- If data available-->                          	
+                                       <% @t.each do |c| %> 
+                                       <tr>
+                                           <td width="30%"><%=c.id%>&nbsp;</td>
+                                           <td width="40%"><%= c.ZONE_ZoneName %>&nbsp;</td>
+                                           <td width="30%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletezone", :id => c.id },:confirm =>"If you delete this zone related regions,clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editzone', :id => c.id}%>&nbsp;</td>
+                                       </tr>
+                                       <%end%>
+                         <%else%>
+                                  <tr>
+ 	                                   <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+                                  </tr>
+                         <% end %>
+          <% elsif (session[:zonename]!=nil)%>
+                         <% @t=Zone.find_by_sql("select id, ZONE_ZoneName from zones where ZONE_ZoneName='#{session[:zonename]}'") %>   
+                         <%if @t!=[]%><!-- If data available-->                       	
+                                      <% @t.each do |c| %> 
+                                      <tr>
+                                          <td width="30%" ><%=c.id%>&nbsp;</td>
+                                          <td width="40%"> <%= c.ZONE_ZoneName %>&nbsp;</td>
+                                          <td width="30%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletezone", :id => c.id },:confirm =>"If you delete this zone related regions,clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editzone', :id => c.id} %>&nbsp;</td>
+                                      </tr>
+                                      <%end%>
+                         <%else%>
+                                  <tr>
+ 	                                   <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+                                  </tr>
+                         <% end %>
+         <% else %>
+                   <% session[:zonename]=nil%>
+                   <% session[:zoneid]=nil%>
+         <% end%>
+         <% session[:zonename]=nil%>
+         <% session[:zoneid]=nil%>
+         <%if session[:msg]!=nil%>
+                        <% @t=Zone.find_by_sql("select id, ZONE_ZoneName from zones ") %>
+                       	<%if @t!=[]%><!-- If data available-->
+                                     <% @t.each do |c| %> 
+                                     <tr>
+                                         <td  width="30%"><%=c.id%>&nbsp;</td>
+                                         <td width="40%"> <%= c.ZONE_ZoneName %> &nbsp;</td>
+	                                     <td width="30%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletezone", :id => c.id },:confirm =>"If you delete this zone related regions,clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editzone', :id => c.id}%>&nbsp;</td>
+                                     </tr>
+                                     <%end%>
+                       <%else%>
+                                <tr>
+                                    <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+                                </tr>
+                       <% end %>
+                       <% session[:msg]=nil%>
+        <%end%>
+        <%if session[:delzone]!=nil%>
+                       <% @t=Zone.find_by_sql("select id, ZONE_ZoneName from zones ") %>
+                       <%if @t!=[]%><!-- If data available-->
+       	                            <% @t.each do |c| %> 
+                                    <tr>
+                                        <td width="30%" > <%=c.id%> &nbsp;</td>
+                                        <td width="40%" > <%= c.ZONE_ZoneName %> &nbsp;</td>
+	                                    <td width="30%"> <%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletezone", :id => c.id },:confirm =>"If you delete this zone related regions,clusters,cities and branches also get deleted.Are you sure want to delete this item?" %><%= link_to image_tag("pen.jpg", :border=>0), {:action => 'editzone', :id => c.id}%>&nbsp;</td>
+                                    </tr>
+                                    <%end%>
+                       <%else%>
+                                <tr>
+                                    <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+                                </tr>
+                       <% end %>
+                       <% session[:delzone]=nil%>
+        <%end%>
+</table></div>
+</fieldset>
+</div>    
+</div>

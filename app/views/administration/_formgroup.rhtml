@@ -1,0 +1,25 @@
+
+
+<% @r=Group.find_by_sql("select GRP_GroupName,GRP_GroupDescription from groups where id='#{session[:grpid]}'")%>
+
+<%for item in @r%>
+<table width="400">
+    <tr>
+        <td align="right">
+            <label for="group_GRP_GroupName">Group Name&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+            <input type=text id="group_GRP_GroupName" name="group[GRP_GroupName]" size="16" value="<%=item.GRP_GroupName%>">
+        </td>
+    </tr>
+    <tr style="height: 20px;"></tr>
+    <tr>
+        <td align="right">
+            <label for="group_GRP_GroupDescription">Group Description&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+            <input type=text id="group_GRP_GroupDescription" name="group[GRP_GroupDescription]" size="16" value="<%=item.GRP_GroupDescription%>">
+        </td>
+    </tr>
+</table>
+<%end%>

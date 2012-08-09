@@ -1,0 +1,16 @@
+<div id="edit" style="margin-top: 100px;">
+<div id="li">
+<%= error_messages_for 'region' %>
+</div>
+<center>
+<div class="addheadera" align="center">Edit Region</div></center>
+<div class="addcontent" align="center">
+
+<% form_tag :action => 'updateregion', :id => @region do %>
+
+ <%= render :partial => 'formregion' %>
+ <%= submit_tag ' Save ', :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancelregion" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</div>
+</div> 
+
+<% end %>

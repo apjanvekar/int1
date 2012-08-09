@@ -1,0 +1,431 @@
+/*http://www.positioniseverything.net/explorer/expandingboxbug.html*/
+/**************************************Main Body***************************************/
+body{
+    font-family: Zurich BT;
+    font-weight: bold;
+    /*font-size: 12pt;*/
+    margin: 0px auto;
+    color:white;
+     background-color: black;
+    }
+
+table{
+        table-layout: fixed;
+}
+td{
+    overflow: auto;
+}
+/**************************************Header***************************************/
+#header{
+        width: 100%;
+        height: 60px;
+        margin: 0px auto;
+         background-color: white;
+    }
+/**************************************Marquee***************************************/
+    #marquee{
+        width: 100%;
+        height: 25px;
+        background:url('../images/uy.bmp') repeat-x;
+        margin: 0px auto; 
+        color:#004d81;
+        font-size: 20px;
+    }
+/**************************************Navigation***************************************/    
+    #navigation{
+        width: 100%;
+        height: 30px;
+        border: 2px; 
+        border-color:red;
+        background-color: #990033;
+        margin: 0px auto; 
+        color:#FFFFFF;
+    }
+
+    
+/**************************************Content***************************************/  
+    #content{
+        width:100% ;
+        height:650px;
+        background-color: black;
+        z-index: 100;
+    }
+    .content_actual{
+        width: 960px;
+        margin: 0px auto;
+        background-color: black;
+        height: 600px;
+    }
+    .fieldset1{
+        width: 960px;
+        margin: 0px auto;
+        /*background-color: blue;*/
+        height: 280px;
+        /*margin-top: 30px;*/
+    }
+     /*  .error{
+        width: 500px;
+        margin: 0px auto;
+        background-color: orange;
+        height: 150px;
+        }*/
+    .middle{
+        width: 960px;
+        margin: 0px auto;
+        /*background-color: red;*/
+        height: 40px;
+        
+    }
+     .content_report{
+        width:100% ;
+        height:800px;
+        background-color: black;
+        z-index: 100;
+    }
+
+    .fieldset2{
+        width: 960px;
+        margin: 0px auto;
+        /*background-color: yellow;*/
+        height: 280px;
+
+    }
+    .fieldset1 table{
+        /*margin-top: 20px;*/
+        /*border: 1px solid;*/
+    }
+    .theading
+    {
+    color:#0B243B;
+    font-weight:bold;
+    /*border:1px solid #8D1919#FF8C00;*/
+    background:#FF8C00;
+}
+   .tdborder{
+    border: 1px solid;
+    border-collapse: collapse;
+   }
+   #addcancel{
+    width: 960px;
+        margin: 0px auto;
+        margin-top: -30px;
+        /*margin-bottom: 20px;*/
+        height: 20px;
+   }
+/**************************************Footer***************************************/  
+    #footer{
+    width:100% ;
+    height:50px;
+    background-color:#990033; 
+    clear: both; 
+    }
+/***************************************Fieldset**********************************/
+    #fs{
+     border:2px solid #FF8C00;
+     width: 960px; height: 260px;  
+     left:2%;
+     }
+/********************************************************************************/    
+/* Div container to wrap the datagrid */
+/*div#divList {
+width: 815px;
+height: 200px;
+overflow: auto;
+scrollbar-base-color:#ffeaff;
+}
+
+/* Locks table header */
+/*th {
+font-size: 14px;
+font-weight: bold;
+text-align: center;
+background-color: #800000;
+color: white;
+border-right: 1px solid silver;
+position:relative;
+cursor: default;
+/*IE5+ only*/
+/*top: expression(document.getElementById("divList").scrollTop-5);
+z-index: 10;
+}
+
+/* Keeps the header as the top most item. Important for top left item*/
+/*th.locked {z-index: 99;}*/
+/*******************************************************************/
+
+/*********************two table header lock************************/
+#main{
+       margin: 0px auto;
+       width:940px; 
+       margin: 10px;
+       z-index: 100;
+    }
+    .contentBox {
+	height:150px;
+	/*overflow: scroll;*/
+    overflow-x:hidden; 
+    overflow-y:scroll;
+    word-wrap: break-word;
+    
+    /*position:absolute;*/
+    margin: 0px auto;
+    width:940px;
+    text-align: center;
+    z-index: 100;
+	}
+	.contentBox_service {
+	width:940px;
+	height:200px;
+	overflow:auto;
+    /*position:absolute;*/
+    margin: 0px auto;
+    z-index: 100;
+	}
+     .contentBox_service table{
+	 border-collapse: collapse;
+     z-index: 100;
+}
+    #tableheader{
+       /*position: relative;*/
+       border-collapse: collapse;
+       width:920px;
+       color:#0B243B;
+       font-weight:bold;
+       border:1px solid #FF8C00;
+       background:#FF8C00;
+       color:white;
+        border-collapse: collapse;
+
+        }
+        .contentBox table{
+            border-collapse: collapse;
+            z-index: 100;
+        }
+       
+
+/*.header_lock{
+	 height:300px;
+       overflow:auto;
+	 width:940px;
+}*/
+/************************************************Add*******************************************************/
+#add{
+    width:960px;
+    /*height:500px;*/
+    /*background-color: orange;*/
+    border: 2px solid;
+    border-color:#FF8C00 ;
+    /*margin-top: 100px;*/
+    
+}
+  .addheadera{
+    width:500px;
+    height: 30px;
+    margin: 0px auto;
+    font-size: 25px;
+    /*text-decoration: underline;*/
+    margin-bottom: 10px;
+    margin-top: 50px;
+  }
+  .addcontent{
+    width:600px;
+    height: 200px;
+    margin: 0px auto;
+    font-size: 12pt; 
+  }
+  .titleheader{
+    margin-bottom: 50px;
+    font-weight: bolder;
+    font-size: 20px;
+  }  
+  #edit{
+    width:960px;
+    /*height:400px;*/
+    /*background-color: orange;*/
+    border: 2px solid;
+    border-color:#FF8C00;
+    margin-top: 100px;
+    
+}
+  .editheadera{
+    width:500px;
+    height: 30px;
+    margin: 0px auto;
+    font-size: 25px;
+    /*text-decoration: underline;*/
+    margin-bottom: 10px;
+     margin-top: 50px;
+  }
+  .editcontent{
+    width:500px;
+    height: 200px;
+    margin: 0px auto;
+    font-size: 14px;
+  }
+th{
+text-align: center;
+color:#0B243B;
+}
+/***************************************Navigation Menu**********************************************/
+
+/*CSS for menu*/
+P
+{padding-top: 8px;
+margin: 0px;}
+
+H1
+{/*font-size: 16pt;*/
+font-weight: bold;
+color: black;
+padding-top: 15px;
+margin: 0;
+/*background-color: #990033;*/
+
+}
+
+table.navbar
+{font-size: 12pt;
+margin: 0px;
+padding: 0px; 
+border: 0px; 
+font-weight: bold;
+width:100%;
+background-color: #990033;
+text-decoration: none;
+}
+
+table.menu
+{font-size: 11pt;
+color: #FFFFFF;
+margin: 0px;
+padding: 0px;
+font-weight: bold;
+z-index: 500;
+
+}
+
+td.menuNormal
+{padding: 0px;
+color: white;
+/*font-weight: bold;*/
+font-size: 12pt;
+vertical-align: top;
+background-color: #990033;
+z-index: 500;
+}
+
+td.menuHover
+{padding: 0px;
+color: white;
+/*font-weight: bold;*/
+vertical-align: top;
+/*remove the following line for drop-down menu with images*/
+background-color: #990033;
+margin-right:200px;
+}
+
+div.menuNormal
+{display: none;
+position: static;
+color:white;
+z-index: 500;
+}
+
+div.menuHover
+{border: 3px solid #FF8C00;
+background-color:#990033;
+display: inline;
+position: absolute;
+}
+
+a.menuitem:link
+{
+text-decoration: none;
+color: white;
+background-color: #990033;
+display: block;
+
+}
+
+a.menuitem:visited
+{
+text-decoration: none;
+color: white;
+background-color: #990033;
+display: block;}
+
+a.menuitem:hover
+{text-decoration: none;
+color: #F87431;
+/*background-color: #990033*/;
+display: block;}
+
+a.menuitem:active
+{text-decoration: none;
+color: white;
+background-color: #990033;
+display: block;
+}
+
+a:link {
+COLOR: #FFFFFF;
+}
+a:visited {
+COLOR: #FFFFFF;
+}
+a:hover {
+COLOR: #F87431;
+}
+a:active {
+COLOR: #FFFFFF;
+}
+/*********************************************************************************************************************************/
+
+/**********************************************CSS for Data Purging*******************************************************************/
+
+#datapurge{
+    width: 960px;
+    height: 400px;
+    
+    
+}
+#datapurgefs{
+    
+  width: 960px;
+  height: 260px;  
+  border:2px solid #FF8C00;
+  left:2%;
+}
+/**********************************************************Error code CSS********************************************************/
+
+#li{
+    font-size: 12pt;
+    color:red;
+}
+/************************************************************ Notice **********************************************************/
+#notice{
+background:url('images/notice_error.jpg') repeat-x;
+color:green;
+width:500px;
+height:30px;
+margin:0px auto;
+text-align:center;
+padding:5px;
+}
+.color1{
+   /*background-color:#7e3817;*/
+   border-style:solid;
+   border-color:#FF9933 ;
+   border-width:1px;
+   text-decoration:none;
+}
+.color2{
+     /*background-color:#c35817;*/
+     border-style:solid;
+   	  border-color:#FF9933;
+   	  border-width:1px;
+	 text-decoration:none;
+}
+.report{
+height:800px;
+}

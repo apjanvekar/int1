@@ -1,0 +1,11 @@
+<body bgcolor="#000000">
+
+<h1><font face="Arial" color="#FFFFFF">Editing card</font></h1>
+
+<% form_tag :action => 'update', :id => @card do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @card %> |
+<%= link_to 'Back', :action => 'list' %>

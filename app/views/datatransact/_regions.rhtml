@@ -1,0 +1,7 @@
+<% if session[:uimp]%>
+<% session[:uimp]=nil%>
+<%= collection_select(nil, :region_id,  regions,  :id, :REG_RegionName,
+                      			{:prompt   => "Select a region"},
+                      				{:onchange => "#{remote_function(:url  => {:action => "update_clusters"},
+                      				 :with => "'id='+value")}"}) %>
+<% end %>

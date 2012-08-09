@@ -1,0 +1,48 @@
+
+<%= start_form_tag :action => "addgroup" %>
+
+<div id="add" style="margin-top: 100px;">
+ <%if @group.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@group.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add Group</div>
+</center>
+<!--<%= error_messages_for 'group'-%>-->
+
+<div class="addcontent" align="center">
+<table width="350" align="center" style="margin-bottom: 50px;">
+        <tr>
+            <td align="right">
+                <label> Group Name&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                <%= text_field 'group', 'GRP_GroupName' %>
+            </td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                <label>Group Description&nbsp;&nbsp;:</label> 
+            </td>
+            <td align="left">
+                <%= text_field 'group', 'GRP_GroupDescription' %>
+            </td>
+        </tr>
+    </table>
+
+   
+<center>
+<%= submit_tag "  Add  "%>
+<%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "tog" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> 
+  </center>
+
+</div>
+</div>
+<% end_form_tag %>

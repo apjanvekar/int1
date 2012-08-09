@@ -1,0 +1,173 @@
+<head>
+<script  language="JavaScript">
+
+function Validate()
+{
+	
+	
+	
+	var tohour=document.getElementById("services_SVC_ToHour");
+	var v_tohour =tohour.options[tohour.selectedIndex].value;
+	var fromhour=document.getElementById("services_SVC_FromHour");
+	var v_fromhour = fromhour.options[fromhour.selectedIndex].value;
+	
+	var tomin=document.getElementById("services_SVC_ToMinute");
+	var v_tomin =tomin.options[tomin.selectedIndex].value;
+	var fromin=document.getElementById("services_SVC_FromMinute");
+	var v_fromin = fromin.options[fromin.selectedIndex].value;
+	
+	if(v_fromhour > v_tohour)
+	
+	{
+	alert('Please Select To time greater than From time!1 ')
+	fromhour.focus();
+	return(false);
+	}
+
+
+   if(v_fromhour == v_tohour)
+	{
+	if(v_fromin >= v_tomin)	
+	{
+	alert('Please Select To time greater than From time! 2')
+	fromhour.focus();
+	return(false);
+	}
+	
+	}
+	
+
+}
+	
+
+</script>
+</head>
+<body>
+<form id="form1" name="form1" method="post" action="addservices" align="center" onSubmit="return Validate()">	
+
+<div id="add" style="margin-top: 10px;">
+         <center><div class="addheadera" align="center" style="margin-top: 10px;">Add Services</div></center>
+         <h5 style="color:red;"><%= error_messages_for 'services' -%></h5>
+<div style="width:600px; margin:0px auto;">
+<table align="center" width="700" border="0" >
+        <tr>
+            <td align="right">
+                    Service Name&nbsp;&nbsp;:
+            </td>
+            <td align="left">
+                    <%= text_field 'services' , 'SVC_ServiceName' , :size =>"20"%> &nbsp;
+            </td>
+            <td align="right">
+                    <label>Group&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <select id="services_SVC_GroupID" name="services[SVC_GroupID]">
+                    <option value="">Please Select</option>
+                    <% @n= Group.find_by_sql("select id,GRP_GroupName from groups")%>
+                    <% for i in @n %>
+                    <option value="<%=i.id%>"><%= i.GRP_GroupName -%></option>
+                    <% end %>
+                    </select>
+            </td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        
+        <tr>
+            <td align="right">
+                    <label>Service Type&nbsp;&nbsp;:</label>
+            </td>
+            <td  align="left">
+                    <select id="services_SVC_ServiceTypeID"   name="services[SVC_ServiceTypeID]">
+                    <% @g= ServiceType.find_by_sql("select id,STYP_ServiceTypeName from service_types")%>
+                    <% for item in @g %>
+                    <option value="<%=item.id%>"><%= item.STYP_ServiceTypeName -%></option>
+                    <% end %>
+                    </select>
+            </td>
+            <td align="right">
+                    <label>Priority&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'services' , 'SVC_Priority' , :size =>"20"%> &nbsp;</td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                    <label> Acronym&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'services' , 'SVC_ServiceAcronym' , :size =>"20"%> &nbsp;</td>
+            <td align="right">
+                    <label>Active&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <select id="services_SVC_IsActive" name="services[SVC_IsActive]">
+                    <option value="1">Active</option>
+				    <option value="0">In-Active </option>
+                    </select>
+            </td>
+        </tr>
+        <tr style="height: 20px;"></tr>
+        <tr>
+            <td align="right">
+                    <label for="services_SVC_ThresholdTimeMins">ThresholdTime&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= time_select "services", "SVC_ThresholdTimeMins",:include_seconds=>true %> &nbsp;</td>
+            <td align="right">
+                    <label> Button No&nbsp;&nbsp;:</label>
+            </td>
+            <td align="left">
+                    <%= text_field 'services' , 'SVC_ButtonNo' , :size =>"20"%> &nbsp;</td>
+        
+        </tr>
+        <tr style="height: 20px;"></tr>
+</table>
+<br>
+<table width="300" align="center" border="0" >
+       
+        <tr>
+          <td align="right"><label>From&nbsp;&nbsp;:</label></td>
+          <td align="left">
+            <select id="services_SVC_FromHour"  name="services[SVC_FromHour]">
+            <%for i in 0..23%> 
+                  <option value="<%=i%>"><%=i%></option>           
+            <%end%>
+            </select>
+            <select id="services_SVC_FromMinute"  name="services[SVC_FromMinute]">   
+            <%for i in 0..59%> 
+                  <option value="<%=i%>"><%=i%></option>           
+            <%end%>
+            </select></td></tr>
+            <tr style="height: 20px;"></tr>
+            <tr>
+          <td align="right"><label>To&nbsp;&nbsp;:</label></td>
+          <td align="left">
+             <select id="services_SVC_ToHour"  name="services[SVC_ToHour]"> 
+             <%for i in 0..23%> 
+                  <option value="<%=i%>"><%=i%></option>           
+            <%end%>
+                       </select> 
+           <select id="services_SVC_ToMinute"  name="services[SVC_ToMinute]"><b>
+           <%for i in 0..59%> 
+                  <option value="<%=i%>"><%=i%></option>           
+            <%end%>
+            </select></td>
+        </tr>
+        <tr style="height: 20px;"></b></tr>
+
+        <tr>
+            <td align="right">
+            <%= submit_tag '  Add  '%>&nbsp;</td>
+            <td> <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "toser" }), :style=>"font-family: Zurich BT; font-size: 10pt" %> &nbsp;</td>
+        </tr>
+      </table>
+      
+
+   
+
+
+</div>
+</div>
+</form>
+</body>

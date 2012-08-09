@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+
+<%= javascript_include_tag "prototype","effects",:defaults %>
+
+</head>
+
+<body>
+
+<form  name="form1" id="form1", method="post">
+<table width=100% height=300>
+
+<td height="10" align=center><font face="Zurich BT" size="5" color="#800000">
+<p><label >Select Report to generate:-</label></p></font>
+</td>
+</tr>
+<tr>
+<td height="10" ><p align="center"><font face="Zurich BT" size="5" color="#800000">
+
+<%= link_to "Master Report", :action => "master" %>
+</font></p>
+</td>
+</tr>
+
+
+
+
+
+
+
+</table>
+</form>
+<p align="center"><b><font size='4'><%= link_to "Cancel", :controller => "administration" ,:action => "main" %>
+</b></font></body>
+
+</html>

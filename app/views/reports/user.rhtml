@@ -1,0 +1,51 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<font face="Zurich BT" size="5" color="#800000">
+<p align="center"><label >Select Dates for Report:-</label></p></font>
+
+
+<%= start_form_tag :action => 'User_report' %>
+<table width="916" height="200">
+
+
+<tr>
+<td width="671" height="10"><font face="Zurich BT" size="4" color="#800000"><p align="center"><label >Select Start Date:-</label></font><font face="Zurich BT" size="5" color="#800000">
+<%= date_select('range','start_date',:order => [:day, :month, :year]) %> </p></font>
+</td>
+
+
+<td width="823" height="10"><font face="Zurich BT" size="4" color="#800000"><p align="center"><label>Select End Date:-</label>&nbsp;
+<%= date_select('range','end_date',:order => [:day, :month, :year])%> 
+</p></font>
+</td>
+
+</tr>
+ 
+
+<tr>
+
+
+<center>
+<td width="898" height="10"><font face="Zurich BT" size="5" color="#800000"><p align="right">
+<%= submit_tag "Generate" %>
+</p></font>
+</td>
+  
+<%= end_form_tag %>
+</table>
+<center>
+<font face="Zurich BT" size="5" color="#800000"><p align="center">
+<%= link_to "Back", :action => "reportsmain" %>
+</p></font>
+</form>
+</body>
+</html>

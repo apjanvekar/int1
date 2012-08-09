@@ -1,0 +1,89 @@
+<html>
+<head>
+<style type="text/css">
+#AutoNumber1{
+width:100%; 
+cellpadding:0; 
+cellspacing:0; 
+/*border-collapse: collapse ;*/
+border-color:#111111;
+}
+
+#AutoNumber2{
+width:100% ;
+cellpadding:0 ;
+cellspacing:0 ;
+border:1px solid  ;
+border-color:#111111;
+}
+
+td.col{
+border:2px solid #111111  ;
+}
+
+
+
+
+</style>
+</head>
+<body link="white" alink="white" vlink="#A9A9F5">
+
+<p><font color="#FFFFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#FFFFFF" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><b><font color="#FFFFFF" size="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Floor-View For <%="#{params[:search]}"%> Branch</font></b></p>
+
+<font color="#FF0000" size="3"><%=link_to 'Back',:controller => 'floorview',:action => 'ipselection'%></font>
+
+<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="15">
+
+<%@data=Transact.find_by_sql("select counterno,tokenno,ctypeid,login,serviceid,transdate,tokenstatus,waittime,serviced,generatedtime from transacts where branch='#{params[:search]}'  ")%>
+  <tr>
+    <th id="tr4" width="99" height="15">
+    <p align="center"><b>Counter No.</b></th>
+    <th id="tr4"  width="135" height="22" >
+    <p align="center"><b>Token No.</b></th>
+    <th id="tr4"  width="130" height="22" >
+    <p align="center"><b>Customer Type</b></th>
+    <th id="tr4"  width="117" height="22" >
+    <p align="center"><b>Login</b></th>
+    <th id="tr4"  width="127" height="22" >
+    <p align="center"><b>Service Name</b></th>
+    <th id="tr4"  width="140" height="22" >
+    <p align="center"><b>Transaction Date</b></th>
+    <th id="tr4"  width="127" height="22" >
+    <p align="center"><b>Token Status</b></th>
+    <th id="tr4"  width="127" height="22" >
+    <p align="center"><b>Wait Time</b> </th>
+    <th id="tr4"  width="128" height="22" >
+    <p align="center"><b>Service Time</b></th>
+    <th id="tr4"  width="135" height="22" >
+    <p align="center"><b>Generated Time</b></th>
+
+  </tr> 
+  </table>
+  
+   <div class=clsDataGrid id=divList  style="width: 1010px; height: 300px; ">
+<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="32">
+
+
+   <% @data.each do |d| %>
+   <%puts "__________________________________"%>
+   
+    <%=puts d.waittime%>
+  <tr align="center">
+
+    <td id= "table1" width="104"><%= d.counterno%>&nbsp;</td>
+    <td id= "table1" width="129"><%= d.tokenno %>&nbsp;</td>
+    <td id= "table1" width="136"><%= d.ctypeid %>&nbsp;</td>
+    <td id= "table1" width="111"><%= d.login %>&nbsp;</td>
+    <td id= "table1" width="127"><%= d.serviceid %>&nbsp;</td>
+    <td id= "table1" width="153"><%= d.transdate.strftime("%d-%m-%Y")%>&nbsp;</td>
+    <td id= "table1" width="122"><%= d.tokenstatus %>&nbsp;</td>
+    <td id= "table1" width="118"><%= d.waittime.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="127"><%= d.serviced.strftime("%H:%M:%S")%>&nbsp;</td>
+    <td id= "table1" width="143"><%= d.generatedtime.strftime("%H:%M:%S")%>&nbsp;</td>
+
+   </tr>
+    <%end%>
+    
+</table>
+</div>

@@ -1,0 +1,64 @@
+<%= start_form_tag :action=> "create",:id=>@threshold%>
+
+<div id="add" style="margin-top: 100px;">
+<%if @threshold.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@threshold.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Create Customer Type</div>
+</center>
+<div class="addcontent" align="center">
+<table align="center" style="margin-bottom: 50px;">
+    <tr>
+        <td align="right">
+ 	              <label for="thresholdtimes_ctypedesc">Customer Type&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+ 	                  <%= text_field "threshold", "ctypedesc", :size => 18 %> </font></b>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td align="right"> 
+ 	                  <label for="thresholdtimes_ctypeid">Customer Type ID:</label>
+        </td>
+ 	      <td align="left">
+ 	                  <%= text_field "threshold", "ctypeid", :size => 18 %>
+ 	      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+	       <td align="right">
+ 		             <label for="threshold_priority">Priority&nbsp;&nbsp;: </label>
+            </td>
+            <td align="left" >
+ 	                  <%= text_field "threshold", "priority", :size => 18 %></b>
+            </td>
+    </tr>
+    <tr></tr>
+    <tr>
+	       <td align="right">
+ 	                  <label for="thresholdtime_thresholdtime">Threshold Time&nbsp;&nbsp;: </label>
+ 	      </td>
+ 	      <td align="left">
+ 	                  <%= time_select"threshold", "thresholdtime",:include_seconds=>true %></b>
+ 	      </td>
+    </tr>
+</table>
+</div>
+
+<div id="addcancel">
+<center>
+		<input type="submit" value="Add &#187;" class="primary" style="font-family: Zurich BT; font-size: 10pt; float:center" />
+		 <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "canceladd" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 8pt align=left" %>
+</center>
+</div>      
+
+</div>
+<%= end_form_tag %>

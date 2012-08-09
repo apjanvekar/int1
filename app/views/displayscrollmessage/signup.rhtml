@@ -1,0 +1,33 @@
+
+
+<%= start_form_tag :action=> "create" %>
+<div id="add" style="margin-top: 100px;">
+<%if @scrollmsg.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@scrollmsg.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center">Add New Display Sscroll Message</div>
+</center>
+<div class="addcontent" align="center">
+<table align="center" style="margin-bottom: 50px;">
+        <tr style="height: 20px;"></tr>
+        <tr>
+        <td align="right">
+                <label for="tokenbottomadrt">Enter Message&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <%= text_field "displayscrollmessage", "SCRL_DisplayScrollMessage", :size => 50 %>
+        </td>
+        </tr>
+        </table>
+<input type="submit" value="Create " class="primary" style="font-family: Zurich BT; font-size: 8pt" /></font>
+ <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'displayscrollmessage',:action => "cancel" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 8pt " %>
+</div>
+</div>
+<%= end_form_tag %>

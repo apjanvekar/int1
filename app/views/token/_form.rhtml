@@ -1,0 +1,14 @@
+
+<%@r=TokenBottomAd.find_by_sql("select BOT_AdMessage from token_bottom_ads where id='#{params[:id]}'" )%>
+<%for item in @r%>
+<table align="center" width="600">
+    <tr>
+        <td align="right">
+                <label for="token_BOT_AdMessage">Enter Message&nbsp;&nbsp;:</label>
+        </td>
+        <td align="left">
+                <input type="text" id="token_bottom_ads_BOT_AdMessage" name="token_bottom_ads[BOT_AdMessage]" size="50" value="<%=item.BOT_AdMessage%>" />
+        </td>
+        </tr>
+        </table>
+<% end %>

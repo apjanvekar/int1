@@ -1,0 +1,44 @@
+
+
+<%= start_form_tag :action => "addzone" %>
+
+<div id="add" style="margin-top: 100px;">
+
+<%if @zone.errors.any?%>
+<h2 style="color: red; text-decoration: underline;">Errors :</h2>
+<ul>
+   <%@zone.errors.full_messages.each do|message|%>
+   <li id="li"><%= message%>
+   </li>
+   <%end%>
+</ul>
+<%end%>
+<center>
+<div class="addheadera" align="center" >Add Zone</div></center>
+
+<%#= error_messages_for 'zone'-%>
+
+<div class="addcontent" align="center">
+<table width="250" align="center" style="margin-bottom: 50px; ">
+        <tr>
+            <td align="right">
+               <label > Zone Name&nbsp;&nbsp;:</label>
+
+            </td>
+            <td align="left">
+               <%= text_field 'zone', 'ZONE_ZoneName' %> 
+            </td>
+        </tr>
+        
+    </table>
+
+
+      <center>
+              <%= submit_tag '  Add  '%>   &nbsp;&nbsp;&nbsp;
+              
+              <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "toz" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+          
+            </center> 
+            </div>
+</div>
+<% end_form_tag %>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> Admin</title>
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 875px; 
+HEIGHT:200px;
+} 
+
+div.link {
+color: "#901010";
+}
+</STYLE> 
+
+</head>
+
+<body>
+<p>&nbsp;</p>
+<table border=0  align="center" width="100%"><tr>
+  <td bgcolor="#FFFFFF" width="90%" align=center >
+<table align=center border=5 bordercolor="#08176C"width="90%" left="5%"><tr>
+  <td width="100%">
+   
+
+<h1 align="center"><font color="#08176C" face="Zurich BT" size="5">Purging Detail</font></h1>
+<p>&nbsp;</p>
+<div class=clsDataGrid id=divList bgcolor=white style="width: 96%; height: 201 " align=center>
+<table border="1" width ="483" cellpadding="0"  cellspacing="0"  bordercolor="#111111"   id="AutoNumber1"  height="61"  >
+
+<br/> 
+<tr  bgcolor="#003366" align=center>
+  
+      	<th  nowrap width="97" height="27" >
+        <font color=white face="Arial"><font size="2"> ID</font> </font></th>
+
+      	<th  nowrap  width="110" height="27" >
+        <font color=white face="Arial" size="2">Purging Days</font></th>
+
+
+ </tr>
+ 
+
+ <% @t = Setting.find(:all) %>
+<% @t.each do |c| %>
+  <tr>
+  	<td align="center" width="116" height="30"><font face="arial" size="2"><%= link_to c.id , :controller=>'administration', :action => 'editsetting', :id => c.id %>&nbsp;</font></td>
+
+	
+	<td nowrap  align="center" width="110" height="30"><font face="arial" size="2"><%= c.purgingperiod %>&nbsp;</td>
+	
+    
+   
+
+</tr><% end %>	
+</table>
+<p>&nbsp;</p>
+ 
+
+</td></tr></table>
+</td></tr></table>
+</body>
+</html>

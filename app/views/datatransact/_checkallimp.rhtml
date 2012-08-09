@@ -1,0 +1,581 @@
+
+<%= javascript_include_tag "prototype","effects","application",:defaults %>
+<script language="JavaScript">
+function show()
+{
+//document.getElementById("chk0").checked=true
+
+alert("hello");
+
+}
+</script>
+
+<STYLE type="text/css"> 
+  
+DIV.clsDataGrid { 
+BORDER-RIGHT:none; 
+BORDER-TOP: none; 
+BORDER-LEFT: none; 
+BORDER-BOTTOM: none; 
+OVERFLOW: scroll; 
+WIDTH: 800px; 
+HEIGHT:300px;
+} 
+</STYLE>
+
+<!--
+<lable>Check All:-</lable>
+          							 </font>
+          							 <input type=checkbox deselected name="chk" id="chk" value="ON" onclick="show();"> -->
+									 <!--<input type=checkbox deselected name="chk0" id="chk0" value="ON"> -->
+
+<div class=clsDataGrid id=divList bgcolor=white width=90%>
+
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor=black width="96%" id="AutoNumber4" height="40" align=center>
+          							<tr bgcolor="#08176c" align=center width=100% height=30>
+            							<th width="8%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Sr. NO</font>
+        								</th>
+            							<th width="15%" height="1" >
+        									<font color=white face="Zurich BT" size="2">City</font>
+        								</th>
+            							<th width="15%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Location</font>
+        								</th>
+          								<th width="12%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Import-Status</font>
+        								</th>
+           								<th width="12%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Import-Status</font>
+        								</th>
+           								<th width="13%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Machine-Status</font>
+        								</th>
+            							<th width="12%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Database-Status</font>
+        								</th>
+           								<th width="14%" height="1" >
+        									<font color=white face="Zurich BT" size="2">Date & Time</font>
+        								</th>
+          							</tr>
+          							<!-- width=100% height=400 -->
+          							<% if session[:all1]!=nil and session[:impstat1]!=nil and session[:impdate1]!=nil%>
+          							<% if session[:allloc1]!=nil and session[:impstat1]=='0'%>
+          							
+          							
+          								 
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}'")%>
+          							
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+ 									
+                                    <input type="checkbox" id="DataImportStatus_id" name="DataImportStatus[id][]" disabled value="<%= item.id %>"></td>
+                                    
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+                                        <% end %>
+ 										<td width="6%" height="1"><%= item.IMP_MachineStatus %></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%= "Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 										
+          							 </tr>
+          							
+          							 <% end %>
+          						
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+										
+          							<% elsif session[:allloc1]!=nil and session[:impstat1]=='1'%>
+          							
+          							 	 
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_ImportCompleted='Y'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                       <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%= item.IMP_MachineStatus%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%= "Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+															
+															          							<% elsif session[:allloc1]!=nil and session[:impstat1]=='2'%>
+          							
+          							 	
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_ImportCompleted='N'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                       <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%=item.IMP_MachineStatus%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%= "Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							 	
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+									<% elsif session[:reg1]!=nil and session[:impstat1]=='0'%>
+          							
+          							 	
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_RegionID=#{session[:regionid1]}")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+															        							<% elsif session[:reg1]!=nil and session[:impstat1]=='1'%>
+          							
+          							 	
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_RegionID=#{session[:regionid1]} and IMP_ImportCompleted='Y'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>       							<% elsif session[:reg1]!=nil and session[:impstat1]=='1'%>
+          							
+          							 	
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_RegionID=#{session[:regionid1]} and IMP_ImportCompleted='Y'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							 
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>      							<% elsif session[:reg1]!=nil and session[:impstat1]=='2'%>
+          							
+          							 	 
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_RegionID=#{session[:regionid1]} and IMP_ImportCompleted='N'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id=#{item.IMP_RegionID}")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>								
+															<% elsif session[:loc1]!=nil and session[:impstat1]=='0'%>
+          							
+          							 	 
+          							<% @r=Location.find_by_sql("select LOC_SoleID from locations where id='#{session[:locid1]}'")%>
+          							<% for m in @r
+          							@l=m.LOC_SoleID
+          							end %>
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_LocationID='#{@l}'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          						
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>								<% elsif session[:loc1]!=nil and session[:impstat1]=='1'%>
+          							
+          							 	
+          							<% @r=Location.find_by_sql("select LOC_SoleID from locations where id='#{session[:locid1]}'")%>
+          							<% for m in @r
+          							@l=m.LOC_SoleID
+          							end %>
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_LocationID='#{@l}' and IMP_ImportCompleted='Y'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] checked value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          					
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+									<% elsif session[:loc1]!=nil and session[:impstat1]=='2'%>
+          							
+          							 	 
+          							
+          							<% @r=Location.find_by_sql("select LOC_SoleID from locations where id=#{session[:locid1]}")%>
+          							
+
+
+          							<% for m in @r
+          							@l=m.LOC_SoleID
+          							end %>
+          							<%@loc= DataImportStatus.find_by_sql("select * from data_import_statuses where IMP_Date='#{session[:impdate1]}' and IMP_LocationID='#{@l}' and IMP_ImportCompleted='N'")%>
+          							<% for item in @loc %>
+          							<tr >
+             							<td width="3%" height="1" > <%= item.id%></td>
+             							<% @f=Location.find_by_sql("select LOC_ClusterID,LOC_BranchName from locations where LOC_SoleID='#{item.IMP_LocationID}'")
+             							 for r in @f
+             							 @bname=r.LOC_BranchName
+             							 end 
+             							 @c=Region.find_by_sql("select REG_RegionName from regions where id='#{item.IMP_RegionID}'")
+             							 for i in @c
+             							 @cname=i.REG_RegionName
+             							 end%>
+             						<td width="5%" height="1" ><%= @cname%></td>
+              							<td width="5%" height="1" ><%= @bname%></td>
+              							<% if item.IMP_ImportCompleted=='Y'%>
+ 									<td width="5%" height="1" bgcolor="#93b1c9"><%="Yes"%></td>
+ 									<td width="5%" height="1" >
+                                    <input type="checkbox" disabled value="ON"></td>
+ 										<% else %>
+ 										<td width="5%" height="1" bgcolor="#FF0000"><%="No"%></td>
+ 										<td width="5%" height="1" >
+                                        <input type="checkbox" id=DataImportStatus_id name=DataImportStatus[id][] selected value="<%= item.id %>"></td>
+
+ 										<% end %>
+ 										<td width="6%" height="1"><%="Machine Connected"%></td>
+ 										<% if item.IMP_ErrorDescription!=""%>
+ 										<td width="5%" height="1" ><%="Database Not Connected" %></td>
+ 										<% else %>
+ 										<td width="5%" height="1" ><%="Database Connected"%></td>
+ 										<% end %>
+ 										<td width="6%" height="1" ><%= item.created_at%></td>
+ 									
+          							 </tr>
+          							 <% end %>
+          							
+          							 
+          							 	<%
+          								session[:locid1]=nil
+										session[:regionid1]=nil
+										session[:all1]=nil
+										session[:allloc1]=nil
+										session[:reg1]=nil
+										session[:loc1]=nil
+										session[:impdate1]=nil
+										session[:impstat1]=nil 
+															%>
+
+          							<% end %><!-- Inner IF-->
+          						
+          							<% end %><!-- Outer IF-->
+          							
+          						
+        						</table></div>
+</div>
+<!--</form>
+</div>-->

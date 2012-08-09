@@ -1,0 +1,11 @@
+
+<% if session[:edit]!=nil%>
+<% session[:edit]=nil %>
+<%= collection_select(:location, :LOC_CityID,  cities,  :id, :cityname,
+                      {:prompt   => "Please Select"}) %>
+
+<% else%>
+
+<%= collection_select(:location, :LOC_CityID,  cities,  :id, :cityname,
+                      {:prompt   => "Please Select"}) %>
+<% end%>

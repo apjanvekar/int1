@@ -1,0 +1,102 @@
+
+<div class="fieldset2">
+<fieldset id="fs"  >
+	 <legend><font color="#FFFFFF"><strong>List Of Groups</strong></font></legend>
+       
+      <div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+            <th width="25%">GroupID</th>
+            <th width="25%">Group Name</th>
+            <th width="30%">GroupDescription</th>
+            <th width="20%"> </th>
+       </tr>
+
+    </table>
+
+<div class="contentBox">
+    <table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="920">
+
+<% if (session[:gid]!=nil and session[:gname]!=nil)%>
+<% @r= Group.find_by_sql("select id,GRP_GroupName,GRP_GroupDescription from groups where id= #{session[:gid]} and GRP_GroupName='#{session[:gname]}' ")%>
+<% if @r!=[] %>
+<% for item in @r%>
+
+    <tr>
+        <td width="25%"><%= item.id%>&nbsp;</td>
+        <td width="25%"><%= item.GRP_GroupName%>&nbsp;</td>
+        <td width="30%"><%= item.GRP_GroupDescription%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletegroup", :id => item.id },:confirm =>"If you delete this group related  branches,services and STP reasons also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editgroup', :id => item.id}%>&nbsp;</td>
+    </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<%session[:gid]=nil
+session[:gname]=nil%>
+<% elsif session[:gid]!=nil%>
+<% @r= Group.find_by_sql("select id,GRP_GroupName,GRP_GroupDescription from groups where id= #{session[:gid]}")%>
+<% if @r!=[] %>
+<% for item in @r%>
+    <tr>
+        <td width="25%"><font color=white size=2><%= item.id%></font>&nbsp;</td>
+        <td width="25%" ><font color=white size=2><%= item.GRP_GroupName%>&nbsp;</td>
+        <td width="30%"><font color=white size=2><%= item.GRP_GroupDescription%>&nbsp; </td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletegroup", :id => item.id },:confirm =>"If you delete this group related  branches,services and STP reasons also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editgroup', :id => item.id}%>&nbsp;</td>
+    </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<%session[:gid]=nil
+session[:gname]=nil%>
+<% elsif session[:gname]!=nil%>
+<% @r= Group.find_by_sql("select id,GRP_GroupName,GRP_GroupDescription from groups where GRP_GroupName='#{session[:gname]}'")%>
+<% if @r!=[] %>
+<% for item in @r%>
+    <tr>
+        <td width="25%"><%= item.id%>&nbsp;</td>
+        <td width="25%"><%= item.GRP_GroupName%>&nbsp;</td>
+        <td width="25%"><%= item.GRP_GroupDescription%>&nbsp;</td>
+        <td width="20%"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletegroup", :id => item.id },:confirm =>"If you delete this group related  branches,services and STP reasons also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editgroup', :id => item.id} %>&nbsp;</td>
+    </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<%session[:gid]=nil
+session[:gname]=nil%>
+<%end%>
+<% if session[:msg]!=nil %>
+<% @r= Group.find_by_sql("select id,GRP_GroupName,GRP_GroupDescription from groups ")%>
+<% if @r!=[] %>
+<% for item in @r%>
+    <tr>
+        <td width="25%"><%= item.id%>&nbsp;</td>
+        <td width="25%"><%= item.GRP_GroupName%>&nbsp;</td>
+        <td width="30%"><%= item.GRP_GroupDescription%>&nbsp;</td>
+        <td width="20%"><font face="Zurich BT"  size="2"><%=  link_to image_tag("dot.jpg", :border=>0),{ :action => "deletegroup", :id => item.id },:confirm =>"If you delete this group related  branches,services and STP reasons also get deleted.Are you sure want to delete this item?"%><%= link_to image_tag("pen.jpg", :border=>0),{:action => 'editgroup', :id => item.id}%>&nbsp;</td>
+    </tr>
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+<%session[:msg]=nil%>
+<%end%>
+
+
+</table></div>
+  
+</fieldset>
+
+ </div>    
+   </div>

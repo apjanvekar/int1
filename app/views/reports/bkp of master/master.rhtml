@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<font face="Zurich BT" size="5" color="#800000">
+
+
+
+<form id="form1" name="form1" action="master_report" method="post" >
+<h3><font color=red>
+
+
+
+<table >
+
+<div title="Master Report" id="Master Report" class="form1">
+
+<h3>
+
+<br/>
+	</h3>
+	<h2 align="center"> <u><font face="Arial" size="4" color="#000080">Master Report</font></u></h2>
+<p>&nbsp;</p>
+<h3><font color=red>
+
+<% if session[:msg] %>
+
+<div id="msg" style="width: 300;border: 2px solid blue;padding-bottom: 12px; margin-bottom: 20px;
+ background-color: #f0f0f0; height:22; padding-left:7px; padding-right:7px; padding-top:7px"><%= session[:msg] %></div>
+<%session[:msg]=nil%>
+<% end %>
+
+</font></h3>
+
+<font face="Zurich BT" size="5" color="#800000">
+<p align="left"><label >Select Dates for Report:-</label></p></font>
+</font>
+<tr>
+<td width="500" ><font face="Zurich BT" size="5" color="#800000"><p align="center"><label >Select Start Date:-</label>
+<%= date_select('range','start_date',:order => [:day, :month, :year]) %> </p></font>
+</td>
+
+
+<td ><font face="Zurich BT" size="5" color="#800000"><p align="left"><label>Select End Date:-</label>&nbsp;
+<%= date_select('range','end_date',:order => [:day, :month, :year])%> 
+</p></font>
+</td>
+
+</tr>
+<tr>
+<td>
+<font face="Zurich BT" size="5" color="#800000"><p align="left"><label>Location Sole ID:-</label>&nbsp;
+</td>
+<td>
+<%= text_field 'location', 'location_LOC_SoleID' %>
+</td>
+</tr>
+<tr>
+<td>
+<font face="Zurich BT" size="5" color="#800000"><p align="left"><label>Location Name:-</label>&nbsp;
+</td>
+<td>
+<%= text_field 'location', 'location_LOC_BranchName' %>
+</td>
+</tr>
+<tr>
+<center>
+<td  align="right"><font face="Zurich BT" size="5" color="#800000">
+<%= submit_tag "Generate" %>
+</font>
+</td>
+</tr>
+</div>
+  
+
+
+
+
+</table>
+
+<center>
+
+<font face="Zurich BT" size="5" color="#800000"><p align="center">
+<%= link_to "Back", :action => "reportsmain" %>
+</p></font>
+</form>
+</body>
+</html>

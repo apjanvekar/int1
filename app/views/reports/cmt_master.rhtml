@@ -1,0 +1,103 @@
+<head>
+
+<script type="text/javascript">
+function datechk()
+         {
+             var var1=<%=@st%>
+             if (var1==0)
+             alert("Select Proper Date")
+             window.location = "/reports/master"   
+         }
+</script>
+<STYLE type="text/css"> 
+</STYLE>
+
+</head>
+<body onload="datechk();">
+<div align="center" style="width: 1000px; height: 300px">
+
+<center>
+
+<!--<div id="main">-->
+<table width="990"  id="1table">
+ 
+
+<!--<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="32">-->
+
+
+  <!--<table border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="60%" height="83">-->
+   
+  <tr>
+    <td id="tr4">
+   <font color="#FFFFFF">TokenNo</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">CtypeId</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">TransDate</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">GeneratedTime</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">ServiceId</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">Counter</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">Login&nbsp;</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">CallTime</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">ServiceTime</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">TimeTaken</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">WaitTime</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">&nbsp;&nbsp;&nbsp;StpName&nbsp;&nbsp;&nbsp;</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">Token<br>Status</font></td>
+    <td id="tr4">
+    <font color="#FFFFFF">Score</font></td>
+
+  </tr>
+
+</table>
+   <!--<div class=clsDataGrid id=divList  style="width: 1020px; height: 300px; ">
+<table  border="3" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#800000" width="990" height="32">-->
+<div class="header_lock">
+<table width="990" height="300" align="center" style="border-collapse:collapse;">
+<!--<div class="contentBox">-->
+
+
+  <%if @data==nil or @data==[]%>
+    <h1>Data is Not Available</h1>
+    <%else%>
+  <% @data.each do |x| %>
+  <tr align="center">
+    <td id="table1" width="64"><%= x.tokenno %>&nbsp;</td>
+    <td id="table1" width="57"><%= x.ctypeid %>&nbsp;</td>
+    <td id="table1" width="75"><%= x.transdate.strftime("%d-%m-%Y") %>&nbsp;</td>
+    <td id="table1" width="108"><%= x.generatedtime.strftime("%H:%M:%S") %>&nbsp;</td>
+    <td id="table1" width="66"><%= x.serviceid %>&nbsp;</td>
+    <td id="table1" width="58"><%= x.counterno %>&nbsp;</td>
+    <td id="table1" width="46"><%= x.login %>&nbsp;</td>
+    <td id="table1" width="63"><%= x.calledtime.strftime("%H:%M:%S") %>&nbsp;</td>
+    <td id="table1" width="87"><%= x.serviced.strftime("%H:%M:%S") %>&nbsp;</td>
+    <td id="table1" width="60"><%= x.timetaken.strftime("%H:%M:%S") %>&nbsp;</td>
+    <td id="table1" width="" ><%= x.waittime.strftime("%H:%M:%S") %>&nbsp;</td>
+    <td id="table1" width=""><%= x.stpname %>&nbsp;</td>
+    <td id="table1" width=""><%= x.tokenstatus %>&nbsp;</td>
+    <td id="table1" width="30"><%= x.score %>&nbsp;</td>
+
+  </tr>
+  <%end%>
+  <%end%>
+  
+
+ <!--</div>-->
+
+
+</table>
+<!--</div>-->
+</div>
+ </center>
+</div>
+</body>

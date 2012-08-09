@@ -1,0 +1,66 @@
+
+
+<div class="fieldset2" style="margin-top: 100px;">
+<div class="titleheader" align="center" > City Master</div>
+<% if flash[:notice] -%>
+                    <div id='notice'><%=image_tag("flash-check.png", :border=>0)%><%= flash[:notice] -%></div>
+<%end%>
+<fieldset id="fs" >
+<form action="addcity" method="post">
+<div id="main">
+     <table border="solid 2px" bordercolor="Maroon" id="tableheader">
+
+       <tr>
+            <th width="130" >City Name</th>
+            <th width="130" >Zone</th>
+            <th width="130" >Region Name</th>
+            <th width="130">Cluster Name</th>
+            <th width="130"></th>
+       </tr>
+    </table>
+
+<div class="contentBox" style="position:absolute;">
+<table style="border:2px solid #FF8C00;" border="1" bordercolor="#FF8C00" width="915">
+
+<%@city=City.find(:all)
+       if @city !=[]
+       @city.each do |cty|
+             @city_name=cty.cityname
+             @city_id=cty.id
+             @cluster_id=cty.LOC_ClusterID
+             @cluster=Cluster.find(:first,:select=>"CLST_ClusterName,CLST_RegionID",:conditions =>["id=?","#{@cluster_id}"])
+             @cluster_name=@cluster.CLST_ClusterName
+             @region_id=@cluster.CLST_RegionID
+             @region=Region.find(:first,:select=>"REG_Regionname,REG_ZoneID",:conditions =>["id=?","#{@region_id}"])
+             @region_name=@region.REG_Regionname
+             @zone_id=@region.REG_ZoneID
+             @zone=Zone.find(:first,:select=>"ZONE_ZoneName",:conditions =>["id=?","#{@zone_id}"])
+ 
+             @zone_name=@zone.ZONE_ZoneName%>
+             <tr>
+                  <td width="128"><%=@city_name%>&nbsp;</td>
+                  <td width="130"><%=@zone_name%>&nbsp;</td>
+				  <td width="130"><%=@region_name%>&nbsp;</td>
+				  <td width="130"><%=@cluster_name%>&nbsp;</td>
+				  <td width="130"><%=link_to image_tag("dot.jpg", :border=>0),{ :action => "deletecity", :id => @city_id },:confirm =>"If you delete this city related  branches also get deleted.Are you sure want to delete this item?"%><%=  link_to image_tag("pen.jpg", :border=>0),:action => 'editcity', :id => @city_id %>&nbsp;</td>
+            </tr>        
+     
+<%end%>
+<%else%>
+        <tr>
+ 	        <td align="center"><font size="5">Sorry data is not available for selection.</font></td>
+        </tr>
+<% end %>
+            
+</table>
+</div>
+</div>
+ 
+</fieldset>
+
+</br></br>
+<center>
+<input type="submit" value="Add City">
+</font></center>
+
+</form>

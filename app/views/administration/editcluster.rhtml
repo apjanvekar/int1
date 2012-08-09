@@ -1,0 +1,15 @@
+<div id="edit" style="margin-top: 100px;">
+<div id="li">
+<%= error_messages_for 'cluster' -%>
+</div>
+<center>
+<div class="editheadera" align="center">Edit Cluster</div></center>
+<div class="editcontent" align="center">
+
+<% form_tag :action => 'updatecluster', :id => @cluster do %>
+
+  <%= render :partial => 'formcluster' %></p>
+<p align ="center"> <%= submit_tag ' Save ', :style=>"font-family: Zurich BT; font-size: 10pt" %>   <%= button_to_function 'Cancel' , remote_function(:url=> {:controller=>'administration',:action => "cancelcluster" }),:id=>'cancel', :style=>"font-family: Zurich BT; font-size: 10pt" %>
+</div>
+</div>
+<% end %>

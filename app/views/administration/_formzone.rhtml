@@ -1,0 +1,20 @@
+
+
+
+
+<p align=center>
+<table width="250" align="center" style="margin-bottom: 50px;">
+        <tr>
+            <td align="right">
+              <label for="zone_ZONE_ZoneName">Zone Name&nbsp;&nbsp;:</label>
+               <% @r=Zone.find_by_sql("select ZONE_ZoneName from zones where id='#{session[:zid]}'")%>
+               <%for item in @r%>
+
+            </td>
+            <td align="left">
+              <input type=text id="zone_ZONE_ZoneName" name="zone[ZONE_ZoneName]" size="12" value="<%=item.ZONE_ZoneName%>">
+            </td>
+        </tr>
+        
+    </table>
+    <%end%>
